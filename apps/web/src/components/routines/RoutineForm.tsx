@@ -2,16 +2,10 @@ import { useState } from 'react';
 import { useForm, useFieldArray } from 'react-hook-form';
 import { Card } from '../ui/Card';
 import { Button } from '../ui/Button';
-import { Plus, Save, Trash2, Dumbbell } from 'lucide-react';
+import { Plus, Save, Trash2, Dumbbell, Loader2 } from 'lucide-react';
+import { useExercises } from '../../hooks/useExercises';
 
-// --- MOCK DATA ---
-const MOCK_EXERCISES = [
-    { id: 'ex-1', title: 'Barbell Squat', muscle: 'Legs', video_url: 'https://youtube.com/...' },
-    { id: 'ex-2', title: 'Bench Press', muscle: 'Chest', video_url: 'https://youtube.com/...' },
-    { id: 'ex-3', title: 'Deadlift', muscle: 'Back', video_url: 'https://youtube.com/...' },
-    { id: 'ex-4', title: 'Overhead Press', muscle: 'Shoulders', video_url: 'https://youtube.com/...' },
-    { id: 'ex-5', title: 'Pull Up', muscle: 'Back', video_url: 'https://youtube.com/...' },
-];
+// --- REMOVED MOCK DATA ---
 
 type RoutineItem = {
     exercise_id: string;
@@ -27,6 +21,7 @@ type RoutineFormValues = {
 };
 
 export const RoutineForm = () => {
+    const { exercises, loading, error: exercisesError } = useExercises();
     const [selectedExerciseId, setSelectedExerciseId] = useState<string>('');
 
     const { register, control, handleSubmit, formState: { errors } } = useForm<RoutineFormValues>({
@@ -42,7 +37,7 @@ export const RoutineForm = () => {
     });
 
     const handleAddExercise = () => {
-        const exercise = MOCK_EXERCISES.find(e => e.id === selectedExerciseId);
+        const exercise = exercises.find(e => e.id === selectedExerciseId);
         if (!exercise) return;
 
         append({
@@ -56,8 +51,9 @@ export const RoutineForm = () => {
     };
 
     const onSubmit = (data: RoutineFormValues) => {
-        console.log("Saving Routine (Mock):", data);
-        alert("Routine Saved! (Check Console for JSON)");
+        console.log("Saving Routine (Real Data Pending):", data);
+        // TODO: Implement actual Save Routine to Backend
+        alert("Routine payload prepared! (Check Console)");
     };
 
     return (
@@ -74,23 +70,32 @@ export const RoutineForm = () => {
             </div>
 
             {/* --- EXERCISE SELECTOR --- */}
-            <Card className="flex gap-4 items-center bg-white/5 border-dashed border-white/20">
-                <div className="p-2 bg-primary/10 rounded-lg text-primary">
-                    <Dumbbell size={24} />
+            <Card className="flex flex-col md:flex-row gap-4 items-center bg-white/5 border-dashed border-white/20">
+                <div className="p-2 bg-primary/10 rounded-lg text-primary flex items-center justify-center">
+                    {loading ? <Loader2 size={24} className="animate-spin" /> : <Dumbbell size={24} />}
                 </div>
-                <select
-                    value={selectedExerciseId}
-                    onChange={(e) => setSelectedExerciseId(e.target.value)}
-                    className="flex-1 bg-transparent text-white focus:outline-none [&>option]:bg-surface-dark"
-                >
-                    <option value="">Select an exercise to add...</option>
-                    {MOCK_EXERCISES.map(ex => (
-                        <option key={ex.id} value={ex.id}>
-                            {ex.title} ({ex.muscle})
-                        </option>
-                    ))}
-                </select>
-                <Button type="button" onClick={handleAddExercise} disabled={!selectedExerciseId}>
+
+                <div className="flex-1 w-full relative">
+                    {exercisesError ? (
+                        <div className="text-red-400 text-sm">Failed to load exercises. Please try again.</div>
+                    ) : (
+                        <select
+                            value={selectedExerciseId}
+                            onChange={(e) => setSelectedExerciseId(e.target.value)}
+                            disabled={loading}
+                            className="w-full bg-transparent text-white focus:outline-none [&>option]:bg-surface-dark p-2 border border-transparent focus:border-white/10 rounded disabled:opacity-50"
+                        >
+                            <option value="">{loading ? 'Loading Catalog...' : 'Select an exercise to add...'}</option>
+                            {exercises.map(ex => (
+                                <option key={ex.id} value={ex.id}>
+                                    {ex.title}
+                                </option>
+                            ))}
+                        </select>
+                    )}
+                </div>
+
+                <Button type="button" onClick={handleAddExercise} disabled={!selectedExerciseId || loading}>
                     <Plus size={20} /> Add
                 </Button>
             </Card>
@@ -109,7 +114,7 @@ export const RoutineForm = () => {
                                 {/* Exercise Info */}
                                 <div className="flex-1">
                                     <h4 className="text-lg font-bold text-white">{field.name}</h4>
-                                    <p className="text-sm text-gray-400">Target: {MOCK_EXERCISES.find(e => e.id === field.exercise_id)?.muscle}</p>
+                                    {/* We can fetch muscle target if needed, slightly complex with current structure, skipping for MVP display optimization */}
                                 </div>
 
                                 {/* Sets/Reps Inputs */}
