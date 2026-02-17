@@ -1,0 +1,107 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// --- ENUMS (Coinciden con tu DB) ---
+enum user_role {
+  coach
+  member
+}
+
+enum video_source {
+  youtube
+  vimeo
+  internal_upload
+}
+
+enum assignment_status {
+  pending
+  in_progress
+  completed
+  missed
+}
+
+// --- MODELOS ---
+
+model profiles {
+  id            String        @id @db.Uuid
+  email         String?
+  full_name     String?
+  role          user_role?    @default(member)
+  avatar_url    String?
+  language_pref String?       @default("es")
+  created_at    DateTime?     @default(now()) @db.Timestamptz(6)
+  
+  // Relaciones Inversas
+  exercises             exercises[]
+  routines              routines[]
+  assignments_as_coach  assignments[] @relation("coach_assignments")
+  assignments_as_member assignments[] @relation("member_assignments")
+}
+
+model exercises {
+  id           String        @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  coach_id     String        @db.Uuid
+  title        String
+  description  String?
+  video_source video_source
+  video_url    String
+  thumbnail_url String?
+  created_at   DateTime?     @default(now()) @db.Timestamptz(6)
+
+  // Relaciones
+  coach         profiles      @relation(fields: [coach_id], references: [id])
+  routine_items routine_items[]
+}
+
+model routines {
+  id                     String          @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  coach_id               String          @db.Uuid
+  name                   String
+  difficulty_level       String?
+  estimated_duration_min Int?
+  is_public              Boolean?        @default(false)
+  created_at             DateTime?       @default(now()) @db.Timestamptz(6)
+
+  // Relaciones
+  coach         profiles        @relation(fields: [coach_id], references: [id])
+  items         routine_items[]
+  assignments   assignments[]
+}
+
+model routine_items {
+  id            String     @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  routine_id    String?    @db.Uuid
+  exercise_id   String?    @db.Uuid
+  order_index   Int
+  sets          Int?       @default(3)
+  reps          String?
+  rest_seconds  Int?       @default(60)
+  notes         String?
+
+  // Relaciones
+  routine       routines?  @relation(fields: [routine_id], references: [id], onDelete: Cascade)
+  exercise      exercises? @relation(fields: [exercise_id], references: [id])
+}
+
+model assignments {
+  id             String            @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  coach_id       String?           @db.Uuid
+  member_id      String?           @db.Uuid
+  routine_id     String?           @db.Uuid
+  status         assignment_status? @default(pending)
+  scheduled_date DateTime?         @db.Date
+  completed_date DateTime?         @db.Timestamptz(6)
+  feedback_notes String?
+  created_at     DateTime?         @default(now()) @db.Timestamptz(6)
+
+  // Relaciones
+  coach          profiles?         @relation("coach_assignments", fields: [coach_id], references: [id])
+  member         profiles?         @relation("member_assignments", fields: [member_id], references: [id])
+  routine        routines?         @relation(fields: [routine_id], references: [id])
+}
