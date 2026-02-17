@@ -1,0 +1,27 @@
+# Node
+node_modules/
+dist/
+build/
+.env
+
+# MacOS
+.DS_Store
+
+# IDE
+.vscode/
+.idea/
+
+# NestJS
+apps/api/dist/
+
+# Expo
+.expo/
+*.jks
+*.p8
+*.p12
+*.key
+*.mobileprovision
+*.orig.*
+
+# Supabase
+supabase/config.toml

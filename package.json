@@ -1,0 +1,11 @@
+{
+  "name": "fitsync-pro",
+  "private": true,
+  "workspaces": [
+    "apps/*"
+  ],
+  "scripts": {
+    "dev": "npm run dev --workspaces",
+    "build": "npm run build --workspaces"
+  }
+}
