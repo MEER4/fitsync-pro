@@ -33,10 +33,7 @@ const RegisterPage = () => {
 
             if (error) throw error;
             setSuccess(true); // Show success message
-            // For now, redirect to login or dashboard. 
-            // Often signUp requires email verification, so let's show an alert or redirect.
-            // If email auto-confirms or is unnecessary for dev:
-            // navigate('/dashboard');
+            navigate('/dashboard');
         } catch (err: any) {
             setError(err.message);
         } finally {
