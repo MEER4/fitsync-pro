@@ -7,5 +7,9 @@
   "scripts": {
     "dev": "npm run dev --workspaces",
     "build": "npm run build --workspaces"
+  },
+  "devDependencies": {
+    "prisma": "^5.22.0",
+    "@nestjs/cli": "^11.0.16"
   }
 }
