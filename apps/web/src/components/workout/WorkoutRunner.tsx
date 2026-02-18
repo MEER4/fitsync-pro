@@ -163,7 +163,7 @@ export const WorkoutRunner = ({ workout, onComplete }: WorkoutRunnerProps) => {
                 </div>
             </div>
 
-            <div className="p-6 space-y-6">
+            <div className="p-4 md:p-6 space-y-6">
 
                 {/* --- VIDEO PLAYER --- */}
                 <div className="aspect-video w-full bg-surface-dark border border-white/10 rounded-xl shadow-lg flex items-center justify-center relative overflow-hidden group">
@@ -200,7 +200,7 @@ export const WorkoutRunner = ({ workout, onComplete }: WorkoutRunnerProps) => {
 
                 {/* --- SET CONTROLS --- */}
                 <Card className="space-y-4">
-                    <div className="grid grid-cols-[1fr_2fr_1fr] gap-4 mb-2 text-xs text-gray-400 font-bold uppercase tracking-wider text-center">
+                    <div className="grid grid-cols-[1fr_2fr_1fr] gap-2 md:gap-4 mb-2 text-xs text-gray-400 font-bold uppercase tracking-wider text-center">
                         <div className="text-left pl-2">Set</div>
                         <div>Previous</div>
                         <div>Done</div>
@@ -209,7 +209,7 @@ export const WorkoutRunner = ({ workout, onComplete }: WorkoutRunnerProps) => {
                     <div className="space-y-3">
                         {currentExercise.sets.map((set, idx) => (
                             <div key={set.id} className={clsx(
-                                "grid grid-cols-[1fr_2fr_1fr] gap-4 items-center p-3 rounded-lg border transition-all duration-300",
+                                "grid grid-cols-[1fr_2fr_1fr] gap-2 md:gap-4 items-center p-3 rounded-lg border transition-all duration-300",
                                 set.completed ? "bg-primary/5 border-primary/20" : "bg-white/5 border-white/5"
                             )}>
                                 {/* Set Label */}
@@ -222,13 +222,13 @@ export const WorkoutRunner = ({ workout, onComplete }: WorkoutRunnerProps) => {
                                     <input
                                         type="number"
                                         defaultValue={set.weight}
-                                        className="w-16 bg-black/20 text-center text-white font-bold rounded p-2 focus:outline-none focus:ring-1 focus:ring-primary"
+                                        className="w-14 md:w-16 bg-black/20 text-center text-white font-bold rounded p-2 focus:outline-none focus:ring-1 focus:ring-primary text-sm md:text-base"
                                         placeholder="kg"
                                     />
                                     <input
                                         type="number"
                                         defaultValue={set.reps}
-                                        className="w-12 bg-black/20 text-center text-white font-bold rounded p-2 focus:outline-none focus:ring-1 focus:ring-primary"
+                                        className="w-10 md:w-12 bg-black/20 text-center text-white font-bold rounded p-2 focus:outline-none focus:ring-1 focus:ring-primary text-sm md:text-base"
                                         placeholder="reps"
                                     />
                                 </div>

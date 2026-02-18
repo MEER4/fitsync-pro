@@ -8,6 +8,7 @@ import { ExercisesModule } from './exercises/exercises.module';
 import { RoutinesModule } from './routines/routines.module';
 import { AssignmentsModule } from './assignments/assignments.module';
 import { UsersModule } from './users/users.module';
+import { DashboardModule } from './dashboard/dashboard.module';
 
 @Module({
     imports: [
@@ -18,6 +19,7 @@ import { UsersModule } from './users/users.module';
         RoutinesModule,
         AssignmentsModule,
         UsersModule,
+        DashboardModule,
     ],
     controllers: [AppController],
     providers: [AppService],

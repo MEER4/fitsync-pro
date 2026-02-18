@@ -59,7 +59,7 @@ const MemberDashboard = () => {
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                 {/* Today's Workout Card */}
                 <Card
-                    className="p-6 bg-surface-light border-white/5 hover:border-primary/50 transition-colors cursor-pointer group relative overflow-hidden"
+                    className="p-4 md:p-6 bg-surface-light border-white/5 hover:border-primary/50 transition-colors cursor-pointer group relative overflow-hidden"
                     onClick={() => nextWorkout && navigate(`/workout/${nextWorkout.routine.id}?assignmentId=${nextWorkout.id}`)}
                 >
                     <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">

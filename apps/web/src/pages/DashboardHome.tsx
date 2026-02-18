@@ -5,7 +5,31 @@ import { Link } from 'react-router-dom';
 import { Card } from '../components/ui/Card';
 import { Button } from '../components/ui/Button';
 
+import { useEffect, useState } from 'react';
+import api from '../lib/api';
+
 const DashboardHome = () => {
+    const [stats, setStats] = useState({
+        activeAthletes: 0,
+        completionRate: 0,
+        monthlyRevenue: 0
+    });
+    const [isLoading, setIsLoading] = useState(true);
+
+    useEffect(() => {
+        const fetchStats = async () => {
+            try {
+                const res = await api.get('/dashboard/stats');
+                setStats(res.data);
+            } catch (error) {
+                console.error("Failed to fetch dashboard stats", error);
+            } finally {
+                setIsLoading(false);
+            }
+        };
+        fetchStats();
+    }, []);
+
     return (
         <div className="space-y-8 animate-fade-in">
             {/* Header */}
@@ -18,23 +42,23 @@ const DashboardHome = () => {
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                 <StatCard
                     title="Active Athletes"
-                    value="24"
+                    value={isLoading ? "..." : stats.activeAthletes.toString()}
                     icon={Users}
-                    trend="+12% from last month"
+                    trend="Total Members"
                     color="bg-primary/20 text-primary"
                 />
                 <StatCard
                     title="Monthly Revenue"
-                    value="$3,200"
+                    value={isLoading ? "..." : `$${stats.monthlyRevenue}`}
                     icon={TrendingUp}
-                    trend="+8% from last month"
+                    trend="Estimated (Active * $50)"
                     color="bg-green-500/20 text-green-400"
                 />
                 <StatCard
                     title="Completion Rate"
-                    value="85%"
+                    value={isLoading ? "..." : `${stats.completionRate}%`}
                     icon={Activity}
-                    trend="+2% from last week"
+                    trend="All Time"
                     color="bg-purple-500/20 text-purple-400"
                 />
             </div>

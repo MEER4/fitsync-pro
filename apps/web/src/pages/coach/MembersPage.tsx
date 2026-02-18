@@ -82,25 +82,25 @@ const MembersPage = () => {
                     <div className="text-center py-10 text-gray-500">No members found.</div>
                 ) : (
                     filteredMembers.map(member => (
-                        <Card key={member.id} className="p-6 bg-surface-dark border-white/5 hover:border-primary/20 transition-all">
-                            <div className="flex items-center justify-between">
+                        <Card key={member.id} className="p-4 md:p-6 bg-surface-dark border-white/5 hover:border-primary/20 transition-all">
+                            <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
                                 <div className="flex items-center gap-4">
-                                    <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center text-primary font-bold">
+                                    <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center text-primary font-bold shrink-0">
                                         {member.avatar_url ? (
                                             <img src={member.avatar_url} alt={member.full_name} className="w-full h-full rounded-full object-cover" />
                                         ) : (
                                             member.full_name?.[0] || member.email[0]
                                         )}
                                     </div>
-                                    <div>
-                                        <h3 className="font-bold text-white text-lg">{member.full_name || 'Unnamed Member'}</h3>
-                                        <p className="text-sm text-gray-400">{member.email}</p>
+                                    <div className="min-w-0">
+                                        <h3 className="font-bold text-white text-lg truncate">{member.full_name || 'Unnamed Member'}</h3>
+                                        <p className="text-sm text-gray-400 truncate">{member.email}</p>
                                     </div>
                                 </div>
-                                <div className="flex items-center gap-3">
+                                <div className="flex items-center gap-3 w-full md:w-auto">
                                     <Button
                                         variant="outline"
-                                        className="gap-2 py-1 px-3 text-sm"
+                                        className="gap-2 py-2 px-4 text-sm flex-1 md:flex-none justify-center"
                                         onClick={() => handleOpenAssignModal(member)}
                                     >
                                         <Dumbbell size={16} />
