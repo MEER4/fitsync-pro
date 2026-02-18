@@ -5,57 +5,63 @@ import { Play, CheckCircle2, Timer, ChevronLeft, ChevronRight, Trophy } from 'lu
 import clsx from 'clsx';
 import { useNavigate } from 'react-router-dom';
 
-// --- MOCK DATA ---
-const MOCK_ACTIVE_ROUTINE = {
-    id: 'routine-1',
-    name: 'Gladiator Legs',
-    exercises: [
-        {
-            id: 'ex-1',
-            title: 'Barbell Squat',
-            sets: [
-                { id: 's1', reps: 10, weight: 60, completed: false },
-                { id: 's2', reps: 10, weight: 60, completed: false },
-                { id: 's3', reps: 8, weight: 65, completed: false },
-            ],
-            video_url: 'https://www.youtube.com/embed/SW_C1A-rejs?si=9Sc9_y77332211', // Placeholder
-        },
-        {
-            id: 'ex-2',
-            title: 'Walking Lunges',
-            sets: [
-                { id: 's1', reps: 12, weight: 20, completed: false },
-                { id: 's2', reps: 12, weight: 20, completed: false },
-                { id: 's3', reps: 10, weight: 24, completed: false },
-            ],
-            video_url: 'https://www.youtube.com/embed/L8fvybAfPq4?si=112233', // Placeholder
-        },
-        {
-            id: 'ex-3',
-            title: 'Calf Raises',
-            sets: [
-                { id: 's1', reps: 15, weight: 0, completed: false },
-                { id: 's2', reps: 15, weight: 0, completed: false },
-                { id: 's3', reps: 15, weight: 0, completed: false },
-            ],
-            video_url: 'https://www.youtube.com/embed/-M4-G8p8fmc?si=445566', // Placeholder
-        }
-    ]
-};
+// --- MOCK REMOVED ---
+
+export interface ExerciseSet {
+    id?: string;
+    reps: string | number;
+    weight?: number;
+    completed: boolean;
+    rest_seconds?: number;
+}
+
+export interface RunnerExercise {
+    id: string;
+    title: string;
+    sets: ExerciseSet[];
+    video_url?: string;
+    description?: string;
+}
+
+export interface RunnerRoutine {
+    id: string;
+    name: string;
+    exercises: RunnerExercise[];
+}
 
 interface WorkoutRunnerProps {
+    workout: RunnerRoutine;
     onComplete?: (feedback: string) => Promise<void> | void;
 }
 
-export const WorkoutRunner = ({ onComplete }: WorkoutRunnerProps) => {
+export const WorkoutRunner = ({ workout, onComplete }: WorkoutRunnerProps) => {
     const navigate = useNavigate();
     const [currentExerciseIndex, setCurrentExerciseIndex] = useState(0);
-    const [workoutData, setWorkoutData] = useState(MOCK_ACTIVE_ROUTINE);
+    const [workoutData, setWorkoutData] = useState<RunnerRoutine>(workout);
     const [isCompleted, setIsCompleted] = useState(false);
     const [timerSeconds, setTimerSeconds] = useState(0);
     const [isTimerRunning, setIsTimerRunning] = useState(false);
+    const [isPlayingVideo, setIsPlayingVideo] = useState(false);
 
-    const currentExercise = workoutData.exercises[currentExerciseIndex];
+    useEffect(() => {
+        setWorkoutData(workout);
+    }, [workout]);
+
+    const currentExercise = workoutData.exercises[currentExerciseIndex] || workoutData.exercises[0];
+
+    // Reset video state on exercise change
+    useEffect(() => {
+        setIsPlayingVideo(false);
+    }, [currentExerciseIndex]);
+
+    const getYoutubeId = (url: string) => {
+        if (!url) return null;
+        const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]*).*/;
+        const match = url.match(regExp);
+        return (match && match[2].length === 11) ? match[2] : null;
+    };
+
+    const videoId = currentExercise?.video_url ? getYoutubeId(currentExercise.video_url) : null;
 
     // Timer Logic
     useEffect(() => {
@@ -161,17 +167,35 @@ export const WorkoutRunner = ({ onComplete }: WorkoutRunnerProps) => {
 
                 {/* --- VIDEO PLAYER --- */}
                 <div className="aspect-video w-full bg-surface-dark border border-white/10 rounded-xl shadow-lg flex items-center justify-center relative overflow-hidden group">
-                    {/* Placeholder for iframe */}
-                    <div className="absolute inset-0 bg-black/50 z-10 flex items-center justify-center group-hover:bg-black/30 transition-all">
-                        <div className="w-16 h-16 rounded-full bg-white/10 backdrop-blur-sm flex items-center justify-center border border-white/20">
-                            <Play size={32} className="text-white fill-white ml-1" />
-                        </div>
-                    </div>
-                    <img
-                        src={`https://img.youtube.com/vi/${currentExercise.video_url.split('/embed/')[1]?.split('?')[0]}/hqdefault.jpg`}
-                        alt="Exercise Thumbnail"
-                        className="w-full h-full object-cover opacity-60"
-                    />
+                    {isPlayingVideo && videoId ? (
+                        <iframe
+                            width="100%"
+                            height="100%"
+                            src={`https://www.youtube.com/embed/${videoId}?autoplay=1`}
+                            title={currentExercise.title}
+                            frameBorder="0"
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                            allowFullScreen
+                        ></iframe>
+                    ) : (
+                        <>
+                            <div
+                                className="absolute inset-0 bg-black/50 z-10 flex items-center justify-center group-hover:bg-black/30 transition-all cursor-pointer"
+                                onClick={() => setIsPlayingVideo(true)}
+                            >
+                                <div className="w-16 h-16 rounded-full bg-white/10 backdrop-blur-sm flex items-center justify-center border border-white/20 transform group-hover:scale-110 transition-transform">
+                                    <Play size={32} className="text-white fill-white ml-1" />
+                                </div>
+                            </div>
+                            <img
+                                src={videoId
+                                    ? `https://img.youtube.com/vi/${videoId}/hqdefault.jpg`
+                                    : 'https://placehold.co/600x400/1a1a1a/666666?text=No+Video'}
+                                alt="Exercise Thumbnail"
+                                className="w-full h-full object-cover opacity-60"
+                            />
+                        </>
+                    )}
                 </div>
 
                 {/* --- SET CONTROLS --- */}
