@@ -43,7 +43,11 @@ const MOCK_ACTIVE_ROUTINE = {
     ]
 };
 
-export const WorkoutRunner = () => {
+interface WorkoutRunnerProps {
+    onComplete?: (feedback: string) => Promise<void> | void;
+}
+
+export const WorkoutRunner = ({ onComplete }: WorkoutRunnerProps) => {
     const navigate = useNavigate();
     const [currentExerciseIndex, setCurrentExerciseIndex] = useState(0);
     const [workoutData, setWorkoutData] = useState(MOCK_ACTIVE_ROUTINE);
@@ -99,8 +103,13 @@ export const WorkoutRunner = () => {
         }
     };
 
-    const handleFinish = () => {
-        navigate('/dashboard');
+    const handleFinish = async () => {
+        if (onComplete) {
+            // TODO: Collect feedback before finishing
+            await onComplete('');
+        } else {
+            navigate('/dashboard');
+        }
     };
 
     if (isCompleted) {

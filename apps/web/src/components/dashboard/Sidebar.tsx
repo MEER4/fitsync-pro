@@ -2,14 +2,48 @@ import { NavLink } from 'react-router-dom';
 import { LayoutDashboard, Users, Activity, Settings, LogOut, Dumbbell } from 'lucide-react';
 import clsx from 'clsx';
 
+import { useAuth } from '../../context/AuthContext';
+
 export const Sidebar = () => {
-    const links = [
+    const { profile, isLoading, signOut } = useAuth();
+
+    const coachLinks = [
         { to: "/dashboard", icon: LayoutDashboard, label: "Overview", end: true },
         { to: "/dashboard/athletes", icon: Users, label: "Athletes" },
         { to: "/dashboard/routines/new", icon: Activity, label: "Create Workout" },
         { to: "/dashboard/exercises", icon: Dumbbell, label: "Exercises" },
         { to: "/dashboard/settings", icon: Settings, label: "Settings" },
     ];
+
+    const memberLinks = [
+        { to: "/dashboard/member", icon: LayoutDashboard, label: "My Dashboard", end: true },
+        { to: "/dashboard/history", icon: Activity, label: "History" }, // Placeholder
+        { to: "/dashboard/settings", icon: Settings, label: "Settings" },
+    ];
+
+    if (isLoading) {
+        return (
+            <aside className="w-64 bg-surface-dark border-r border-white/5 flex flex-col h-full p-6">
+                <div className="animate-pulse flex space-x-4">
+                    <div className="rounded-full bg-white/10 h-10 w-10"></div>
+                    <div className="flex-1 space-y-6 py-1">
+                        <div className="h-2 bg-white/10 rounded"></div>
+                        <div className="space-y-3">
+                            <div className="grid grid-cols-3 gap-4">
+                                <div className="h-2 bg-white/10 rounded col-span-2"></div>
+                                <div className="h-2 bg-white/10 rounded col-span-1"></div>
+                            </div>
+                            <div className="h-2 bg-white/10 rounded"></div>
+                        </div>
+                    </div>
+                </div>
+            </aside>
+        );
+    }
+
+    // Default to member links if role is missing or not 'coach', to be safe.
+    // Ideally, if no role, maybe show nothing or generic links.
+    const links = profile?.role === 'coach' ? coachLinks : memberLinks;
 
     return (
         <aside className="w-64 bg-surface-dark border-r border-white/5 flex flex-col h-full">
@@ -42,7 +76,10 @@ export const Sidebar = () => {
             </nav>
 
             <div className="p-4 border-t border-white/5">
-                <button className="flex w-full items-center gap-3 px-4 py-3 text-secondary hover:text-white hover:bg-white/5 rounded-lg transition-all">
+                <button
+                    onClick={() => signOut()}
+                    className="flex w-full items-center gap-3 px-4 py-3 text-secondary hover:text-white hover:bg-white/5 rounded-lg transition-all"
+                >
                     <LogOut size={20} />
                     <span>Sign Out</span>
                 </button>
