@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { useAuth } from '../../context/AuthContext';
 import { Card } from '../../components/ui/Card';
 import { Button } from '../../components/ui/Button';
-import { Dumbbell, TrendingUp, Activity, Play } from 'lucide-react';
+import { Activity, Play, TrendingUp, Utensils } from 'lucide-react';
 import api from '../../lib/api';
 import { useNavigate } from 'react-router-dom';
 import { format } from 'date-fns';
@@ -110,41 +110,67 @@ const MemberDashboard = () => {
                 </Card>
 
                 {/* Progress Card */}
-                <Card className="p-6 bg-surface-light border-white/5 hover:border-green-500/50 transition-colors cursor-pointer group">
-                    <div className="flex items-center gap-4 mb-4">
-                        <div className="p-3 bg-green-500/10 text-green-500 rounded-lg group-hover:bg-green-500 group-hover:text-background-dark transition-colors">
-                            <TrendingUp size={24} />
-                        </div>
-                        <h3 className="text-lg font-bold text-white">Weekly Progress</h3>
-                    </div>
-                    {stats ? (
-                        <>
-                            <p className="text-gray-400 text-sm">{stats.completedWorkouts}/{stats.weeklyGoal} Workouts Completed</p>
-                            <div className="w-full bg-white/10 h-1.5 rounded-full mt-4 overflow-hidden">
-                                <div
-                                    className="bg-green-500 h-full transition-all duration-1000 ease-out"
-                                    style={{ width: `${stats.percentage}%` }}
-                                ></div>
+                <Card className="col-span-1 p-0 bg-gradient-to-br from-surface-light to-black border-primary/20 relative overflow-hidden group cursor-pointer hover:border-green-500/50 transition-all min-h-[220px]">
+                    <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1517836357463-d25dfeac3438?q=80&w=1470&auto=format&fit=crop')] bg-cover bg-center opacity-10 group-hover:opacity-20 transition-all duration-700 transform group-hover:scale-105" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/60 to-transparent" />
+
+                    <div className="relative z-10 p-6 flex flex-col justify-between h-full">
+                        <div>
+                            <div className="flex items-center gap-2 mb-3 text-green-500">
+                                <TrendingUp className="animate-pulse" size={20} />
+                                <span className="text-xs font-bold tracking-wider uppercase">Weekly Goals</span>
                             </div>
-                        </>
-                    ) : (
-                        <div className="animate-pulse space-y-3">
-                            <div className="h-4 bg-white/10 rounded w-1/2"></div>
-                            <div className="h-1.5 bg-white/10 rounded w-full"></div>
+
+                            <h3 className="text-2xl font-display font-bold text-white mb-1">Progress</h3>
+
+                            {stats ? (
+                                <div className="space-y-4 mt-2">
+                                    <div className="flex items-end gap-2">
+                                        <span className="text-4xl font-bold text-white">{stats.completedWorkouts}</span>
+                                        <span className="text-gray-400 mb-1">/ {stats.weeklyGoal} workouts</span>
+                                    </div>
+                                    <div className="w-full bg-white/10 h-1.5 rounded-full overflow-hidden">
+                                        <div
+                                            className="bg-green-500 h-full transition-all duration-1000 ease-out"
+                                            style={{ width: `${stats.percentage}%` }}
+                                        ></div>
+                                    </div>
+                                </div>
+                            ) : (
+                                <div className="animate-pulse space-y-3 mt-2">
+                                    <div className="h-8 bg-white/10 rounded w-1/2"></div>
+                                    <div className="h-1.5 bg-white/10 rounded w-full"></div>
+                                </div>
+                            )}
                         </div>
-                    )}
+                    </div>
                 </Card>
 
-                {/* Active Program Card (Placeholder) */}
-                <Card className="p-6 bg-surface-light border-white/5 hover:border-purple-500/50 transition-colors cursor-pointer group">
-                    <div className="flex items-center gap-4 mb-4">
-                        <div className="p-3 bg-purple-500/10 text-purple-500 rounded-lg group-hover:bg-purple-500 group-hover:text-background-dark transition-colors">
-                            <Dumbbell size={24} />
+                {/* Nutrition Card */}
+                <Card
+                    className="col-span-1 p-0 bg-gradient-to-br from-surface-light to-black border-primary/20 relative overflow-hidden group cursor-pointer hover:border-orange-500/50 transition-all min-h-[220px]"
+                    onClick={() => navigate('/dashboard/nutrition')}
+                >
+                    <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1490645935967-10de6ba17061?q=80&w=1470&auto=format&fit=crop')] bg-cover bg-center opacity-10 group-hover:opacity-20 transition-all duration-700 transform group-hover:scale-105" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/60 to-transparent" />
+
+                    <div className="relative z-10 p-6 flex flex-col justify-between h-full">
+                        <div>
+                            <div className="flex items-center gap-2 mb-3 text-orange-500">
+                                <Utensils className="animate-pulse" size={20} />
+                                <span className="text-xs font-bold tracking-wider uppercase">Nutrition Plan</span>
+                            </div>
+
+                            <h3 className="text-2xl font-display font-bold text-white mb-2">Fuel Your Body</h3>
+                            <p className="text-gray-300 text-sm leading-relaxed">
+                                View your daily meal plan and nutrition goals.
+                            </p>
                         </div>
-                        <h3 className="text-lg font-bold text-white">Active Program</h3>
+
+                        <div className="flex justify-end mt-4">
+                            <span className="text-orange-400 text-sm font-bold group-hover:translate-x-1 transition-transform">View Plan →</span>
+                        </div>
                     </div>
-                    <p className="text-gray-400 text-sm">General Fitness</p>
-                    <div className="mt-4 text-xs font-mono text-purple-400">Week 1</div>
                 </Card>
             </div>
 

@@ -1,7 +1,8 @@
 import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Card } from '../../components/ui/Card';
 import { Button } from '../../components/ui/Button';
-import { Search, MoreVertical, Dumbbell } from 'lucide-react';
+import { Search, MoreVertical, Dumbbell, Utensils } from 'lucide-react';
 import api from '../../lib/api';
 import { AssignRoutineModal } from '../../components/coach/AssignRoutineModal';
 
@@ -14,6 +15,7 @@ interface Member {
 }
 
 const MembersPage = () => {
+    const navigate = useNavigate();
     const [members, setMembers] = useState<Member[]>([]);
     const [isLoading, setIsLoading] = useState(true);
     const [searchTerm, setSearchTerm] = useState('');
@@ -105,6 +107,14 @@ const MembersPage = () => {
                                     >
                                         <Dumbbell size={16} />
                                         Assign Routine
+                                    </Button>
+                                    <Button
+                                        variant="outline"
+                                        className="gap-2 py-2 px-4 text-sm flex-1 md:flex-none justify-center"
+                                        onClick={() => navigate(`/dashboard/members/${member.id}/diet`)}
+                                    >
+                                        <Utensils size={16} />
+                                        Diet
                                     </Button>
                                     <button className="text-gray-400 hover:text-white p-2">
                                         <MoreVertical size={20} />

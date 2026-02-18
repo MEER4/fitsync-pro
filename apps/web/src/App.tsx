@@ -11,6 +11,8 @@ import WorkoutSessionPage from './pages/WorkoutSessionPage';
 import MemberDashboard from './pages/member/MemberDashboard';
 import MemberHistoryPage from './pages/member/MemberHistoryPage';
 import SettingsPage from './pages/SettingsPage';
+import CoachDietPage from './pages/coach/CoachDietPage';
+import MemberDietPage from './pages/member/MemberDietPage';
 import { AuthProvider } from './context/AuthContext';
 import { ProtectedRoute } from './components/auth/ProtectedRoute';
 
@@ -41,12 +43,14 @@ function App() {
                 <Route path="routines/new" element={<CreateRoutinePage />} />
                 <Route path="exercises" element={<ExercisesPage />} />
                 <Route path="members" element={<MembersPage />} />
+                <Route path="members/:memberId/diet" element={<CoachDietPage />} />
               </Route>
 
               {/* Member Routes */}
               <Route element={<ProtectedRoute allowedRoles={['member']} />}>
                 <Route path="member" element={<MemberDashboard />} />
                 <Route path="history" element={<MemberHistoryPage />} />
+                <Route path="nutrition" element={<MemberDietPage />} />
               </Route>
             </Route>
           </Route>

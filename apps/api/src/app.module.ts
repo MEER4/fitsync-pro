@@ -9,6 +9,7 @@ import { RoutinesModule } from './routines/routines.module';
 import { AssignmentsModule } from './assignments/assignments.module';
 import { UsersModule } from './users/users.module';
 import { DashboardModule } from './dashboard/dashboard.module';
+import { DietsModule } from './diets/diets.module';
 
 @Module({
     imports: [
@@ -20,6 +21,7 @@ import { DashboardModule } from './dashboard/dashboard.module';
         AssignmentsModule,
         UsersModule,
         DashboardModule,
+        DietsModule,
     ],
     controllers: [AppController],
     providers: [AppService],

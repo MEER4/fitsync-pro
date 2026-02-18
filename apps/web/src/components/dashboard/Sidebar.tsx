@@ -1,5 +1,5 @@
 import { NavLink } from 'react-router-dom';
-import { LayoutDashboard, Users, Activity, Settings, LogOut, Dumbbell, X } from 'lucide-react';
+import { LayoutDashboard, Users, Activity, Settings, LogOut, Dumbbell, X, Utensils } from 'lucide-react';
 import clsx from 'clsx';
 
 import { useAuth } from '../../context/AuthContext';
@@ -21,8 +21,9 @@ export const Sidebar = ({ isOpen, onClose }: SidebarProps) => {
     ];
 
     const memberLinks = [
-        { to: "/dashboard/member", icon: LayoutDashboard, label: "My Dashboard", end: true },
-        { to: "/dashboard/history", icon: Activity, label: "History" }, // Placeholder
+        { to: "/dashboard/member", icon: LayoutDashboard, label: "Dashboard", end: true },
+        { to: "/dashboard/nutrition", icon: Utensils, label: "Nutrition" },
+        { to: "/dashboard/history", icon: Activity, label: "History" },
         { to: "/dashboard/settings", icon: Settings, label: "Settings" },
     ];
 

@@ -42,6 +42,21 @@ model profiles {
   routines              routines[]
   assignments_as_coach  assignments[] @relation("coach_assignments")
   assignments_as_member assignments[] @relation("member_assignments")
+  diets_as_coach        diets[]       @relation("coach_diets")
+  diets_as_member       diets[]       @relation("member_diets")
+}
+
+model diets {
+  id          String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  coach_id    String    @db.Uuid
+  member_id   String    @db.Uuid @unique
+  name        String?   @default("Weekly Plan")
+  content     Json      // { monday: { breakfast: "...", ... }, ... }
+  created_at  DateTime? @default(now()) @db.Timestamptz(6)
+  updated_at  DateTime? @updatedAt @db.Timestamptz(6)
+
+  coach       profiles  @relation("coach_diets", fields: [coach_id], references: [id])
+  member      profiles  @relation("member_diets", fields: [member_id], references: [id])
 }
 
 model exercises {
