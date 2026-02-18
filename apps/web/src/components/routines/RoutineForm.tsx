@@ -20,16 +20,25 @@ type RoutineFormValues = {
     items: RoutineItem[];
 };
 
+import { useRoutineDraft } from '../../hooks/useRoutineDraft';
+
+// ... (existing imports)
+
 export const RoutineForm = () => {
     const { exercises, loading, error: exercisesError } = useExercises();
     const [selectedExerciseId, setSelectedExerciseId] = useState<string>('');
 
-    const { register, control, handleSubmit, formState: { errors } } = useForm<RoutineFormValues>({
+    const form = useForm<RoutineFormValues>({
         defaultValues: {
             name: '',
             items: []
         }
     });
+
+    const { register, control, handleSubmit, formState: { errors } } = form;
+
+    // Enable Draft Persistence
+    const { clearDraft } = useRoutineDraft(form);
 
     const { fields, append, remove } = useFieldArray({
         control,
@@ -54,6 +63,7 @@ export const RoutineForm = () => {
         console.log("Saving Routine (Real Data Pending):", data);
         // TODO: Implement actual Save Routine to Backend
         alert("Routine payload prepared! (Check Console)");
+        clearDraft(); // Clear draft after successful save
     };
 
     return (

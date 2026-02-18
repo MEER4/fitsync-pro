@@ -25,4 +25,16 @@ export class ExercisesService {
             },
         });
     }
+
+    async seed(coachId: string) {
+        const defaults = [
+            { title: 'Push-ups', description: 'Standard push-up', video_source: 'youtube', video_url: 'https://youtu.be/IODxDxX7oi4' },
+            { title: 'Squats', description: 'Bodyweight squat', video_source: 'youtube', video_url: 'https://youtu.be/YaXPRqUwItQ' },
+            { title: 'Lunges', description: 'Walking lunges', video_source: 'youtube', video_url: 'https://youtu.be/L8fvybPrzzs' },
+            { title: 'Plank', description: 'Forearm plank', video_source: 'youtube', video_url: 'https://youtu.be/pSHjTRCQxIw' },
+            { title: 'Burpees', description: 'Full body burpee', video_source: 'youtube', video_url: 'https://youtu.be/auBLPXO8FfU' },
+        ];
+
+        return Promise.all(defaults.map(ex => this.create(coachId, ex as any)));
+    }
 }
