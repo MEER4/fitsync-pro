@@ -10,7 +10,7 @@ export class AssignmentsService {
             where: {
                 member_id: memberId,
                 status: {
-                    in: ['pending', 'in_progress', 'missed']
+                    in: ['pending', 'in_progress', 'missed', 'completed']
                 },
             },
             include: {
@@ -60,6 +60,18 @@ export class AssignmentsService {
                 status: 'completed',
                 completed_date: new Date(),
                 feedback_notes: feedback
+            }
+        });
+    }
+
+    async assignRoutine(coachId: string, memberId: string, routineId: string, scheduledDate: Date) {
+        return this.prisma.assignments.create({
+            data: {
+                coach_id: coachId,
+                member_id: memberId,
+                routine_id: routineId,
+                status: 'pending',
+                scheduled_date: scheduledDate
             }
         });
     }

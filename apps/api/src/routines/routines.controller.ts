@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, UseGuards, Request } from '@nestjs/common';
+import { Controller, Get, Post, Body, UseGuards, Request, Param } from '@nestjs/common';
 import { RoutinesService } from './routines.service';
 import { CreateRoutineDto } from './dto/create-routine.dto';
 import { SupabaseAuthGuard } from '../auth/supabase-auth.guard';
@@ -16,5 +16,10 @@ export class RoutinesController {
     @Get()
     findAll(@Request() req) {
         return this.routinesService.findAll(req.user.sub);
+    }
+
+    @Get(':id')
+    findOne(@Param('id') id: string) {
+        return this.routinesService.findOne(id);
     }
 }

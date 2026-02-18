@@ -45,4 +45,20 @@ export class RoutinesService {
             },
         });
     }
+
+    async findOne(id: string) {
+        return this.prisma.routines.findUnique({
+            where: { id },
+            include: {
+                items: {
+                    include: {
+                        exercise: true
+                    },
+                    orderBy: {
+                        order_index: 'asc'
+                    }
+                }
+            }
+        });
+    }
 }
