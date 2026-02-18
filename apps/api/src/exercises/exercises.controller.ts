@@ -1,6 +1,7 @@
-import { Controller, Get, Post, Body, UseGuards, Request } from '@nestjs/common';
+import { Controller, Get, Post, Delete, Patch, Body, Param, UseGuards, Request } from '@nestjs/common';
 import { ExercisesService } from './exercises.service';
 import { CreateExerciseDto } from './dto/create-exercise.dto';
+import { UpdateExerciseDto } from './dto/update-exercise.dto';
 import { SupabaseAuthGuard } from '../auth/supabase-auth.guard';
 
 @Controller('exercises')
@@ -33,5 +34,15 @@ export class ExercisesController {
             console.error('ERROR in POST /exercises/seed:', e);
             throw e;
         }
+    }
+
+    @Patch(':id')
+    update(@Request() req, @Param('id') id: string, @Body() updateExerciseDto: UpdateExerciseDto) {
+        return this.exercisesService.update(id, req.user.sub, updateExerciseDto);
+    }
+
+    @Delete(':id')
+    async remove(@Request() req, @Param('id') id: string) {
+        return this.exercisesService.remove(id, req.user.sub);
     }
 }

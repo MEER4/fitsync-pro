@@ -4,6 +4,7 @@ import RegisterPage from './pages/auth/RegisterPage';
 import DashboardLayout from './layouts/DashboardLayout';
 import DashboardHome from './pages/DashboardHome';
 import CreateRoutinePage from './pages/CreateRoutinePage';
+import ExercisesPage from './pages/ExercisesPage';
 import WorkoutSessionPage from './pages/WorkoutSessionPage';
 
 function App() {
@@ -22,6 +23,7 @@ function App() {
         <Route path="/dashboard" element={<DashboardLayout />}>
           <Route index element={<DashboardHome />} />
           <Route path="routines/new" element={<CreateRoutinePage />} />
+          <Route path="exercises" element={<ExercisesPage />} />
         </Route>
 
         {/* Active Workout Route */}

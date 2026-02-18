@@ -14,20 +14,22 @@ export const useExercises = () => {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
 
-    useEffect(() => {
-        const fetchExercises = async () => {
-            try {
-                const response = await api.get('/exercises');
-                setExercises(response.data);
-            } catch (err: any) {
-                setError(err.message || 'Failed to fetch exercises');
-            } finally {
-                setLoading(false);
-            }
-        };
+    const fetchExercises = async () => {
+        setLoading(true);
+        try {
+            const response = await api.get('/exercises');
+            setExercises(response.data);
+            setError(null);
+        } catch (err: any) {
+            setError(err.message || 'Failed to fetch exercises');
+        } finally {
+            setLoading(false);
+        }
+    };
 
+    useEffect(() => {
         fetchExercises();
     }, []);
 
-    return { exercises, loading, error };
+    return { exercises, loading, error, refetch: fetchExercises };
 };

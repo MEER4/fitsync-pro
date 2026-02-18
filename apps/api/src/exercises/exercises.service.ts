@@ -37,4 +37,34 @@ export class ExercisesService {
 
         return Promise.all(defaults.map(ex => this.create(coachId, ex as any)));
     }
+
+    async update(id: string, coachId: string, data: any) {
+        const count = await this.prisma.exercises.count({
+            where: { id, coach_id: coachId }
+        });
+
+        if (count === 0) {
+            throw new Error('Exercise not found or access denied');
+        }
+
+        return this.prisma.exercises.update({
+            where: { id },
+            data
+        });
+    }
+
+    async remove(id: string, coachId: string) {
+        // Verify ownership implicitly by where clause
+        const count = await this.prisma.exercises.count({
+            where: { id, coach_id: coachId }
+        });
+
+        if (count === 0) {
+            throw new Error('Exercise not found or access denied');
+        }
+
+        return this.prisma.exercises.delete({
+            where: { id }
+        });
+    }
 }
