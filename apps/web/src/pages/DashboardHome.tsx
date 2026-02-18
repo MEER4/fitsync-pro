@@ -1,9 +1,6 @@
 import { StatCard } from '../components/dashboard/StatCard';
 import { ClientsTable } from '../components/dashboard/ClientsTable';
-import { Users, Activity, TrendingUp, Play } from 'lucide-react';
-import { Link } from 'react-router-dom';
-import { Card } from '../components/ui/Card';
-import { Button } from '../components/ui/Button';
+import { Users, Activity, TrendingUp } from 'lucide-react';
 
 import { useEffect, useState } from 'react';
 import api from '../lib/api';
@@ -64,21 +61,7 @@ const DashboardHome = () => {
             </div>
 
             {/* Active Workout CTA & Table */}
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-                <Card className="bg-gradient-to-br from-surface-dark to-black border-primary/20 relative overflow-hidden group cursor-pointer hover:border-primary/50 transition-all text-left">
-                    <Link to="/workout/test" className="absolute inset-0 z-10" />
-                    <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
-                        <Activity size={120} />
-                    </div>
-                    <div className="relative z-0">
-                        <h3 className="text-2xl font-display font-bold text-white mb-2">Start Active Workout</h3>
-                        <p className="text-gray-400 mb-6">Launch the immersive tracker for your daily session.</p>
-                        <Button variant="primary" className="shadow-[0_0_15px_rgba(212,175,55,0.3)]">
-                            <Play size={18} /> Launch Session
-                        </Button>
-                    </div>
-                </Card>
-
+            <div className="grid grid-cols-1 gap-8">
                 <ClientsTable />
             </div>
         </div>

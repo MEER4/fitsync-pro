@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { useAuth } from '../../context/AuthContext';
 import { Card } from '../../components/ui/Card';
 import { Button } from '../../components/ui/Button';
-import { Dumbbell, Calendar, TrendingUp, ChevronRight } from 'lucide-react';
+import { Dumbbell, TrendingUp, Activity, Play } from 'lucide-react';
 import api from '../../lib/api';
 import { useNavigate } from 'react-router-dom';
 import { format } from 'date-fns';
@@ -59,41 +59,48 @@ const MemberDashboard = () => {
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                 {/* Today's Workout Card */}
                 <Card
-                    className="p-4 md:p-6 bg-surface-light border-white/5 hover:border-primary/50 transition-colors cursor-pointer group relative overflow-hidden"
+                    className="col-span-1 md:col-span-3 lg:col-span-2 p-0 bg-gradient-to-br from-surface-light to-black border-primary/20 relative overflow-hidden group cursor-pointer hover:border-primary/50 transition-all"
                     onClick={() => nextWorkout && navigate(`/workout/${nextWorkout.routine.id}?assignmentId=${nextWorkout.id}`)}
                 >
-                    <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
-                        <Dumbbell size={100} />
-                    </div>
+                    <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1534438327276-14e5300c3a48?q=80&w=1470&auto=format&fit=crop')] bg-cover bg-center opacity-10 group-hover:opacity-20 transition-all duration-700 transform group-hover:scale-105" />
+                    <div className="absolute inset-0 bg-gradient-to-r from-black/90 via-black/70 to-transparent" />
 
-                    <div className="flex items-center gap-4 mb-4 relative z-10">
-                        <div className="p-3 bg-primary/10 text-primary rounded-lg group-hover:bg-primary group-hover:text-background-dark transition-colors">
-                            <Calendar size={24} />
-                        </div>
-                        <h3 className="text-lg font-bold text-white">Next Workout</h3>
-                    </div>
-
-                    {isLoading ? (
-                        <div className="text-sm text-gray-400 animate-pulse">Loading schedule...</div>
-                    ) : nextWorkout ? (
-                        <div className="relative z-10">
-                            <p className="text-xl font-bold text-white">{nextWorkout.routine.name}</p>
-                            <div className="flex items-center justify-between mt-4">
-                                <div className="text-xs font-mono text-primary">
-                                    {format(new Date(nextWorkout.scheduled_date), 'MMM dd, HH:mm')}
-                                </div>
-                                <span className="p-1 rounded-full bg-white/10 group-hover:bg-primary group-hover:text-background-dark transition-colors">
-                                    <ChevronRight size={16} />
-                                </span>
+                    <div className="relative z-10 p-6 md:p-8 flex flex-col justify-between h-full min-h-[220px]">
+                        <div>
+                            <div className="flex items-center gap-3 mb-2 text-primary">
+                                <Activity className="animate-pulse" size={20} />
+                                <span className="text-sm font-bold tracking-wider uppercase">Active Session</span>
                             </div>
-                            <p className="text-xs text-gray-500 mt-2">Coach: {nextWorkout.coach?.full_name}</p>
+
+                            {isLoading ? (
+                                <div className="text-2xl text-gray-400 animate-pulse">Loading schedule...</div>
+                            ) : nextWorkout ? (
+                                <>
+                                    <h2 className="text-3xl md:text-4xl font-display font-bold text-white mb-2 leading-tight">
+                                        {nextWorkout.routine.name}
+                                    </h2>
+                                    <p className="text-gray-300 max-w-md text-lg">
+                                        Ready to crush your {nextWorkout.routine.estimated_duration_min} min session?
+                                        <br />
+                                        <span className="text-sm text-gray-500 mt-1 block">Coach: {nextWorkout.coach?.full_name}</span>
+                                    </p>
+                                </>
+                            ) : (
+                                <>
+                                    <h2 className="text-3xl font-display font-bold text-white mb-2">Rest Day</h2>
+                                    <p className="text-gray-400">No workouts scheduled for today. Enjoy your recovery.</p>
+                                </>
+                            )}
                         </div>
-                    ) : (
-                        <div className="relative z-10">
-                            <p className="text-gray-400 text-sm">No active assignments.</p>
-                            <p className="text-xs text-gray-500 mt-2">Wait for your coach to assign a routine.</p>
-                        </div>
-                    )}
+
+                        {nextWorkout && (
+                            <div className="mt-6">
+                                <Button size="lg" variant="primary" className="shadow-[0_0_20px_rgba(212,175,55,0.2)] group-hover:shadow-[0_0_30px_rgba(212,175,55,0.4)] transition-all">
+                                    <Play size={20} className="mr-2 fill-current" /> Launch Session
+                                </Button>
+                            </div>
+                        )}
+                    </div>
                 </Card>
 
                 {/* Progress Card (Placeholder) */}
