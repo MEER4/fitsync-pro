@@ -7,6 +7,7 @@ import { PrismaModule } from './prisma/prisma.module';
 import { ExercisesModule } from './exercises/exercises.module';
 import { RoutinesModule } from './routines/routines.module';
 import { AssignmentsModule } from './assignments/assignments.module';
+import { UsersModule } from './users/users.module';
 
 @Module({
     imports: [
@@ -16,6 +17,7 @@ import { AssignmentsModule } from './assignments/assignments.module';
         ExercisesModule,
         RoutinesModule,
         AssignmentsModule,
+        UsersModule,
     ],
     controllers: [AppController],
     providers: [AppService],

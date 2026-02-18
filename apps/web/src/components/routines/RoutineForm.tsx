@@ -4,6 +4,7 @@ import { Card } from '../ui/Card';
 import { Button } from '../ui/Button';
 import { Plus, Save, Trash2, Dumbbell, Loader2 } from 'lucide-react';
 import { useExercises } from '../../hooks/useExercises';
+import api from '../../lib/api';
 
 // --- REMOVED MOCK DATA ---
 
@@ -59,11 +60,31 @@ export const RoutineForm = () => {
         setSelectedExerciseId(''); // Reset selector
     };
 
-    const onSubmit = (data: RoutineFormValues) => {
-        console.log("Saving Routine (Real Data Pending):", data);
-        // TODO: Implement actual Save Routine to Backend
-        alert("Routine payload prepared! (Check Console)");
-        clearDraft(); // Clear draft after successful save
+    const onSubmit = async (data: RoutineFormValues) => {
+        try {
+            const payload = {
+                name: data.name,
+                items: data.items.map((item, index) => ({
+                    exercise_id: item.exercise_id,
+                    order_index: index,
+                    sets: item.sets,
+                    reps: item.reps,
+                    rest_seconds: item.rest_seconds
+                }))
+            };
+
+            console.log("Saving Routine:", payload);
+            await api.post('/routines', payload);
+
+            alert("Routine saved successfully!");
+            clearDraft();
+            // Optional: Redirect to list
+            // navigate('/dashboard/routines');
+            form.reset();
+        } catch (error) {
+            console.error("Failed to save routine:", error);
+            alert("Failed to save routine. Please try again.");
+        }
     };
 
     return (

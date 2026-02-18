@@ -9,7 +9,7 @@ export const Sidebar = () => {
 
     const coachLinks = [
         { to: "/dashboard", icon: LayoutDashboard, label: "Overview", end: true },
-        { to: "/dashboard/athletes", icon: Users, label: "Athletes" },
+        { to: "/dashboard/members", icon: Users, label: "Members" },
         { to: "/dashboard/routines/new", icon: Activity, label: "Create Workout" },
         { to: "/dashboard/exercises", icon: Dumbbell, label: "Exercises" },
         { to: "/dashboard/settings", icon: Settings, label: "Settings" },

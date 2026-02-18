@@ -1,4 +1,4 @@
-import { Controller, Get, Patch, Body, Param, UseGuards, Request } from '@nestjs/common';
+import { Controller, Get, Patch, Post, Body, Param, UseGuards, Request } from '@nestjs/common';
 import { AssignmentsService } from './assignments.service';
 import { SupabaseAuthGuard } from '../auth/supabase-auth.guard';
 
@@ -21,5 +21,15 @@ export class AssignmentsController {
     ) {
         const userId = req.user.sub;
         return this.assignmentsService.completeAssignment(id, userId, feedback);
+    }
+    @Post()
+    async assignRoutine(
+        @Body('memberId') memberId: string,
+        @Body('routineId') routineId: string,
+        @Body('scheduledDate') scheduledDate: string,
+        @Request() req: any
+    ) {
+        const coachId = req.user.sub;
+        return this.assignmentsService.assignRoutine(coachId, memberId, routineId, new Date(scheduledDate));
     }
 }

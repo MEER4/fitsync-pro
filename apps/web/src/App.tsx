@@ -2,9 +2,11 @@ import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import LoginPage from './pages/auth/LoginPage';
 import RegisterPage from './pages/auth/RegisterPage';
 import DashboardLayout from './layouts/DashboardLayout';
+import DashboardHome from './pages/DashboardHome';
 import DashboardIndex from './pages/DashboardIndex';
 import CreateRoutinePage from './pages/CreateRoutinePage';
 import ExercisesPage from './pages/ExercisesPage';
+import MembersPage from './pages/coach/MembersPage';
 import WorkoutSessionPage from './pages/WorkoutSessionPage';
 import MemberDashboard from './pages/member/MemberDashboard';
 import MemberHistoryPage from './pages/member/MemberHistoryPage';
@@ -33,8 +35,10 @@ function App() {
 
               {/* Coach Routes */}
               <Route element={<ProtectedRoute allowedRoles={['coach']} />}>
+                <Route index element={<DashboardHome />} />
                 <Route path="routines/new" element={<CreateRoutinePage />} />
                 <Route path="exercises" element={<ExercisesPage />} />
+                <Route path="members" element={<MembersPage />} />
               </Route>
 
               {/* Member Routes */}
