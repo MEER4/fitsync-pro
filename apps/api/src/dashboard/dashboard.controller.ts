@@ -18,4 +18,10 @@ export class DashboardController {
         const userId = req.user.sub;
         return this.dashboardService.getRecentActivity(userId);
     }
+
+    @Get('member-stats')
+    async getMemberStats(@Request() req: any) {
+        const userId = req.user.sub;
+        return this.dashboardService.getMemberStats(userId);
+    }
 }

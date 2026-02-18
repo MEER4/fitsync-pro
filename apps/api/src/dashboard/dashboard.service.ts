@@ -73,4 +73,40 @@ export class DashboardService {
             date: r.completed_date || r.created_at
         }));
     }
+
+    async getMemberStats(memberId: string) {
+        const now = new Date();
+        // Calculate start of the week (Monday)
+        const startOfWeek = new Date(now);
+        const day = startOfWeek.getDay() || 7; // Get current day number, converting Sun (0) to 7
+        if (day !== 1) startOfWeek.setHours(-24 * (day - 1));
+        startOfWeek.setHours(0, 0, 0, 0);
+
+        const endOfWeek = new Date(startOfWeek);
+        endOfWeek.setDate(startOfWeek.getDate() + 6);
+        endOfWeek.setHours(23, 59, 59, 999);
+
+        // Count completed workouts describing to this week
+        const completedWorkouts = await this.prisma.assignments.count({
+            where: {
+                member_id: memberId,
+                status: 'completed',
+                completed_date: {
+                    gte: startOfWeek,
+                    lte: endOfWeek
+                }
+            }
+        });
+
+        // Hardcoded goal for now - could be moved to profile later
+        const weeklyGoal = 4;
+
+        return {
+            completedWorkouts,
+            weeklyGoal,
+            percentage: Math.min(Math.round((completedWorkouts / weeklyGoal) * 100), 100)
+        };
+    }
+
+
 }

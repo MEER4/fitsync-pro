@@ -26,20 +26,26 @@ const MemberDashboard = () => {
     const { profile } = useAuth();
     const navigate = useNavigate();
     const [assignments, setAssignments] = useState<Assignment[]>([]);
+    const [stats, setStats] = useState<{ completedWorkouts: number; weeklyGoal: number; percentage: number } | null>(null);
     const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
-        fetchAssignments();
+        fetchData();
     }, []);
 
-    const fetchAssignments = async () => {
+    const fetchData = async () => {
         try {
-            const res = await api.get('/assignments/my-assignments');
+            const [assignmentsRes, statsRes] = await Promise.all([
+                api.get('/assignments/my-assignments'),
+                api.get('/dashboard/member-stats')
+            ]);
+
             // Filter out completed assignments for the dashboard view
-            const activeAssignments = res.data.filter((a: Assignment) => a.status !== 'completed');
+            const activeAssignments = assignmentsRes.data.filter((a: Assignment) => a.status !== 'completed');
             setAssignments(activeAssignments);
+            setStats(statsRes.data);
         } catch (error) {
-            console.error("Failed to fetch assignments", error);
+            console.error("Failed to fetch dashboard data", error);
         } finally {
             setIsLoading(false);
         }
@@ -103,7 +109,7 @@ const MemberDashboard = () => {
                     </div>
                 </Card>
 
-                {/* Progress Card (Placeholder) */}
+                {/* Progress Card */}
                 <Card className="p-6 bg-surface-light border-white/5 hover:border-green-500/50 transition-colors cursor-pointer group">
                     <div className="flex items-center gap-4 mb-4">
                         <div className="p-3 bg-green-500/10 text-green-500 rounded-lg group-hover:bg-green-500 group-hover:text-background-dark transition-colors">
@@ -111,10 +117,22 @@ const MemberDashboard = () => {
                         </div>
                         <h3 className="text-lg font-bold text-white">Weekly Progress</h3>
                     </div>
-                    <p className="text-gray-400 text-sm">0/4 Workouts Completed</p>
-                    <div className="w-full bg-white/10 h-1.5 rounded-full mt-4 overflow-hidden">
-                        <div className="bg-green-500 h-full w-[0%]"></div>
-                    </div>
+                    {stats ? (
+                        <>
+                            <p className="text-gray-400 text-sm">{stats.completedWorkouts}/{stats.weeklyGoal} Workouts Completed</p>
+                            <div className="w-full bg-white/10 h-1.5 rounded-full mt-4 overflow-hidden">
+                                <div
+                                    className="bg-green-500 h-full transition-all duration-1000 ease-out"
+                                    style={{ width: `${stats.percentage}%` }}
+                                ></div>
+                            </div>
+                        </>
+                    ) : (
+                        <div className="animate-pulse space-y-3">
+                            <div className="h-4 bg-white/10 rounded w-1/2"></div>
+                            <div className="h-1.5 bg-white/10 rounded w-full"></div>
+                        </div>
+                    )}
                 </Card>
 
                 {/* Active Program Card (Placeholder) */}

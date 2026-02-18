@@ -10,6 +10,7 @@ import MembersPage from './pages/coach/MembersPage';
 import WorkoutSessionPage from './pages/WorkoutSessionPage';
 import MemberDashboard from './pages/member/MemberDashboard';
 import MemberHistoryPage from './pages/member/MemberHistoryPage';
+import SettingsPage from './pages/SettingsPage';
 import { AuthProvider } from './context/AuthContext';
 import { ProtectedRoute } from './components/auth/ProtectedRoute';
 
@@ -32,6 +33,7 @@ function App() {
 
             <Route path="/dashboard" element={<DashboardLayout />}>
               <Route index element={<DashboardIndex />} />
+              <Route path="settings" element={<SettingsPage />} />
 
               {/* Coach Routes */}
               <Route element={<ProtectedRoute allowedRoles={['coach']} />}>

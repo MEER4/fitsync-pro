@@ -26,7 +26,7 @@ const RegisterPage = () => {
                 options: {
                     data: {
                         full_name: fullName,
-                        role: 'coach', // Hardcoded for initial prototype
+                        role: 'member', // Default role for new signups
                     },
                 },
             });

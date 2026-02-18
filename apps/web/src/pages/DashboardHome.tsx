@@ -5,7 +5,10 @@ import { Users, Activity, TrendingUp } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import api from '../lib/api';
 
+import { useAuth } from '../context/AuthContext';
+
 const DashboardHome = () => {
+    const { profile } = useAuth();
     const [stats, setStats] = useState({
         activeAthletes: 0,
         completionRate: 0,
@@ -31,7 +34,7 @@ const DashboardHome = () => {
         <div className="space-y-8 animate-fade-in">
             {/* Header */}
             <div>
-                <h2 className="text-3xl font-display font-bold text-white mb-2">Welcome back, Coach</h2>
+                <h2 className="text-3xl font-display font-bold text-white mb-2">Welcome back, {profile?.full_name || 'Coach'}</h2>
                 <p className="text-gray-400">Here's what's happening in your studio today.</p>
             </div>
 
