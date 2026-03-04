@@ -5,8 +5,49 @@
 @tailwind utilities;
 
 @layer base {
+
+    :root {
+        --color-primary: 212 175 55;
+        /* #d4af37 */
+        --color-secondary: 226 180 189;
+        /* #e2b4bd */
+        --color-background-dark: 26 11 46;
+        /* #1a0b2e */
+        --color-background-light: 253 242 244;
+        /* #fdf2f4 */
+        --color-surface-dark: 37 22 58;
+        /* #25163a - Main Card Background */
+        --color-surface-light: 46 29 70;
+        /* #2e1d46 - Lighter Accent/Card (instead of white) */
+        --color-text-main: 255 255 255;
+        /* white */
+        --color-text-muted: 156 163 175;
+        /* gray-400 */
+        --color-border: 148 163 184;
+        /* #94a3b8 - muted slate */
+    }
+
+    /* Light Theme Overrides */
+    :root[data-theme='light'] {
+        --color-primary: 212 175 55;
+        /* Keep Gold */
+        --color-secondary: 226 180 189;
+        --color-background-dark: 248 250 252;
+        /* slate-50 - softer background */
+        --color-surface-dark: 255 255 255;
+        /* white */
+        --color-surface-light: 241 245 249;
+        /* slate-100 */
+        --color-text-main: 15 23 42;
+        /* slate-900 - deep text color */
+        --color-text-muted: 100 116 138;
+        /* slate-500 */
+        --color-border: 226 232 240;
+        /* slate-200 */
+    }
+
     body {
-        @apply bg-background-dark text-white font-body antialiased;
+        @apply bg-background-dark text-text-main font-body antialiased transition-colors duration-300;
     }
 
     h1,
@@ -36,5 +77,35 @@
 
     ::-webkit-scrollbar-thumb:hover {
         background: #475569;
+    }
+
+    .animate-slide-up {
+        animation: slideUp 0.3s ease-out forwards;
+    }
+
+    .animate-fade-in {
+        animation: fadeIn 0.5s ease-out forwards;
+    }
+}
+
+@keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: translateY(16px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
     }
 }

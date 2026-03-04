@@ -10,6 +10,8 @@ interface UserProfile {
     full_name: string;
     role: UserRole;
     avatar_url: string;
+    weekly_goal?: number;
+    language_pref?: string;
 }
 
 interface AuthContextType {

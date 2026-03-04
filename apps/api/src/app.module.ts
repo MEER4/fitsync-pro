@@ -1,4 +1,5 @@
 import { Module } from '@nestjs/common';
+import { NotificationsModule } from './notifications/notifications.module';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { ConfigModule } from '@nestjs/config';
@@ -22,6 +23,7 @@ import { DietsModule } from './diets/diets.module';
         UsersModule,
         DashboardModule,
         DietsModule,
+        NotificationsModule,
     ],
     controllers: [AppController],
     providers: [AppService],

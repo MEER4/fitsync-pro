@@ -7,12 +7,15 @@ export default {
     theme: {
         extend: {
             colors: {
-                primary: "#d4af37", // Gold
-                secondary: "#e2b4bd", // Soft Rose
-                "background-dark": "#1a0b2e", // Deep Purple
-                "background-light": "#fdf2f4", // Rose White
-                "surface-dark": "#25163a", // Surface Purple
-                "surface-light": "rgba(255, 255, 255, 0.05)", // Glass effect
+                primary: "rgb(var(--color-primary) / <alpha-value>)",
+                secondary: "rgb(var(--color-secondary) / <alpha-value>)",
+                "background-dark": "rgb(var(--color-background-dark) / <alpha-value>)",
+                "background-light": "rgb(var(--color-background-light) / <alpha-value>)",
+                "surface-dark": "rgb(var(--color-surface-dark) / <alpha-value>)",
+                "surface-light": "rgb(var(--color-surface-light) / <alpha-value>)",
+                "text-main": "rgb(var(--color-text-main) / <alpha-value>)",
+                "text-muted": "rgb(var(--color-text-muted) / <alpha-value>)",
+                "border": "rgb(var(--color-border) / <alpha-value>)",
             },
             fontFamily: {
                 display: ['"Playfair Display"', "serif"],

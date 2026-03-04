@@ -7,8 +7,6 @@ export class DashboardService {
 
     async getStats(coachId: string) {
         // 1. Active Athletes (Members)
-        // In a real app, 'active' might mean they have a subscription or recent activity.
-        // For now, we'll count all members.
         const activeAthletes = await this.prisma.profiles.count({
             where: {
                 role: 'member'
@@ -16,7 +14,6 @@ export class DashboardService {
         });
 
         // 2. Completion Rate
-        // (Completed Assignments / Total Assignments) * 100
         const totalAssignments = await this.prisma.assignments.count({
             where: { coach_id: coachId }
         });
@@ -32,14 +29,28 @@ export class DashboardService {
             ? Math.round((completedAssignments / totalAssignments) * 100)
             : 0;
 
-        // 3. Monthly Revenue (Simulated)
-        // Assuming $50/month per active athlete
+        // 3. Monthly Revenue (Simulated - for future membership implementation)
         const monthlyRevenue = activeAthletes * 50;
+
+        // 4. Active Routines (created by this coach)
+        const activeRoutines = await this.prisma.routines.count({
+            where: { coach_id: coachId }
+        });
+
+        // 5. Pending Assignments
+        const pendingAssignments = await this.prisma.assignments.count({
+            where: {
+                coach_id: coachId,
+                status: { in: ['pending', 'in_progress'] }
+            }
+        });
 
         return {
             activeAthletes,
             completionRate,
-            monthlyRevenue
+            monthlyRevenue,
+            activeRoutines,
+            pendingAssignments
         };
     }
 
@@ -98,8 +109,12 @@ export class DashboardService {
             }
         });
 
-        // Hardcoded goal for now - could be moved to profile later
-        const weeklyGoal = 4;
+        const profile = await this.prisma.profiles.findUnique({
+            where: { id: memberId },
+            select: { weekly_goal: true }
+        });
+
+        const weeklyGoal = profile?.weekly_goal || 3;
 
         return {
             completedWorkouts,

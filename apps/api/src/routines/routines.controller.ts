@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, UseGuards, Request, Param } from '@nestjs/common';
+import { Controller, Get, Post, Put, Body, UseGuards, Request, Param } from '@nestjs/common';
 import { RoutinesService } from './routines.service';
 import { CreateRoutineDto } from './dto/create-routine.dto';
 import { SupabaseAuthGuard } from '../auth/supabase-auth.guard';
@@ -11,6 +11,11 @@ export class RoutinesController {
     @Post()
     create(@Request() req, @Body() createRoutineDto: CreateRoutineDto) {
         return this.routinesService.create(req.user.sub, createRoutineDto);
+    }
+
+    @Put(':id')
+    update(@Param('id') id: string, @Body() updateRoutineDto: CreateRoutineDto) {
+        return this.routinesService.update(id, updateRoutineDto);
     }
 
     @Get()

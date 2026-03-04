@@ -34,8 +34,10 @@ model profiles {
   full_name     String?
   role          user_role?    @default(member)
   avatar_url    String?
-  language_pref String?       @default("es")
-  created_at    DateTime?     @default(now()) @db.Timestamptz(6)
+  language_pref   String?       @default("es")
+  weekly_goal     Int?          @default(3)
+  push_subscription Json?
+  created_at      DateTime?     @default(now()) @db.Timestamptz(6)
   
   // Relaciones Inversas
   exercises             exercises[]

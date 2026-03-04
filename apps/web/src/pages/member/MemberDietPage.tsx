@@ -2,10 +2,13 @@ import { useState, useEffect } from 'react';
 import { Card } from '../../components/ui/Card';
 import { Utensils, Coffee, Sun, Moon, Apple } from 'lucide-react';
 import api from '../../lib/api';
+import { useTranslation } from 'react-i18next';
+import { cn } from '../../lib/utils';
 
 const DAYS = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'];
 
 const MemberDietPage = () => {
+    const { t } = useTranslation();
     const [diet, setDiet] = useState<any>(null);
     const [isLoading, setIsLoading] = useState(true);
     const [activeDay, setActiveDay] = useState(new Date().toLocaleDateString('en-US', { weekday: 'long' }).toLowerCase());
@@ -34,27 +37,57 @@ const MemberDietPage = () => {
         }
     };
 
-    if (isLoading) return <div className="p-8 text-white">Loading nutrition plan...</div>;
+    if (isLoading) return <div className="p-8 text-text-main">{t('common.loading')}</div>;
 
     if (!diet) {
         return (
             <div className="flex flex-col items-center justify-center p-20 text-center animate-fade-in">
-                <Utensils size={64} className="text-gray-600 mb-6" />
-                <h2 className="text-2xl font-bold text-white mb-2">No Nutrition Plan Assigned</h2>
-                <p className="text-gray-400">Your coach hasn't assigned a diet plan yet.</p>
+                <Utensils size={64} className="text-text-muted mb-6" />
+                <h2 className="text-2xl font-bold text-text-main mb-2">{t('diet.noPlanTitle')}</h2>
+                <p className="text-text-muted">{t('diet.noPlanDesc')}</p>
             </div>
         );
     }
 
-    // Fallback to Monday if today is not in DAYS (should not happen usually)
     const currentDayKey = DAYS.includes(activeDay) ? activeDay : 'monday';
+    const targets = diet.content?.targets;
 
     return (
         <div className="space-y-8 animate-fade-in pb-20">
             <div>
-                <h1 className="text-3xl font-display font-bold text-white mb-2">My Nutrition Plan</h1>
-                <p className="text-gray-400">Fuel your body for performance.</p>
+                <h1 className="text-3xl font-display font-bold text-text-main mb-2">{diet.name || t('diet.defaultTitle')}</h1>
+                <p className="text-text-muted">{t('diet.subtitle')}</p>
             </div>
+
+            {/* Diet Targets */}
+            {targets && (targets.calories || targets.protein || targets.carbs || targets.fats) && (
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                    {targets.calories && (
+                        <Card className="p-4 bg-surface-dark border-border/10 flex flex-col items-center justify-center text-center shadow-lg">
+                            <span className="text-text-muted text-sm mb-1">{t('diet.calories') || 'Calories'}</span>
+                            <span className="text-2xl font-bold text-primary">{targets.calories}{' '}<span className="text-sm font-normal text-text-muted">kcal</span></span>
+                        </Card>
+                    )}
+                    {targets.protein && (
+                        <Card className="p-4 bg-surface-dark border-border/10 flex flex-col items-center justify-center text-center shadow-lg">
+                            <span className="text-text-muted text-sm mb-1">{t('diet.protein') || 'Protein'}</span>
+                            <span className="text-2xl font-bold text-text-main">{targets.protein}{' '}<span className="text-sm font-normal text-text-muted">g</span></span>
+                        </Card>
+                    )}
+                    {targets.carbs && (
+                        <Card className="p-4 bg-surface-dark border-border/10 flex flex-col items-center justify-center text-center shadow-lg">
+                            <span className="text-text-muted text-sm mb-1">{t('diet.carbohydrates') || 'Carbs'}</span>
+                            <span className="text-2xl font-bold text-text-main">{targets.carbs}{' '}<span className="text-sm font-normal text-text-muted">g</span></span>
+                        </Card>
+                    )}
+                    {targets.fats && (
+                        <Card className="p-4 bg-surface-dark border-border/10 flex flex-col items-center justify-center text-center shadow-lg">
+                            <span className="text-text-muted text-sm mb-1">{t('diet.fats') || 'Fats'}</span>
+                            <span className="text-2xl font-bold text-text-main">{targets.fats}{' '}<span className="text-sm font-normal text-text-muted">g</span></span>
+                        </Card>
+                    )}
+                </div>
+            )}
 
             {/* Day Selector */}
             <div className="flex overflow-x-auto gap-3 pb-4 scrollbar-thin scrollbar-thumb-primary/20">
@@ -62,12 +95,14 @@ const MemberDietPage = () => {
                     <button
                         key={day}
                         onClick={() => setActiveDay(day)}
-                        className={`px-6 py-3 rounded-full whitespace-nowrap capitalize transition-all border ${activeDay === day
-                                ? 'bg-primary text-background-dark border-primary font-bold'
-                                : 'bg-surface-dark text-gray-400 border-white/10 hover:border-white/30'
-                            }`}
+                        className={cn(
+                            "px-6 py-3 rounded-full whitespace-nowrap capitalize transition-all border",
+                            activeDay === day
+                                ? 'bg-primary text-background-dark border-primary font-bold shadow-lg shadow-primary/20'
+                                : 'bg-surface-dark text-text-muted border-border/10 hover:border-primary/30'
+                        )}
                     >
-                        {day}
+                        {t(`days.${day.toLowerCase()}`)}
                     </button>
                 ))}
             </div>
@@ -79,15 +114,17 @@ const MemberDietPage = () => {
                     if (!mealContent) return null;
 
                     return (
-                        <Card key={meal} className="p-6 bg-surface-light border-white/5 hover:border-primary/30 transition-all hover:translate-y-[-2px]">
+                        <Card key={meal} className="p-6 bg-surface-dark border-border/10 hover:border-primary/30 transition-all hover:translate-y-[-2px] shadow-lg">
                             <div className="flex items-center gap-4 mb-4">
-                                <div className={`p-3 rounded-xl bg-background-dark/50`}>
+                                <div className={`p-3 rounded-xl bg-background-dark/10`}>
                                     {getMealIcon(meal)}
                                 </div>
-                                <h3 className="text-xl font-bold text-white capitalize">{meal}</h3>
+                                <h3 className="text-xl font-bold text-text-main capitalize">
+                                    {t(`mealNames.${meal.toLowerCase()}`)}
+                                </h3>
                             </div>
                             <div className="pl-[4.5rem]">
-                                <p className="text-gray-300 leading-relaxed whitespace-pre-wrap">{mealContent}</p>
+                                <p className="text-text-muted leading-relaxed whitespace-pre-wrap">{mealContent}</p>
                             </div>
                         </Card>
                     );

@@ -61,4 +61,28 @@ export class RoutinesService {
             }
         });
     }
+
+    async update(id: string, data: CreateRoutineDto) {
+        const { items, ...routineData } = data;
+
+        // Delete existing items and recreate
+        await this.prisma.routine_items.deleteMany({
+            where: { routine_id: id },
+        });
+
+        return this.prisma.routines.update({
+            where: { id },
+            data: {
+                ...routineData,
+                items: {
+                    create: items.map((item) => ({
+                        ...item,
+                    })),
+                },
+            },
+            include: {
+                items: true,
+            },
+        });
+    }
 }

@@ -22,4 +22,30 @@ export class UsersService {
             },
         });
     }
+
+    async getMember(memberId: string) {
+        return this.prisma.profiles.findUnique({
+            where: { id: memberId },
+            select: {
+                id: true,
+                full_name: true,
+                email: true,
+                avatar_url: true,
+                role: true,
+                created_at: true,
+            },
+        });
+    }
+
+    async removeMember(memberId: string) {
+        // Delete related assignments first
+        await this.prisma.assignments.deleteMany({
+            where: { member_id: memberId },
+        });
+        // Delete profile
+        await this.prisma.profiles.delete({
+            where: { id: memberId },
+        });
+        return { success: true };
+    }
 }

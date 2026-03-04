@@ -5,6 +5,9 @@ import { Button } from '../ui/Button';
 import { Plus, Save, Trash2, Dumbbell, Loader2 } from 'lucide-react';
 import { useExercises } from '../../hooks/useExercises';
 import api from '../../lib/api';
+import { useToast } from '../../context/ToastContext';
+import { useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 
 // --- REMOVED MOCK DATA ---
 
@@ -23,14 +26,20 @@ type RoutineFormValues = {
 
 import { useRoutineDraft } from '../../hooks/useRoutineDraft';
 
-// ... (existing imports)
+interface RoutineFormProps {
+    routineId?: string;
+    initialData?: RoutineFormValues;
+}
 
-export const RoutineForm = () => {
+export const RoutineForm = ({ routineId, initialData }: RoutineFormProps) => {
+    const navigate = useNavigate();
     const { exercises, loading, error: exercisesError } = useExercises();
+    const { showToast } = useToast();
+    const { t } = useTranslation();
     const [selectedExerciseId, setSelectedExerciseId] = useState<string>('');
 
     const form = useForm<RoutineFormValues>({
-        defaultValues: {
+        defaultValues: initialData || {
             name: '',
             items: []
         }
@@ -73,17 +82,19 @@ export const RoutineForm = () => {
                 }))
             };
 
-            console.log("Saving Routine:", payload);
-            await api.post('/routines', payload);
-
-            alert("Routine saved successfully!");
-            clearDraft();
-            // Optional: Redirect to list
-            // navigate('/dashboard/routines');
+            if (routineId) {
+                await api.put(`/routines/${routineId}`, payload);
+                showToast(t('routines.form.updateSuccess'), 'success');
+            } else {
+                await api.post('/routines', payload);
+                showToast(t('routines.form.saveSuccess'), 'success');
+                clearDraft();
+            }
             form.reset();
+            navigate('/dashboard/routines/new');
         } catch (error) {
-            console.error("Failed to save routine:", error);
-            alert("Failed to save routine. Please try again.");
+            console.error('Failed to save routine:', error);
+            showToast(t('routines.form.saveError'), 'error');
         }
     };
 
@@ -94,29 +105,29 @@ export const RoutineForm = () => {
             <div className="space-y-2">
                 <input
                     {...register('name', { required: true })}
-                    placeholder="Routine Name (e.g. Hypertrophy Phase 1)"
-                    className="w-full bg-transparent text-4xl font-display font-bold text-white placeholder-white/20 focus:outline-none border-b border-white/10 focus:border-primary transition-colors pb-2"
+                    placeholder={t('routines.form.namePlaceholder')}
+                    className="w-full bg-transparent text-4xl font-display font-bold text-text-main placeholder-text-muted/50 focus:outline-none border-b border-border focus:border-primary transition-colors pb-2"
                 />
-                {errors.name && <span className="text-red-400 text-sm">Routine name is required</span>}
+                {errors.name && <span className="text-red-500 text-sm">{t('routines.form.nameRequired')}</span>}
             </div>
 
             {/* --- EXERCISE SELECTOR --- */}
-            <Card className="flex flex-col md:flex-row gap-4 items-center bg-white/5 border-dashed border-white/20">
+            <Card className="flex flex-col md:flex-row gap-4 items-center bg-background-dark/5 border-dashed border-border/50">
                 <div className="p-2 bg-primary/10 rounded-lg text-primary flex items-center justify-center">
                     {loading ? <Loader2 size={24} className="animate-spin" /> : <Dumbbell size={24} />}
                 </div>
 
                 <div className="flex-1 w-full relative">
                     {exercisesError ? (
-                        <div className="text-red-400 text-sm">Failed to load exercises. Please try again.</div>
+                        <div className="text-red-500 text-sm">{t('routines.form.loadExercisesError')}</div>
                     ) : (
                         <select
                             value={selectedExerciseId}
                             onChange={(e) => setSelectedExerciseId(e.target.value)}
                             disabled={loading}
-                            className="w-full bg-transparent text-white focus:outline-none [&>option]:bg-surface-dark p-2 border border-transparent focus:border-white/10 rounded disabled:opacity-50"
+                            className="w-full bg-transparent text-text-main focus:outline-none [&>option]:bg-surface-dark p-2 border border-transparent focus:border-border rounded disabled:opacity-50"
                         >
-                            <option value="">{loading ? 'Loading Catalog...' : 'Select an exercise to add...'}</option>
+                            <option value="">{loading ? t('routines.form.loadingCatalog') : t('routines.form.selectExercise')}</option>
                             {exercises.map(ex => (
                                 <option key={ex.id} value={ex.id}>
                                     {ex.title}
@@ -127,7 +138,7 @@ export const RoutineForm = () => {
                 </div>
 
                 <Button type="button" onClick={handleAddExercise} disabled={!selectedExerciseId || loading}>
-                    <Plus size={20} /> Add
+                    <Plus size={20} /> {t('routines.form.add')}
                 </Button>
             </Card>
 
@@ -135,43 +146,43 @@ export const RoutineForm = () => {
             <div className="space-y-4">
                 {fields.map((field, index) => (
                     <div key={field.id} className="relative group animate-slide-up">
-                        <div className="absolute -left-8 top-1/2 -translate-y-1/2 text-white/20 font-display text-4xl font-bold">
+                        <div className="absolute -left-8 top-1/2 -translate-y-1/2 text-text-muted/30 font-display text-4xl font-bold">
                             {index + 1}
                         </div>
 
-                        <Card className="bg-surface-dark/50 backdrop-blur-sm border-white/5 hover:border-primary/30 transition-colors">
+                        <Card className="bg-surface-dark/50 backdrop-blur-sm border-border hover:border-primary/30 transition-colors">
                             <div className="flex flex-col md:flex-row gap-6 items-start md:items-center">
 
                                 {/* Exercise Info */}
                                 <div className="flex-1">
-                                    <h4 className="text-lg font-bold text-white">{field.name}</h4>
+                                    <h4 className="text-lg font-bold text-text-main">{field.name}</h4>
                                     {/* We can fetch muscle target if needed, slightly complex with current structure, skipping for MVP display optimization */}
                                 </div>
 
                                 {/* Sets/Reps Inputs */}
                                 <div className="grid grid-cols-3 gap-4">
                                     <div className="space-y-1">
-                                        <label className="text-xs text-gray-500 uppercase tracking-wider">Sets</label>
+                                        <label className="text-xs text-text-muted uppercase tracking-wider">{t('routines.form.sets')}</label>
                                         <input
                                             type="number"
                                             {...register(`items.${index}.sets` as const, { valueAsNumber: true })}
-                                            className="w-20 bg-white/5 border border-white/10 rounded px-2 py-1 text-white text-center focus:border-primary focus:outline-none"
+                                            className="w-20 bg-background-dark/5 border border-border rounded px-2 py-1 text-text-main text-center focus:border-primary focus:outline-none"
                                         />
                                     </div>
                                     <div className="space-y-1">
-                                        <label className="text-xs text-gray-500 uppercase tracking-wider">Reps</label>
+                                        <label className="text-xs text-text-muted uppercase tracking-wider">{t('routines.form.reps')}</label>
                                         <input
                                             type="text"
                                             {...register(`items.${index}.reps` as const)}
-                                            className="w-20 bg-white/5 border border-white/10 rounded px-2 py-1 text-white text-center focus:border-primary focus:outline-none"
+                                            className="w-20 bg-background-dark/5 border border-border rounded px-2 py-1 text-text-main text-center focus:border-primary focus:outline-none"
                                         />
                                     </div>
                                     <div className="space-y-1">
-                                        <label className="text-xs text-gray-500 uppercase tracking-wider">Rest (s)</label>
+                                        <label className="text-xs text-text-muted uppercase tracking-wider">{t('routines.form.rest')}</label>
                                         <input
                                             type="number"
                                             {...register(`items.${index}.rest_seconds` as const, { valueAsNumber: true })}
-                                            className="w-20 bg-white/5 border border-white/10 rounded px-2 py-1 text-white text-center focus:border-primary focus:outline-none"
+                                            className="w-20 bg-background-dark/5 border border-border rounded px-2 py-1 text-text-main text-center focus:border-primary focus:outline-none"
                                         />
                                     </div>
                                 </div>
@@ -180,7 +191,7 @@ export const RoutineForm = () => {
                                 <button
                                     type="button"
                                     onClick={() => remove(index)}
-                                    className="text-gray-500 hover:text-red-400 transition-colors p-2"
+                                    className="text-text-muted hover:text-red-500 transition-colors p-2"
                                 >
                                     <Trash2 size={20} />
                                 </button>
@@ -190,16 +201,16 @@ export const RoutineForm = () => {
                 ))}
 
                 {fields.length === 0 && (
-                    <div className="text-center py-12 text-gray-500 border-2 border-dashed border-white/10 rounded-xl">
-                        No exercises added yet. Start building your strategy above.
+                    <div className="text-center py-12 text-text-muted border-2 border-dashed border-border rounded-xl">
+                        {t('routines.form.emptyMessage')}
                     </div>
                 )}
             </div>
 
             {/* --- ACTIONS --- */}
-            <div className="flex justify-end pt-8 border-t border-white/10">
+            <div className="flex justify-end pt-8 border-t border-border">
                 <Button type="submit" className="px-8 py-3 text-lg shadow-[0_0_20px_rgba(212,175,55,0.3)]">
-                    <Save size={20} /> Save Strategy
+                    <Save size={20} /> {routineId ? t('routines.form.updateBtn') : t('routines.form.saveBtn')}
                 </Button>
             </div>
         </form>

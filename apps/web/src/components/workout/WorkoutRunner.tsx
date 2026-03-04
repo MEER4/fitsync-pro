@@ -1,7 +1,7 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { Card } from '../ui/Card';
 import { Button } from '../ui/Button';
-import { Play, CheckCircle2, Timer, ChevronLeft, ChevronRight, Trophy } from 'lucide-react';
+import { Play, CheckCircle2, Timer, ChevronLeft, ChevronRight, Trophy, SkipForward } from 'lucide-react';
 import clsx from 'clsx';
 import { useNavigate } from 'react-router-dom';
 
@@ -43,6 +43,16 @@ export const WorkoutRunner = ({ workout, onComplete }: WorkoutRunnerProps) => {
     const [isTimerRunning, setIsTimerRunning] = useState(false);
     const [isPlayingVideo, setIsPlayingVideo] = useState(false);
 
+    // Rest countdown timer
+    const [restCountdown, setRestCountdown] = useState(0);
+    const [restTotal, setRestTotal] = useState(0);
+    const [isResting, setIsResting] = useState(false);
+
+    const skipRest = useCallback(() => {
+        setIsResting(false);
+        setRestCountdown(0);
+    }, []);
+
     useEffect(() => {
         setWorkoutData(workout);
     }, [workout]);
@@ -63,7 +73,7 @@ export const WorkoutRunner = ({ workout, onComplete }: WorkoutRunnerProps) => {
 
     const videoId = currentExercise?.video_url ? getYoutubeId(currentExercise.video_url) : null;
 
-    // Timer Logic
+    // Timer Logic (count up)
     useEffect(() => {
         let interval: any;
         if (isTimerRunning) {
@@ -73,6 +83,23 @@ export const WorkoutRunner = ({ workout, onComplete }: WorkoutRunnerProps) => {
         }
         return () => clearInterval(interval);
     }, [isTimerRunning]);
+
+    // Rest countdown logic
+    useEffect(() => {
+        let interval: any;
+        if (isResting && restCountdown > 0) {
+            interval = setInterval(() => {
+                setRestCountdown(s => {
+                    if (s <= 1) {
+                        setIsResting(false);
+                        return 0;
+                    }
+                    return s - 1;
+                });
+            }, 1000);
+        }
+        return () => clearInterval(interval);
+    }, [isResting, restCountdown]);
 
     const formatTime = (secs: number) => {
         const mins = Math.floor(secs / 60);
@@ -86,10 +113,17 @@ export const WorkoutRunner = ({ workout, onComplete }: WorkoutRunnerProps) => {
         set.completed = !set.completed;
         setWorkoutData({ ...workoutData, exercises: newExercises });
 
-        // Auto-start timer on completion if not last set
+        // Auto-start rest countdown on completion if not last set
         if (set.completed) {
             setTimerSeconds(0);
             setIsTimerRunning(true);
+            const isLastSet = setIndex === newExercises[exerciseIndex].sets.length - 1;
+            if (!isLastSet) {
+                const restTime = set.rest_seconds || 60;
+                setRestTotal(restTime);
+                setRestCountdown(restTime);
+                setIsResting(true);
+            }
         }
     };
 
@@ -252,6 +286,37 @@ export const WorkoutRunner = ({ workout, onComplete }: WorkoutRunnerProps) => {
                     </div>
                 </Card>
             </div>
+
+            {/* --- REST COUNTDOWN OVERLAY --- */}
+            {isResting && (
+                <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm animate-fade-in">
+                    <div className="flex flex-col items-center gap-8">
+                        <p className="text-primary text-sm font-bold uppercase tracking-[0.3em]">Rest Time</p>
+                        <div className="relative w-48 h-48 flex items-center justify-center">
+                            {/* Progress Ring */}
+                            <svg className="absolute inset-0 w-full h-full -rotate-90" viewBox="0 0 100 100">
+                                <circle cx="50" cy="50" r="45" fill="none" stroke="rgba(255,255,255,0.05)" strokeWidth="4" />
+                                <circle
+                                    cx="50" cy="50" r="45"
+                                    fill="none" stroke="#d4af37" strokeWidth="4" strokeLinecap="round"
+                                    strokeDasharray={`${2 * Math.PI * 45}`}
+                                    strokeDashoffset={`${2 * Math.PI * 45 * (1 - restCountdown / restTotal)}`}
+                                    className="transition-all duration-1000 ease-linear"
+                                />
+                            </svg>
+                            <span className="text-6xl font-display font-bold text-white">{restCountdown}</span>
+                        </div>
+                        <p className="text-gray-400 text-sm">seconds remaining</p>
+                        <button
+                            onClick={skipRest}
+                            className="flex items-center gap-2 px-6 py-3 rounded-full border border-white/20 text-gray-300 hover:bg-white/10 hover:text-white transition-all"
+                        >
+                            <SkipForward size={16} />
+                            Skip Rest
+                        </button>
+                    </div>
+                </div>
+            )}
 
             {/* --- NAVIGATION FOOTER --- */}
             <div className="fixed bottom-0 left-0 right-0 p-4 bg-background-dark/90 backdrop-blur-xl border-t border-white/10 flex gap-4">

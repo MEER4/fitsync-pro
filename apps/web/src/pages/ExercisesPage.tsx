@@ -1,27 +1,31 @@
 import { useState } from 'react';
-import { useExercises } from '../hooks/useExercises'; // Assuming this hook exists from previous tasks
+import { useExercises } from '../hooks/useExercises';
 import { Card } from '../components/ui/Card';
 import { Button } from '../components/ui/Button';
 import { Plus, Trash2, Video, Search } from 'lucide-react';
 import { ExerciseForm } from '../components/exercises/ExerciseForm';
 import api from '../lib/api';
+import { useToast } from '../context/ToastContext';
+import { useTranslation } from 'react-i18next';
 
 const ExercisesPage = () => {
     const { exercises, loading, refetch } = useExercises();
+    const { showToast } = useToast();
+    const { t } = useTranslation();
     const [isCreating, setIsCreating] = useState(false);
     const [editingExercise, setEditingExercise] = useState<any>(null); // Replace 'any' with appropriate type later
     const [searchTerm, setSearchTerm] = useState('');
     const [isSubmitting, setIsSubmitting] = useState(false);
 
     const handleDelete = async (id: string) => {
-        if (!confirm('Are you sure you want to delete this exercise?')) return;
+        if (!confirm(t('exercises.deleteConfirm'))) return;
 
         try {
             await api.delete(`/exercises/${id}`);
             refetch();
         } catch (e) {
             console.error('Failed to delete exercise', e);
-            alert('Failed to delete exercise');
+            showToast(t('exercises.deleteError'), 'error');
         }
     };
 
@@ -43,7 +47,7 @@ const ExercisesPage = () => {
             setEditingExercise(null);
         } catch (error) {
             console.error('Failed to save exercise', error);
-            alert('Failed to save exercise. Please try again.');
+            showToast(t('exercises.saveError'), 'error');
         } finally {
             setIsSubmitting(false);
         }
@@ -62,12 +66,12 @@ const ExercisesPage = () => {
         <div className="space-y-8 animate-fade-in">
             <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
                 <div>
-                    <h1 className="text-3xl font-display font-bold text-white mb-2">Exercise Library</h1>
-                    <p className="text-gray-400">Manage your collection of movements.</p>
+                    <h1 className="text-3xl font-display font-bold text-text-main mb-2">{t('exercises.title')}</h1>
+                    <p className="text-text-muted">{t('exercises.subtitle')}</p>
                 </div>
                 {!isCreating && (
                     <Button onClick={() => setIsCreating(true)}>
-                        <Plus size={20} /> Create New
+                        <Plus size={20} /> {t('exercises.createBtn')}
                     </Button>
                 )}
             </div>
@@ -90,13 +94,13 @@ const ExercisesPage = () => {
                 <div className="space-y-6">
                     {/* Search Bar */}
                     <div className="relative">
-                        <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={20} />
+                        <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-text-muted" size={20} />
                         <input
                             type="text"
-                            placeholder="Search exercises..."
+                            placeholder={t('exercises.searchPlaceholder')}
                             value={searchTerm}
                             onChange={(e) => setSearchTerm(e.target.value)}
-                            className="w-full bg-surface-dark border border-white/5 rounded-lg pl-10 pr-4 py-3 text-white focus:border-primary focus:outline-none"
+                            className="w-full bg-surface-dark border border-border/10 rounded-lg pl-10 pr-4 py-3 text-text-main focus:border-primary focus:outline-none"
                         />
                     </div>
 
@@ -124,22 +128,22 @@ const ExercisesPage = () => {
                                     <div className="flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
                                         <button
                                             onClick={() => startEditing(ex)}
-                                            className="text-gray-500 hover:text-primary transition-colors"
-                                            title="Edit Exercise"
+                                            className="text-text-muted hover:text-primary transition-colors"
+                                            title={t('exercises.editTooltip')}
                                         >
                                             <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-pencil"><path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z" /><path d="m15 5 4 4" /></svg>
                                         </button>
                                         <button
                                             onClick={() => handleDelete(ex.id)}
-                                            className="text-gray-500 hover:text-red-400 transition-colors"
-                                            title="Delete Exercise"
+                                            className="text-text-muted hover:text-red-500 transition-colors"
+                                            title={t('exercises.deleteTooltip')}
                                         >
                                             <Trash2 size={18} />
                                         </button>
                                     </div>
                                 </div>
-                                <h3 className="font-bold text-white text-lg mb-1">{ex.title}</h3>
-                                <p className="text-gray-400 text-sm line-clamp-2 mb-4">{ex.description || 'No description provided.'}</p>
+                                <h3 className="font-bold text-text-main text-lg mb-1">{ex.title}</h3>
+                                <p className="text-text-muted text-sm line-clamp-2 mb-4">{ex.description || t('exercises.noDescription')}</p>
 
                                 {ex.video_url && (
                                     <a
@@ -148,7 +152,7 @@ const ExercisesPage = () => {
                                         rel="noopener noreferrer"
                                         className="text-primary text-sm hover:underline flex items-center gap-1"
                                     >
-                                        Watch Video ↗
+                                        {t('exercises.watchVideo')}
                                     </a>
                                 )}
                             </Card>
@@ -156,8 +160,8 @@ const ExercisesPage = () => {
                     </div>
 
                     {filteredExercises.length === 0 && !loading && (
-                        <div className="text-center py-12 text-gray-500">
-                            No exercises found.
+                        <div className="text-center py-12 text-text-muted">
+                            {t('exercises.notFound')}
                         </div>
                     )}
                 </div>

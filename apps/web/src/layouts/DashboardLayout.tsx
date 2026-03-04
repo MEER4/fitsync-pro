@@ -7,7 +7,7 @@ const DashboardLayout = () => {
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
     return (
-        <div className="flex h-screen bg-background-dark text-white overflow-hidden font-body relative">
+        <div className="flex h-screen bg-background-dark text-text-main overflow-hidden font-body relative transition-colors duration-300">
 
             {/* Mobile Sidebar Overlay */}
             {isSidebarOpen && (
@@ -21,18 +21,18 @@ const DashboardLayout = () => {
 
             <main className="flex-1 overflow-auto bg-background-dark relative flex flex-col">
                 {/* Mobile Header */}
-                <div className="md:hidden p-4 flex items-center border-b border-white/5 bg-surface-dark sticky top-0 z-30">
+                <div className="md:hidden p-4 flex items-center border-b border-border/10 bg-surface-dark sticky top-0 z-30 transition-colors duration-300">
                     <button
                         onClick={() => setIsSidebarOpen(true)}
-                        className="p-2 text-gray-400 hover:text-white"
+                        className="p-2 text-text-muted hover:text-text-main transition-colors"
                     >
                         <Menu size={24} />
                     </button>
-                    <span className="ml-4 text-lg font-bold font-display">FitSync</span>
+                    <span className="ml-4 text-lg font-bold font-display text-text-main">FitSync</span>
                 </div>
 
-                {/* Ambient background effect */}
-                <div className="absolute inset-0 bg-nebula-gradient pointer-events-none opacity-50" />
+                {/* Ambient background effect - lowered opacity for light mode if needed */}
+                <div className="absolute inset-0 bg-nebula-gradient pointer-events-none opacity-[0.4] dark:opacity-50" />
 
                 <div className="relative z-10 p-4 md:p-8 max-w-7xl mx-auto w-full">
                     <Outlet />

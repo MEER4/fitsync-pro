@@ -13,6 +13,11 @@ export class AssignmentsController {
         return this.assignmentsService.getMemberAssignments(userId);
     }
 
+    @Get('member/:memberId')
+    async getAssignmentsByMember(@Param('memberId') memberId: string) {
+        return this.assignmentsService.getAssignmentsByMember(memberId);
+    }
+
     @Patch(':id/complete')
     async completeAssignment(
         @Param('id') id: string,

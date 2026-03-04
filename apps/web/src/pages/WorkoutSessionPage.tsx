@@ -2,12 +2,14 @@ import { WorkoutRunner, type RunnerRoutine } from '../components/workout/Workout
 import { useSearchParams, useNavigate, useParams } from 'react-router-dom';
 import api from '../lib/api';
 import { useEffect, useState } from 'react';
+import { useToast } from '../context/ToastContext';
 
 const WorkoutSessionPage = () => {
     const { routineId } = useParams(); // Get routine ID from URL path
     const [searchParams] = useSearchParams();
     const assignmentId = searchParams.get('assignmentId');
     const navigate = useNavigate();
+    const { showToast } = useToast();
     const [workout, setWorkout] = useState<RunnerRoutine | null>(null);
     const [isLoading, setIsLoading] = useState(true);
 
@@ -39,7 +41,7 @@ const WorkoutSessionPage = () => {
                 setWorkout(formattedWorkout);
             } catch (error) {
                 console.error("Failed to load workout", error);
-                alert("Failed to load workout details.");
+                showToast('Failed to load workout details.', 'error');
                 navigate('/dashboard/member');
             } finally {
                 setIsLoading(false);
@@ -56,7 +58,7 @@ const WorkoutSessionPage = () => {
                 navigate('/dashboard/member');
             } catch (error) {
                 console.error('Failed to complete assignment:', error);
-                alert('Failed to save progress. Please try again.');
+                showToast('Failed to save progress. Please try again.', 'error');
             }
         } else {
             navigate('/dashboard/member');
