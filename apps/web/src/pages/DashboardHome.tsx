@@ -42,8 +42,8 @@ const DashboardHome = () => {
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                 {/* Active Athletes Card */}
                 <div className="relative group overflow-hidden rounded-2xl bg-surface-light border border-white/5 min-h-[160px] p-6 flex flex-col justify-between transition-all hover:border-primary/50">
-                    <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1534438327276-14e5300c3a48?q=80&w=1470&auto=format&fit=crop')] bg-cover bg-center opacity-10 group-hover:opacity-20 transition-all duration-700 transform group-hover:scale-105" />
-                    <div className="absolute inset-0 bg-gradient-to-br from-black/80 via-black/50 to-transparent" />
+                    <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1534438327276-14e5300c3a48?q=80&w=1470&auto=format&fit=crop')] bg-cover bg-center opacity-30 group-hover:opacity-40 transition-all duration-700 transform group-hover:scale-105" />
+                    <div className="absolute inset-0 bg-gradient-to-br from-black/50 via-black/30 to-transparent" />
 
                     <div className="relative z-10">
                         <div className="flex items-center gap-3 mb-2 text-primary">
@@ -61,8 +61,8 @@ const DashboardHome = () => {
 
                 {/* Monthly Revenue Card */}
                 <div className="relative group overflow-hidden rounded-2xl bg-surface-light border border-white/5 min-h-[160px] p-6 flex flex-col justify-between transition-all hover:border-green-500/50">
-                    <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?q=80&w=1470&auto=format&fit=crop')] bg-cover bg-center opacity-10 group-hover:opacity-20 transition-all duration-700 transform group-hover:scale-105" />
-                    <div className="absolute inset-0 bg-gradient-to-br from-black/80 via-black/50 to-transparent" />
+                    <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?q=80&w=1470&auto=format&fit=crop')] bg-cover bg-center opacity-30 group-hover:opacity-40 transition-all duration-700 transform group-hover:scale-105" />
+                    <div className="absolute inset-0 bg-gradient-to-br from-black/50 via-black/30 to-transparent" />
 
                     <div className="relative z-10">
                         <div className="flex items-center gap-3 mb-2 text-green-500">
@@ -81,8 +81,8 @@ const DashboardHome = () => {
 
                 {/* Completion Rate Card */}
                 <div className="relative group overflow-hidden rounded-2xl bg-surface-light border border-white/5 min-h-[160px] p-6 flex flex-col justify-between transition-all hover:border-purple-500/50">
-                    <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1576678927484-cc907957088c?q=80&w=1470&auto=format&fit=crop')] bg-cover bg-center opacity-10 group-hover:opacity-20 transition-all duration-700 transform group-hover:scale-105" />
-                    <div className="absolute inset-0 bg-gradient-to-br from-black/80 via-black/50 to-transparent" />
+                    <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1576678927484-cc907957088c?q=80&w=1470&auto=format&fit=crop')] bg-cover bg-center opacity-30 group-hover:opacity-40 transition-all duration-700 transform group-hover:scale-105" />
+                    <div className="absolute inset-0 bg-gradient-to-br from-black/50 via-black/30 to-transparent" />
 
                     <div className="relative z-10">
                         <div className="flex items-center gap-3 mb-2 text-purple-500">
