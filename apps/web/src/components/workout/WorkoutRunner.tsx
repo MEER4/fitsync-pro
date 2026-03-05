@@ -1,4 +1,5 @@
 import { useState, useEffect, useCallback } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Card } from '../ui/Card';
 import { Button } from '../ui/Button';
 import { Play, CheckCircle2, Timer, ChevronLeft, ChevronRight, Trophy, SkipForward } from 'lucide-react';
@@ -36,6 +37,7 @@ interface WorkoutRunnerProps {
 
 export const WorkoutRunner = ({ workout, onComplete }: WorkoutRunnerProps) => {
     const navigate = useNavigate();
+    const { t } = useTranslation();
     const [currentExerciseIndex, setCurrentExerciseIndex] = useState(0);
     const [workoutData, setWorkoutData] = useState<RunnerRoutine>(workout);
     const [isCompleted, setIsCompleted] = useState(false);
@@ -165,12 +167,12 @@ export const WorkoutRunner = ({ workout, onComplete }: WorkoutRunnerProps) => {
                 <div className="mb-8 p-6 bg-primary/10 rounded-full text-primary shadow-[0_0_50px_rgba(212,175,55,0.4)]">
                     <Trophy size={64} />
                 </div>
-                <h1 className="text-4xl font-display font-bold text-white mb-4">Workout Destroyed!</h1>
+                <h1 className="text-4xl font-display font-bold text-white mb-4">{t('workout.destroyed')}</h1>
                 <p className="text-gray-400 mb-8 max-w-xs mx-auto">
-                    You've crushed <strong>{workoutData.name}</strong>. Great work, athlete.
+                    {t('workout.crushedMessage', { name: workoutData.name })}
                 </p>
                 <Button variant="primary" onClick={handleFinish} className="w-full max-w-sm py-4 text-lg">
-                    Back to Dashboard
+                    {t('workout.backToDashboard')}
                 </Button>
             </div>
         );
@@ -183,7 +185,7 @@ export const WorkoutRunner = ({ workout, onComplete }: WorkoutRunnerProps) => {
                 <div className="flex justify-between items-end">
                     <div>
                         <p className="text-xs text-primary font-bold tracking-widest uppercase mb-1">
-                            Exercise {currentExerciseIndex + 1} of {workoutData.exercises.length}
+                            {t('workout.exerciseOf', { current: currentExerciseIndex + 1, total: workoutData.exercises.length })}
                         </p>
                         <h2 className="text-2xl font-display font-bold text-white leading-none">
                             {currentExercise.title}
@@ -235,9 +237,9 @@ export const WorkoutRunner = ({ workout, onComplete }: WorkoutRunnerProps) => {
                 {/* --- SET CONTROLS --- */}
                 <Card className="space-y-4">
                     <div className="grid grid-cols-[1fr_2fr_1fr] gap-2 md:gap-4 mb-2 text-xs text-gray-400 font-bold uppercase tracking-wider text-center">
-                        <div className="text-left pl-2">Set</div>
-                        <div>Previous</div>
-                        <div>Done</div>
+                        <div className="text-left pl-2">{t('workout.set')}</div>
+                        <div>{t('workout.previous')}</div>
+                        <div>{t('workout.done')}</div>
                     </div>
 
                     <div className="space-y-3">
@@ -291,7 +293,7 @@ export const WorkoutRunner = ({ workout, onComplete }: WorkoutRunnerProps) => {
             {isResting && (
                 <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm animate-fade-in">
                     <div className="flex flex-col items-center gap-8">
-                        <p className="text-primary text-sm font-bold uppercase tracking-[0.3em]">Rest Time</p>
+                        <p className="text-primary text-sm font-bold uppercase tracking-[0.3em]">{t('workout.restTime')}</p>
                         <div className="relative w-48 h-48 flex items-center justify-center">
                             {/* Progress Ring */}
                             <svg className="absolute inset-0 w-full h-full -rotate-90" viewBox="0 0 100 100">
@@ -306,13 +308,13 @@ export const WorkoutRunner = ({ workout, onComplete }: WorkoutRunnerProps) => {
                             </svg>
                             <span className="text-6xl font-display font-bold text-white">{restCountdown}</span>
                         </div>
-                        <p className="text-gray-400 text-sm">seconds remaining</p>
+                        <p className="text-gray-400 text-sm">{t('workout.secondsRemaining')}</p>
                         <button
                             onClick={skipRest}
                             className="flex items-center gap-2 px-6 py-3 rounded-full border border-white/20 text-gray-300 hover:bg-white/10 hover:text-white transition-all"
                         >
                             <SkipForward size={16} />
-                            Skip Rest
+                            {t('workout.skipRest')}
                         </button>
                     </div>
                 </div>
@@ -334,7 +336,7 @@ export const WorkoutRunner = ({ workout, onComplete }: WorkoutRunnerProps) => {
                     onClick={handleNext}
                     className="flex-[3] py-4 text-lg font-bold shadow-[0_0_20px_rgba(212,175,55,0.2)]"
                 >
-                    {currentExerciseIndex === workoutData.exercises.length - 1 ? "Finish Workout" : "Next Exercise"}
+                    {currentExerciseIndex === workoutData.exercises.length - 1 ? t('workout.finishWorkout') : t('workout.nextExercise')}
                     {currentExerciseIndex < workoutData.exercises.length - 1 && <ChevronRight size={20} />}
                 </Button>
             </div>

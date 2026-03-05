@@ -28,10 +28,34 @@ const LandingPage = () => {
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         setIsSubmitting(true);
-        // Simulate submission — replace with real API call later
-        await new Promise(r => setTimeout(r, 1500));
-        setIsSubmitting(false);
-        setSubmitted(true);
+        try {
+            const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:3000';
+            await fetch(`${apiUrl}/leads`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    full_name: formData.fullName,
+                    email: formData.email,
+                    phone: formData.phone,
+                    age: formData.age,
+                    weight: formData.weight,
+                    height: formData.height,
+                    gender: formData.gender,
+                    goal: formData.goal,
+                    plan: formData.plan,
+                    experience_level: formData.experienceLevel,
+                    availability: formData.availability,
+                    medical_conditions: formData.medicalConditions,
+                    contact_preference: formData.contactPreference,
+                }),
+            });
+            setSubmitted(true);
+        } catch (error) {
+            console.error('Failed to submit form', error);
+            alert('Error al enviar el formulario. Por favor, intenta de nuevo.');
+        } finally {
+            setIsSubmitting(false);
+        }
     };
 
     return (
@@ -47,7 +71,7 @@ const LandingPage = () => {
                         <a href="#inicio" className="text-sm font-medium text-gray-300 hover:text-primary transition-colors">Inicio</a>
                         <a href="#servicios" className="text-sm font-medium text-gray-300 hover:text-primary transition-colors">Servicios</a>
                         <a href="#programas" className="text-sm font-medium text-gray-300 hover:text-primary transition-colors">Programas</a>
-                        <a href="#sobre-mi" className="text-sm font-medium text-gray-300 hover:text-primary transition-colors">Sobre Mí</a>
+                        <a href="#testimonios" className="text-sm font-medium text-gray-300 hover:text-primary transition-colors">Sobre Mí</a>
                     </div>
                     <div className="flex items-center gap-3">
                         <Link

@@ -88,7 +88,6 @@ const SettingsPage = () => {
                 .update({
                     full_name: fullName,
                     language_pref: language,
-                    ...(profile?.role === 'member' ? { weekly_goal: weeklyGoal } : {})
                 })
                 .eq('id', user?.id);
 

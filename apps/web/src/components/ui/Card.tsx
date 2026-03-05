@@ -10,7 +10,7 @@ export const Card = ({ children, className, ...props }: CardProps) => {
     return (
         <div
             className={twMerge(clsx(
-                "bg-surface-dark border border-white/10 rounded-xl p-6 shadow-xl backdrop-blur-md",
+                "bg-surface-dark border border-border/10 rounded-xl p-6 shadow-xl backdrop-blur-md",
                 className
             ))}
             {...props}

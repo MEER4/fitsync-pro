@@ -1,10 +1,12 @@
 import { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Card } from '../ui/Card';
 import { Badge } from '../ui/Badge';
 import { Button } from '../ui/Button';
 import { MoreHorizontal } from 'lucide-react';
 import api from '../../lib/api';
 import { formatDistanceToNow } from 'date-fns';
+import { es, enUS } from 'date-fns/locale';
 
 interface Activity {
     id: string;
@@ -16,8 +18,11 @@ interface Activity {
 }
 
 export const ClientsTable = () => {
+    const { t, i18n } = useTranslation();
     const [activities, setActivities] = useState<Activity[]>([]);
     const [isLoading, setIsLoading] = useState(true);
+
+    const dateLocale = i18n.language === 'es' ? es : enUS;
 
     useEffect(() => {
         const fetchActivity = async () => {
@@ -33,29 +38,38 @@ export const ClientsTable = () => {
         fetchActivity();
     }, []);
 
+    const getStatusLabel = (status: string) => {
+        const statusMap: Record<string, string> = {
+            'completed': t('dashboard.statusCompleted'),
+            'in_progress': t('dashboard.statusInProgress'),
+            'pending': t('dashboard.statusPending'),
+        };
+        return statusMap[status] || status.replace('_', ' ');
+    };
+
     return (
         <Card className="p-0 overflow-hidden">
             <div className="p-6 border-b border-white/10">
-                <h3 className="font-display text-xl font-bold">Recent Activity</h3>
+                <h3 className="font-display text-xl font-bold">{t('dashboard.recentActivity')}</h3>
             </div>
             <div className="overflow-x-auto">
                 <table className="w-full text-left text-sm text-gray-400">
                     <thead className="bg-white/5 text-white font-display">
                         <tr>
-                            <th className="px-6 py-4">Athlete</th>
-                            <th className="px-6 py-4">Status</th>
-                            <th className="px-6 py-4">Routine</th>
-                            <th className="px-6 py-4">Action</th>
+                            <th className="px-6 py-4">{t('dashboard.athlete')}</th>
+                            <th className="px-6 py-4">{t('dashboard.status')}</th>
+                            <th className="px-6 py-4">{t('dashboard.routine')}</th>
+                            <th className="px-6 py-4">{t('dashboard.action')}</th>
                         </tr>
                     </thead>
                     <tbody className="divide-y divide-white/5">
                         {isLoading ? (
                             <tr>
-                                <td colSpan={4} className="px-6 py-8 text-center text-gray-500">Loading activity...</td>
+                                <td colSpan={4} className="px-6 py-8 text-center text-gray-500">{t('dashboard.loadingActivity')}</td>
                             </tr>
                         ) : activities.length === 0 ? (
                             <tr>
-                                <td colSpan={4} className="px-6 py-8 text-center text-gray-500">No recent activity.</td>
+                                <td colSpan={4} className="px-6 py-8 text-center text-gray-500">{t('dashboard.noActivity')}</td>
                             </tr>
                         ) : (
                             activities.map((activity) => (
@@ -75,13 +89,13 @@ export const ClientsTable = () => {
                                             activity.status === 'completed' ? 'gold' :
                                                 activity.status === 'in_progress' ? 'blue' : 'gray'
                                         }>
-                                            {activity.status.replace('_', ' ')}
+                                            {getStatusLabel(activity.status)}
                                         </Badge>
                                     </td>
                                     <td className="px-6 py-4">
                                         <div className="flex flex-col">
                                             <span className="text-white">{activity.routineName}</span>
-                                            <span className="text-xs text-gray-500">{formatDistanceToNow(new Date(activity.date), { addSuffix: true })}</span>
+                                            <span className="text-xs text-gray-500">{formatDistanceToNow(new Date(activity.date), { addSuffix: true, locale: dateLocale })}</span>
                                         </div>
                                     </td>
                                     <td className="px-6 py-4">

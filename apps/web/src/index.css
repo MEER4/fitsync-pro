@@ -32,18 +32,18 @@
         --color-primary: 212 175 55;
         /* Keep Gold */
         --color-secondary: 226 180 189;
-        --color-background-dark: 248 250 252;
-        /* slate-50 - softer background */
+        --color-background-dark: 241 245 249;
+        /* slate-100 - more contrast against white cards */
         --color-surface-dark: 255 255 255;
-        /* white */
-        --color-surface-light: 241 245 249;
-        /* slate-100 */
+        /* white for cards */
+        --color-surface-light: 226 232 240;
+        /* slate-200 */
         --color-text-main: 15 23 42;
         /* slate-900 - deep text color */
         --color-text-muted: 100 116 138;
         /* slate-500 */
-        --color-border: 226 232 240;
-        /* slate-200 */
+        --color-border: 0 0 0;
+        /* Black - when used at 10% opacity, creates perfect light gray borders */
     }
 
     body {

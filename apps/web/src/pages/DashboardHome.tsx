@@ -1,6 +1,7 @@
 // import { StatCard } from '../components/dashboard/StatCard'; // Removed as we use custom styled cards now
 import { ClientsTable } from '../components/dashboard/ClientsTable';
 import { Users, Activity, TrendingUp, Dumbbell, ClipboardList } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -11,6 +12,7 @@ import { useAuth } from '../context/AuthContext';
 const DashboardHome = () => {
     const { t } = useTranslation();
     const { profile } = useAuth();
+    const navigate = useNavigate();
     const [stats, setStats] = useState({
         activeAthletes: 0,
         completionRate: 0,
@@ -113,45 +115,43 @@ const DashboardHome = () => {
             {/* Secondary Stats */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 {/* Active Routines Card */}
-                <div className="relative group overflow-hidden rounded-2xl bg-surface-dark border border-border/10 p-6 transition-all hover:border-blue-500/50 shadow-lg">
-                    <div className="absolute inset-0 bg-gradient-to-br from-blue-500/5 to-transparent" />
-                    <div className="relative z-10 flex items-center justify-between">
-                        <div>
-                            <div className="flex items-center gap-3 mb-2 text-blue-500">
-                                <Dumbbell size={22} />
-                                <span className="text-xs font-bold tracking-wider uppercase">{t('dashboard.activeRoutines')}</span>
-                            </div>
-                            <div className="flex items-baseline gap-2">
-                                <h3 className="text-4xl font-display font-bold text-text-main">
-                                    {isLoading ? "..." : stats.activeRoutines}
-                                </h3>
-                                <span className="text-text-muted text-sm">{t('dashboard.created')}</span>
-                            </div>
+                <div
+                    onClick={() => navigate('/dashboard/routines/new')}
+                    className="relative group overflow-hidden rounded-2xl bg-surface-dark border border-border/10 min-h-[160px] p-6 flex flex-col justify-between transition-all hover:border-blue-500/50 shadow-xl cursor-pointer"
+                >
+                    <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1517963879433-6ad2b056d712?q=80&w=1470&auto=format&fit=crop')] bg-cover bg-center opacity-30 group-hover:opacity-40 transition-all duration-700 transform group-hover:scale-105" />
+                    <div className="absolute inset-0 bg-gradient-to-br from-background-dark/90 via-background-dark/60 to-transparent" />
+                    <div className="relative z-10">
+                        <div className="flex items-center gap-3 mb-2 text-blue-500">
+                            <Dumbbell className="animate-pulse" size={24} />
+                            <span className="text-xs font-bold tracking-wider uppercase">{t('dashboard.activeRoutines')}</span>
                         </div>
-                        <div className="p-4 bg-blue-500/10 rounded-xl">
-                            <Dumbbell size={32} className="text-blue-500" />
+                        <div className="flex items-baseline gap-2">
+                            <h3 className="text-4xl font-display font-bold text-text-main">
+                                {isLoading ? "..." : stats.activeRoutines}
+                            </h3>
+                            <span className="text-text-muted text-sm">{t('dashboard.created')}</span>
                         </div>
                     </div>
                 </div>
 
                 {/* Pending Assignments Card */}
-                <div className="relative group overflow-hidden rounded-2xl bg-surface-dark border border-border/10 p-6 transition-all hover:border-orange-500/50 shadow-lg">
-                    <div className="absolute inset-0 bg-gradient-to-br from-orange-500/5 to-transparent" />
-                    <div className="relative z-10 flex items-center justify-between">
-                        <div>
-                            <div className="flex items-center gap-3 mb-2 text-orange-500">
-                                <ClipboardList size={22} />
-                                <span className="text-xs font-bold tracking-wider uppercase">{t('dashboard.pendingAssignments')}</span>
-                            </div>
-                            <div className="flex items-baseline gap-2">
-                                <h3 className="text-4xl font-display font-bold text-text-main">
-                                    {isLoading ? "..." : stats.pendingAssignments}
-                                </h3>
-                                <span className="text-text-muted text-sm">{t('dashboard.awaiting')}</span>
-                            </div>
+                <div
+                    onClick={() => navigate('/dashboard/members')}
+                    className="relative group overflow-hidden rounded-2xl bg-surface-dark border border-border/10 min-h-[160px] p-6 flex flex-col justify-between transition-all hover:border-orange-500/50 shadow-xl cursor-pointer"
+                >
+                    <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1599058917212-d750089bc07e?q=80&w=1469&auto=format&fit=crop')] bg-cover bg-center opacity-30 group-hover:opacity-40 transition-all duration-700 transform group-hover:scale-105" />
+                    <div className="absolute inset-0 bg-gradient-to-br from-background-dark/90 via-background-dark/60 to-transparent" />
+                    <div className="relative z-10">
+                        <div className="flex items-center gap-3 mb-2 text-orange-500">
+                            <ClipboardList className="animate-pulse" size={24} />
+                            <span className="text-xs font-bold tracking-wider uppercase">{t('dashboard.pendingAssignments')}</span>
                         </div>
-                        <div className="p-4 bg-orange-500/10 rounded-xl">
-                            <ClipboardList size={32} className="text-orange-500" />
+                        <div className="flex items-baseline gap-2">
+                            <h3 className="text-4xl font-display font-bold text-text-main">
+                                {isLoading ? "..." : stats.pendingAssignments}
+                            </h3>
+                            <span className="text-text-muted text-sm">{t('dashboard.awaiting')}</span>
                         </div>
                     </div>
                 </div>

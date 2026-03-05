@@ -91,7 +91,7 @@ export const RoutineForm = ({ routineId, initialData }: RoutineFormProps) => {
                 clearDraft();
             }
             form.reset();
-            navigate('/dashboard/routines/new');
+            navigate('/dashboard/routines');
         } catch (error) {
             console.error('Failed to save routine:', error);
             showToast(t('routines.form.saveError'), 'error');

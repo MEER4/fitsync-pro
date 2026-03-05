@@ -16,6 +16,7 @@
         "nutrition": "Nutrition",
         "history": "History",
         "settings": "Settings",
+        "leads": "Leads",
         "signOut": "Sign Out"
     },
     "auth": {
@@ -56,7 +57,34 @@
         "completedWorkouts": "Completed Workouts",
         "nextWorkout": "Next Workout",
         "startWorkout": "Start Workout",
-        "noPendingWorkouts": "No pending workouts. Great job!"
+        "noPendingWorkouts": "No pending workouts. Great job!",
+        "athlete": "Athlete",
+        "status": "Status",
+        "routine": "Routine",
+        "action": "Action",
+        "loadingActivity": "Loading activity...",
+        "noActivity": "No recent activity.",
+        "statusCompleted": "Completed",
+        "statusInProgress": "In Progress",
+        "statusPending": "Pending"
+    },
+    "workout": {
+        "loading": "Loading workout...",
+        "notFound": "Workout not found.",
+        "loadError": "Failed to load workout details.",
+        "saveError": "Failed to save progress. Please try again.",
+        "destroyed": "Workout Destroyed!",
+        "crushedMessage": "You've crushed <strong>{{name}}</strong>. Great work, athlete.",
+        "backToDashboard": "Back to Dashboard",
+        "exerciseOf": "Exercise {{current}} of {{total}}",
+        "set": "Set",
+        "previous": "Previous",
+        "done": "Done",
+        "restTime": "Rest Time",
+        "secondsRemaining": "seconds remaining",
+        "skipRest": "Skip Rest",
+        "nextExercise": "Next Exercise",
+        "finishWorkout": "Finish Workout"
     },
     "settings": {
         "title": "Settings",
@@ -286,5 +314,30 @@
             "saveChanges": "Save Changes",
             "createExercise": "Create Exercise"
         }
+    },
+    "leads": {
+        "title": "Leads",
+        "subtitle": "Manage your registration form submissions.",
+        "filterAll": "All",
+        "statusNew": "New",
+        "statusContacted": "Contacted",
+        "statusConverted": "Converted",
+        "statusLost": "Lost",
+        "noLeads": "No leads yet",
+        "noLeadsDesc": "When someone fills out your registration form, they will appear here.",
+        "deleteConfirm": "Are you sure you want to delete this lead?",
+        "selectLead": "Select a lead to see their details.",
+        "phone": "Phone",
+        "age": "Age",
+        "gender": "Gender",
+        "weight": "Weight",
+        "height": "Height",
+        "goal": "Goal",
+        "plan": "Plan",
+        "experience": "Experience",
+        "availability": "Availability",
+        "medical": "Medical Conditions",
+        "contactPref": "Contact Preference",
+        "contactWhatsApp": "Contact via WhatsApp"
     }
 }

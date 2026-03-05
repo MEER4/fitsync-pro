@@ -143,7 +143,7 @@ const MembersPage = () => {
                     </div>
                 ) : (
                     filteredMembers.map(member => (
-                        <Card key={member.id} className="p-4 md:p-6 bg-surface-dark border-border/10 hover:border-primary/20 transition-all">
+                        <Card key={member.id} className={`p-4 md:p-6 bg-surface-dark border-border/10 hover:border-primary/20 transition-all ${openDropdownId === member.id ? 'relative z-50' : 'relative z-10'}`}>
                             <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
                                 <div className="flex items-center gap-4">
                                     <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center text-primary font-bold shrink-0">
@@ -188,7 +188,7 @@ const MembersPage = () => {
                                         {openDropdownId === member.id && (
                                             <div className="absolute right-0 top-full mt-1 w-52 bg-surface-dark border border-border/10 rounded-xl shadow-2xl shadow-black/50 z-50 overflow-hidden animate-slide-up">
                                                 <button
-                                                    onClick={() => { setOpenDropdownId(null); navigate(`/dashboard/members/${member.id}/diet`); }}
+                                                    onClick={() => { setOpenDropdownId(null); navigate(`/dashboard/members/${member.id}`); }}
                                                     className="w-full flex items-center gap-3 px-4 py-3 text-sm text-text-main hover:bg-text-main/5 transition-colors"
                                                 >
                                                     <Eye size={16} />

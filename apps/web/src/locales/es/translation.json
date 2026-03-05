@@ -16,6 +16,7 @@
         "nutrition": "Nutrición",
         "history": "Historial",
         "settings": "Ajustes",
+        "leads": "Prospectos",
         "signOut": "Cerrar Sesión"
     },
     "auth": {
@@ -56,7 +57,34 @@
         "completedWorkouts": "Entrenamientos Completados",
         "nextWorkout": "Siguiente Rutina",
         "startWorkout": "Empezar Entrenamiento",
-        "noPendingWorkouts": "Sin rutinas pendientes. ¡Buen trabajo!"
+        "noPendingWorkouts": "Sin rutinas pendientes. ¡Buen trabajo!",
+        "athlete": "Atleta",
+        "status": "Estado",
+        "routine": "Rutina",
+        "action": "Acción",
+        "loadingActivity": "Cargando actividad...",
+        "noActivity": "Sin actividad reciente.",
+        "statusCompleted": "Completado",
+        "statusInProgress": "En Progreso",
+        "statusPending": "Pendiente"
+    },
+    "workout": {
+        "loading": "Cargando entrenamiento...",
+        "notFound": "Entrenamiento no encontrado.",
+        "loadError": "Error al cargar los detalles del entrenamiento.",
+        "saveError": "Error al guardar el progreso. Por favor, inténtalo de nuevo.",
+        "destroyed": "¡Entrenamiento Completado!",
+        "crushedMessage": "Has completado <strong>{{name}}</strong>. ¡Gran trabajo, atleta!",
+        "backToDashboard": "Volver al Inicio",
+        "exerciseOf": "Ejercicio {{current}} de {{total}}",
+        "set": "Serie",
+        "previous": "Anterior",
+        "done": "Hecho",
+        "restTime": "Tiempo de Descanso",
+        "secondsRemaining": "segundos restantes",
+        "skipRest": "Saltar Descanso",
+        "nextExercise": "Siguiente Ejercicio",
+        "finishWorkout": "Finalizar Entrenamiento"
     },
     "settings": {
         "title": "Ajustes",
@@ -286,5 +314,30 @@
             "saveChanges": "Guardar Cambios",
             "createExercise": "Crear Ejercicio"
         }
+    },
+    "leads": {
+        "title": "Prospectos",
+        "subtitle": "Gestiona las inscripciones de tu formulario de registro.",
+        "filterAll": "Todos",
+        "statusNew": "Nuevo",
+        "statusContacted": "Contactado",
+        "statusConverted": "Convertido",
+        "statusLost": "Perdido",
+        "noLeads": "Sin prospectos aún",
+        "noLeadsDesc": "Cuando alguien llene tu formulario de inscripción, aparecerá aquí.",
+        "deleteConfirm": "¿Estás seguro de que quieres eliminar este prospecto?",
+        "selectLead": "Selecciona un prospecto para ver sus detalles.",
+        "phone": "Teléfono",
+        "age": "Edad",
+        "gender": "Género",
+        "weight": "Peso",
+        "height": "Estatura",
+        "goal": "Objetivo",
+        "plan": "Plan",
+        "experience": "Experiencia",
+        "availability": "Disponibilidad",
+        "medical": "Condiciones Médicas",
+        "contactPref": "Preferencia de Contacto",
+        "contactWhatsApp": "Contactar por WhatsApp"
     }
 }

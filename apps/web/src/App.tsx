@@ -7,6 +7,7 @@ import DashboardHome from './pages/DashboardHome';
 import DashboardIndex from './pages/DashboardIndex';
 import CreateRoutinePage from './pages/CreateRoutinePage';
 import EditRoutinePage from './pages/EditRoutinePage';
+import RoutinesPage from './pages/coach/RoutinesPage';
 import ExercisesPage from './pages/ExercisesPage';
 import MembersPage from './pages/coach/MembersPage';
 import MemberProfilePage from './pages/coach/MemberProfilePage';
@@ -17,6 +18,7 @@ import MemberHistoryPage from './pages/member/MemberHistoryPage';
 import SettingsPage from './pages/SettingsPage';
 import CoachDietPage from './pages/coach/CoachDietPage';
 import MemberDietPage from './pages/member/MemberDietPage';
+import LeadsPage from './pages/coach/LeadsPage';
 import { AuthProvider } from './context/AuthContext';
 import { ToastProvider } from './context/ToastContext';
 import { ProtectedRoute } from './components/auth/ProtectedRoute';
@@ -49,12 +51,14 @@ function App() {
                 {/* Coach Routes */}
                 <Route element={<ProtectedRoute allowedRoles={['coach']} />}>
                   <Route index element={<DashboardHome />} />
+                  <Route path="routines" element={<RoutinesPage />} />
                   <Route path="routines/new" element={<CreateRoutinePage />} />
                   <Route path="routines/:routineId/edit" element={<EditRoutinePage />} />
                   <Route path="exercises" element={<ExercisesPage />} />
                   <Route path="members" element={<MembersPage />} />
                   <Route path="members/:memberId" element={<MemberProfilePage />} />
                   <Route path="members/:memberId/diet" element={<CoachDietPage />} />
+                  <Route path="leads" element={<LeadsPage />} />
                 </Route>
 
                 {/* Member Routes */}

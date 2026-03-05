@@ -11,6 +11,8 @@ import { AssignmentsModule } from './assignments/assignments.module';
 import { UsersModule } from './users/users.module';
 import { DashboardModule } from './dashboard/dashboard.module';
 import { DietsModule } from './diets/diets.module';
+import { LeadsModule } from './leads/leads.module';
+import { MailModule } from './mail/mail.module';
 
 @Module({
     imports: [
@@ -24,6 +26,8 @@ import { DietsModule } from './diets/diets.module';
         DashboardModule,
         DietsModule,
         NotificationsModule,
+        LeadsModule,
+        MailModule,
     ],
     controllers: [AppController],
     providers: [AppService],

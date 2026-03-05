@@ -1,5 +1,5 @@
 import { NavLink } from 'react-router-dom';
-import { LayoutDashboard, Users, Activity, Settings, LogOut, Dumbbell, X, Utensils } from 'lucide-react';
+import { LayoutDashboard, Users, Activity, Settings, LogOut, Dumbbell, X, Utensils, UserPlus } from 'lucide-react';
 import clsx from 'clsx';
 import { useTranslation } from 'react-i18next';
 
@@ -17,7 +17,8 @@ export const Sidebar = ({ isOpen, onClose }: SidebarProps) => {
     const coachLinks = [
         { to: "/dashboard", icon: LayoutDashboard, label: t('nav.dashboard'), end: true },
         { to: "/dashboard/members", icon: Users, label: t('nav.members') },
-        { to: "/dashboard/routines/new", icon: Activity, label: t('nav.workouts') },
+        { to: "/dashboard/leads", icon: UserPlus, label: t('nav.leads') },
+        { to: "/dashboard/routines", icon: Activity, label: t('nav.workouts') },
         { to: "/dashboard/exercises", icon: Dumbbell, label: t('nav.exercises') },
         { to: "/dashboard/settings", icon: Settings, label: t('nav.settings') },
     ];

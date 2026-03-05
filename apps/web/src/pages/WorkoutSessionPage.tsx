@@ -1,5 +1,6 @@
 import { WorkoutRunner, type RunnerRoutine } from '../components/workout/WorkoutRunner';
 import { useSearchParams, useNavigate, useParams } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import api from '../lib/api';
 import { useEffect, useState } from 'react';
 import { useToast } from '../context/ToastContext';
@@ -9,6 +10,7 @@ const WorkoutSessionPage = () => {
     const [searchParams] = useSearchParams();
     const assignmentId = searchParams.get('assignmentId');
     const navigate = useNavigate();
+    const { t } = useTranslation();
     const { showToast } = useToast();
     const [workout, setWorkout] = useState<RunnerRoutine | null>(null);
     const [isLoading, setIsLoading] = useState(true);
@@ -41,7 +43,7 @@ const WorkoutSessionPage = () => {
                 setWorkout(formattedWorkout);
             } catch (error) {
                 console.error("Failed to load workout", error);
-                showToast('Failed to load workout details.', 'error');
+                showToast(t('workout.loadError'), 'error');
                 navigate('/dashboard/member');
             } finally {
                 setIsLoading(false);
@@ -58,7 +60,7 @@ const WorkoutSessionPage = () => {
                 navigate('/dashboard/member');
             } catch (error) {
                 console.error('Failed to complete assignment:', error);
-                showToast('Failed to save progress. Please try again.', 'error');
+                showToast(t('workout.saveError'), 'error');
             }
         } else {
             navigate('/dashboard/member');
@@ -68,7 +70,7 @@ const WorkoutSessionPage = () => {
     if (isLoading) {
         return (
             <div className="min-h-screen bg-background-dark flex items-center justify-center text-white">
-                Loading workout...
+                {t('workout.loading')}
             </div>
         );
     }
@@ -76,7 +78,7 @@ const WorkoutSessionPage = () => {
     if (!workout) {
         return (
             <div className="min-h-screen bg-background-dark flex items-center justify-center text-white">
-                Workout not found.
+                {t('workout.notFound')}
             </div>
         );
     }
