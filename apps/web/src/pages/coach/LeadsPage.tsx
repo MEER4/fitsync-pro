@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { UserPlus, Mail, Phone, Target, Dumbbell, Calendar, Trash2, Eye, Clock } from 'lucide-react';
+import { UserPlus, Mail, Phone, Target, Dumbbell, Trash2, Eye, Clock } from 'lucide-react';
 import api from '../../lib/api';
 
 interface Lead {

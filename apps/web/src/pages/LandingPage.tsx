@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 
 const LandingPage = () => {
@@ -21,6 +21,28 @@ const LandingPage = () => {
     const [submitted, setSubmitted] = useState(false);
     const [showForm, setShowForm] = useState(false);
 
+    // Intersection observer for graph animation
+    const [graphVisible, setGraphVisible] = useState(false);
+    const graphRef = useRef<HTMLDivElement>(null);
+
+    useEffect(() => {
+        const observer = new IntersectionObserver(
+            ([entry]) => {
+                if (entry.isIntersecting) {
+                    setGraphVisible(true);
+                    observer.disconnect(); // Trigger only once
+                }
+            },
+            { threshold: 0.2 } // Trigger when 20% visible
+        );
+
+        if (graphRef.current) {
+            observer.observe(graphRef.current);
+        }
+
+        return () => observer.disconnect();
+    }, []);
+
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
         setFormData(prev => ({ ...prev, [e.target.name]: e.target.value }));
     };
@@ -30,7 +52,7 @@ const LandingPage = () => {
         setIsSubmitting(true);
         try {
             const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:3000';
-            await fetch(`${apiUrl}/leads`, {
+            const res = await fetch(`${apiUrl}/leads`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
@@ -49,6 +71,11 @@ const LandingPage = () => {
                     contact_preference: formData.contactPreference,
                 }),
             });
+
+            if (!res.ok) {
+                throw new Error(`Error ${res.status}: Fallo al guardar prospecto`);
+            }
+
             setSubmitted(true);
         } catch (error) {
             console.error('Failed to submit form', error);
@@ -175,7 +202,7 @@ const LandingPage = () => {
                             </div>
                         </div>
                     </div>
-                    <div className="flex-1 w-full bg-card-glass border border-white/10 rounded-2xl p-6 md:p-8 shadow-2xl relative overflow-hidden">
+                    <div ref={graphRef} className="flex-1 w-full bg-card-glass border border-white/10 rounded-2xl p-6 md:p-8 shadow-2xl relative overflow-hidden">
                         <div className="flex justify-between items-end mb-8">
                             <div>
                                 <p className="text-secondary text-sm mb-1">Análisis de 6 Meses</p>
@@ -197,7 +224,7 @@ const LandingPage = () => {
                                 {[0, 50, 100, 150, 200].map(y => (
                                     <line key={y} stroke="rgba(255,255,255,0.05)" strokeDasharray="4" x1="0" x2="500" y1={y} y2={y} />
                                 ))}
-                                <path d="M0,80 C100,80 150,90 250,110 C350,130 400,140 500,145" fill="none" stroke="#6b7280" strokeWidth="2" />
+                                <path d="M0,80 C100,80 150,90 250,110 C350,130 400,140 500,145" fill="none" stroke="#6b7280" strokeWidth="2" className={graphVisible ? "animate-draw" : "opacity-0"} />
                                 <defs>
                                     <linearGradient id="muscleGradient" x1="0%" x2="100%">
                                         <stop offset="0%" style={{ stopColor: '#d4af37', stopOpacity: 1 }} />
@@ -208,11 +235,11 @@ const LandingPage = () => {
                                         <stop offset="100%" stopColor="#d4af37" stopOpacity={0} />
                                     </linearGradient>
                                 </defs>
-                                <path d="M0,150 C100,140 150,100 250,80 C350,60 400,30 500,20 V200 H0 Z" fill="url(#areaGradient)" />
-                                <path d="M0,150 C100,140 150,100 250,80 C350,60 400,30 500,20" fill="none" stroke="url(#muscleGradient)" strokeLinecap="round" strokeWidth="4" />
-                                <circle cx="0" cy="150" fill="#1a0b2e" r="4" stroke="#d4af37" strokeWidth="2" />
-                                <circle cx="250" cy="80" fill="#1a0b2e" r="4" stroke="#d4af37" strokeWidth="2" />
-                                <circle cx="500" cy="20" fill="#d4af37" r="6" stroke="#fff" strokeWidth="2" />
+                                <path d="M0,150 C100,140 150,100 250,80 C350,60 400,30 500,20 V200 H0 Z" fill="url(#areaGradient)" className={graphVisible ? "animate-draw-area" : "opacity-0"} />
+                                <path d="M0,150 C100,140 150,100 250,80 C350,60 400,30 500,20" fill="none" stroke="url(#muscleGradient)" strokeLinecap="round" strokeWidth="4" className={graphVisible ? "animate-draw" : "opacity-0"} />
+                                <circle cx="0" cy="150" fill="#1a0b2e" r="4" stroke="#d4af37" strokeWidth="2" className={graphVisible ? "animate-pop" : "opacity-0"} style={{ animationDelay: '0.5s' }} />
+                                <circle cx="250" cy="80" fill="#1a0b2e" r="4" stroke="#d4af37" strokeWidth="2" className={graphVisible ? "animate-pop" : "opacity-0"} style={{ animationDelay: '1s' }} />
+                                <circle cx="500" cy="20" fill="#d4af37" r="6" stroke="#fff" strokeWidth="2" className={graphVisible ? "animate-pop" : "opacity-0"} style={{ animationDelay: '1.5s' }} />
                             </svg>
                         </div>
                     </div>
