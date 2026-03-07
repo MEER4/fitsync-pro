@@ -8,9 +8,10 @@
     "dev": "npm run dev --workspaces --if-present",
     "build": "npm run build --workspaces --if-present",
     "build:api": "npm run build --workspace=apps/api",
-    "start:api": "npm run start --workspace=apps/api"
+    "start:api": "npm run start --workspace=apps/api",
+    "postinstall": "npm run build:api"
   },
-  "devDependencies": {
+  "dependencies": {
     "prisma": "^5.22.0",
     "@nestjs/cli": "^11.0.16"
   }
