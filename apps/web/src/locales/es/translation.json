@@ -5,7 +5,10 @@
         "cancel": "Cancelar",
         "edit": "Editar",
         "delete": "Eliminar",
-        "error": "Ocurrió un error"
+        "error": "Ocurrió un error",
+        "search": "Buscar...",
+        "success": "Operación exitosa",
+        "confirmDelete": "¿Estás seguro de que deseas eliminar este elemento?"
     },
     "nav": {
         "dashboard": "Inicio",
@@ -136,7 +139,14 @@
         "noPlanDesc": "Tu entrenador aún no ha asignado un plan de dieta.",
         "defaultTitle": "Mi Plan de Nutrición",
         "subtitle": "Alimenta tu cuerpo para el rendimiento.",
-        "noMealsScheduled": "No hay comidas programadas para este día"
+        "noMealsScheduled": "No hay comidas programadas para este día",
+        "templatesTitle": "Plantillas de Dieta",
+        "templatesSubtitle": "Crea y administra plantillas nutricionales para asignar rápidamente.",
+        "newTemplate": "Nueva Plantilla",
+        "editTemplate": "Editar Plantilla",
+        "noTemplates": "No hay plantillas",
+        "noTemplatesDesc": "Aún no has creado ninguna plantilla de dieta.",
+        "createFirst": "Crear Mi Primera Plantilla"
     },
     "days": {
         "monday": "Lunes",

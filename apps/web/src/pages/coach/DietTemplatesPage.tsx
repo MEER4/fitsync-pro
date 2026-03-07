@@ -80,15 +80,15 @@ export default function DietTemplatesPage() {
             <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
                 <div>
                     <h1 className="text-3xl font-display font-bold text-text-main">
-                        Plantillas de Dieta
+                        {t('diet.templatesTitle')}
                     </h1>
                     <p className="text-text-muted mt-1">
-                        Crea y administra plantillas nutricionales para asignar rápidamente.
+                        {t('diet.templatesSubtitle')}
                     </p>
                 </div>
                 <Button onClick={() => navigate('/dashboard/diet-templates/new')} className="w-full sm:w-auto flex items-center gap-2">
                     <Plus size={20} />
-                    Nueva Plantilla
+                    {t('diet.newTemplate')}
                 </Button>
             </div>
 
@@ -117,13 +117,13 @@ export default function DietTemplatesPage() {
                         <div className="w-16 h-16 bg-text-main/5 rounded-full flex items-center justify-center mx-auto mb-4">
                             <Dumbbell className="text-text-muted" size={24} />
                         </div>
-                        <h3 className="text-xl font-bold text-text-main mb-2">No hay plantillas</h3>
+                        <h3 className="text-xl font-bold text-text-main mb-2">{t('diet.noTemplates')}</h3>
                         <p className="text-text-muted mb-6">
-                            {searchQuery ? 'No se encontraron resultados' : 'Aún no has creado ninguna plantilla de dieta.'}
+                            {searchQuery ? t('common.noResults') || 'No se encontraron resultados' : t('diet.noTemplatesDesc')}
                         </p>
                         {!searchQuery && (
                             <Button onClick={() => navigate('/dashboard/diet-templates/new')}>
-                                Crear Mi Primera Plantilla
+                                {t('diet.createFirst')}
                             </Button>
                         )}
                     </div>
