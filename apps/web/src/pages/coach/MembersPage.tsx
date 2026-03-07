@@ -158,23 +158,25 @@ const MembersPage = () => {
                                         <p className="text-sm text-text-muted truncate">{member.email}</p>
                                     </div>
                                 </div>
-                                <div className="flex items-center gap-3 w-full md:w-auto">
-                                    <Button
-                                        variant="outline"
-                                        className="gap-2 py-2 px-4 text-sm flex-1 md:flex-none justify-center"
-                                        onClick={() => handleOpenAssignModal(member)}
-                                    >
-                                        <Dumbbell size={16} />
-                                        {t('members.assignRoutine')}
-                                    </Button>
-                                    <Button
-                                        variant="outline"
-                                        className="gap-2 py-2 px-4 text-sm flex-1 md:flex-none justify-center"
-                                        onClick={() => navigate(`/dashboard/members/${member.id}/diet`)}
-                                    >
-                                        <Utensils size={16} />
-                                        {t('members.diet')}
-                                    </Button>
+                                <div className="flex items-stretch gap-3 w-full md:w-auto">
+                                    <div className="flex-1 grid grid-cols-2 gap-3 md:flex md:flex-none">
+                                        <Button
+                                            variant="outline"
+                                            className="gap-2 py-2 px-2 text-sm h-full w-full justify-center"
+                                            onClick={() => handleOpenAssignModal(member)}
+                                        >
+                                            <Dumbbell size={16} className="shrink-0 md:inline-block hidden lg:inline-block" />
+                                            <span className="text-center">{t('members.assignRoutine')}</span>
+                                        </Button>
+                                        <Button
+                                            variant="outline"
+                                            className="gap-2 py-2 px-2 text-sm h-full w-full justify-center"
+                                            onClick={() => navigate(`/dashboard/members/${member.id}/diet`)}
+                                        >
+                                            <Utensils size={16} className="shrink-0 md:inline-block hidden lg:inline-block" />
+                                            <span className="text-center">{t('members.diet')}</span>
+                                        </Button>
+                                    </div>
 
                                     {/* Dropdown Menu */}
                                     <div className="relative" ref={openDropdownId === member.id ? dropdownRef : null}>

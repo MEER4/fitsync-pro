@@ -53,8 +53,8 @@ export const ClientsTable = () => {
                 <h3 className="font-display text-xl font-bold">{t('dashboard.recentActivity')}</h3>
             </div>
             <div className="overflow-x-auto">
-                <table className="w-full text-left text-sm text-gray-400">
-                    <thead className="bg-white/5 text-white font-display">
+                <table className="w-full text-left text-sm text-text-muted">
+                    <thead className="bg-text-main/5 text-text-main font-display">
                         <tr>
                             <th className="px-6 py-4">{t('dashboard.athlete')}</th>
                             <th className="px-6 py-4">{t('dashboard.status')}</th>
@@ -62,20 +62,20 @@ export const ClientsTable = () => {
                             <th className="px-6 py-4">{t('dashboard.action')}</th>
                         </tr>
                     </thead>
-                    <tbody className="divide-y divide-white/5">
+                    <tbody className="divide-y divide-border/10">
                         {isLoading ? (
                             <tr>
-                                <td colSpan={4} className="px-6 py-8 text-center text-gray-500">{t('dashboard.loadingActivity')}</td>
+                                <td colSpan={4} className="px-6 py-8 text-center text-text-muted">{t('dashboard.loadingActivity')}</td>
                             </tr>
                         ) : activities.length === 0 ? (
                             <tr>
-                                <td colSpan={4} className="px-6 py-8 text-center text-gray-500">{t('dashboard.noActivity')}</td>
+                                <td colSpan={4} className="px-6 py-8 text-center text-text-muted">{t('dashboard.noActivity')}</td>
                             </tr>
                         ) : (
                             activities.map((activity) => (
-                                <tr key={activity.id} className="hover:bg-white/5 transition-colors">
-                                    <td className="px-6 py-4 font-medium text-white flex items-center gap-3">
-                                        <div className="w-8 h-8 rounded-full bg-primary/20 flex items-center justify-center text-primary text-xs font-bold">
+                                <tr key={activity.id} className="hover:bg-text-main/5 transition-colors">
+                                    <td className="px-6 py-4 font-medium text-text-main flex items-center gap-3">
+                                        <div className="w-8 h-8 rounded-full bg-primary/20 flex items-center justify-center text-primary text-xs font-bold shrink-0">
                                             {activity.athleteAvatar ? (
                                                 <img src={activity.athleteAvatar} alt={activity.athleteName} className="w-full h-full rounded-full object-cover" />
                                             ) : (
@@ -94,12 +94,12 @@ export const ClientsTable = () => {
                                     </td>
                                     <td className="px-6 py-4">
                                         <div className="flex flex-col">
-                                            <span className="text-white">{activity.routineName}</span>
-                                            <span className="text-xs text-gray-500">{formatDistanceToNow(new Date(activity.date), { addSuffix: true, locale: dateLocale })}</span>
+                                            <span className="text-text-main">{activity.routineName}</span>
+                                            <span className="text-xs text-text-muted">{formatDistanceToNow(new Date(activity.date), { addSuffix: true, locale: dateLocale })}</span>
                                         </div>
                                     </td>
                                     <td className="px-6 py-4">
-                                        <Button variant="ghost" className="p-2 h-8 w-8">
+                                        <Button variant="ghost" className="p-2 h-8 w-8 text-text-muted hover:text-text-main">
                                             <MoreHorizontal size={16} />
                                         </Button>
                                     </td>

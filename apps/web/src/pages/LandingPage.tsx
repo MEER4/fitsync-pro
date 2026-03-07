@@ -88,21 +88,21 @@ const LandingPage = () => {
     };
 
     return (
-        <div className="bg-background-dark text-white font-body overflow-x-hidden selection:bg-primary selection:text-background-dark">
+        <div className="bg-background-dark text-text-main font-body overflow-x-hidden selection:bg-primary selection:text-background-dark">
             {/* ========== NAVIGATION ========== */}
-            <nav className="fixed top-0 left-0 w-full z-50 backdrop-blur-md bg-background-dark/70 border-b border-white/5">
+            <nav className="fixed top-0 left-0 w-full z-50 backdrop-blur-md bg-background-dark/70 border-b border-border/10">
                 <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
                     <div className="flex items-center gap-2 cursor-pointer group">
                         <span className="text-primary text-3xl group-hover:rotate-12 transition-transform">◆</span>
-                        <span className="font-display font-bold text-xl tracking-wide text-white">YEIMI RAMIREZ</span>
+                        <span className="font-display font-bold text-xl tracking-wide text-text-main">YEIMI RAMIREZ</span>
                     </div>
 
                     {/* Desktop Menu */}
                     <div className="hidden md:flex items-center gap-8">
-                        <a href="#inicio" className="text-sm font-medium text-gray-300 hover:text-primary transition-colors">Inicio</a>
-                        <a href="#servicios" className="text-sm font-medium text-gray-300 hover:text-primary transition-colors">Servicios</a>
-                        <a href="#programas" className="text-sm font-medium text-gray-300 hover:text-primary transition-colors">Programas</a>
-                        <a href="#testimonios" className="text-sm font-medium text-gray-300 hover:text-primary transition-colors">Sobre Mí</a>
+                        <a href="#inicio" className="text-sm font-medium text-text-muted hover:text-primary transition-colors">Inicio</a>
+                        <a href="#servicios" className="text-sm font-medium text-text-muted hover:text-primary transition-colors">Servicios</a>
+                        <a href="#programas" className="text-sm font-medium text-text-muted hover:text-primary transition-colors">Programas</a>
+                        <a href="#testimonios" className="text-sm font-medium text-text-muted hover:text-primary transition-colors">Sobre Mí</a>
                     </div>
 
                     {/* Desktop Actions */}
@@ -131,7 +131,7 @@ const LandingPage = () => {
                         </Link>
                         <button
                             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-                            className="text-white p-1"
+                            className="text-text-main p-1"
                         >
                             {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
                         </button>
@@ -140,14 +140,14 @@ const LandingPage = () => {
 
                 {/* Mobile Dropdown */}
                 {isMobileMenuOpen && (
-                    <div className="md:hidden absolute top-full left-0 w-full bg-background-dark/95 backdrop-blur-xl border-b border-white/10 p-6 flex flex-col gap-6 shadow-2xl animate-fade-in">
+                    <div className="md:hidden absolute top-full left-0 w-full bg-background-dark/95 backdrop-blur-xl border-b border-border/10 p-6 flex flex-col gap-6 shadow-2xl animate-fade-in">
                         <div className="flex flex-col gap-4">
-                            <a href="#inicio" onClick={() => setIsMobileMenuOpen(false)} className="text-lg font-medium text-gray-300 hover:text-primary">Inicio</a>
-                            <a href="#servicios" onClick={() => setIsMobileMenuOpen(false)} className="text-lg font-medium text-gray-300 hover:text-primary">Servicios</a>
-                            <a href="#programas" onClick={() => setIsMobileMenuOpen(false)} className="text-lg font-medium text-gray-300 hover:text-primary">Programas</a>
-                            <a href="#testimonios" onClick={() => setIsMobileMenuOpen(false)} className="text-lg font-medium text-gray-300 hover:text-primary">Sobre Mí</a>
+                            <a href="#inicio" onClick={() => setIsMobileMenuOpen(false)} className="text-lg font-medium text-text-muted hover:text-primary">Inicio</a>
+                            <a href="#servicios" onClick={() => setIsMobileMenuOpen(false)} className="text-lg font-medium text-text-muted hover:text-primary">Servicios</a>
+                            <a href="#programas" onClick={() => setIsMobileMenuOpen(false)} className="text-lg font-medium text-text-muted hover:text-primary">Programas</a>
+                            <a href="#testimonios" onClick={() => setIsMobileMenuOpen(false)} className="text-lg font-medium text-text-muted hover:text-primary">Sobre Mí</a>
                         </div>
-                        <div className="h-px bg-white/10 w-full" />
+                        <div className="h-px bg-text-main/10 w-full" />
                         <button
                             onClick={() => { setIsMobileMenuOpen(false); setShowForm(true); document.getElementById('inscripcion')?.scrollIntoView({ behavior: 'smooth' }); }}
                             className="w-full flex items-center justify-center h-12 rounded-full bg-gradient-to-r from-primary to-secondary text-background-dark font-bold shadow-lg"
@@ -175,14 +175,14 @@ const LandingPage = () => {
                             <div className="flex-1 text-center lg:text-left space-y-8">
                                 <div>
                                     <h2 className="text-secondary text-sm font-medium tracking-[0.2em] uppercase mb-4 animate-pulse">Transformación y Bienestar</h2>
-                                    <h1 className="font-display text-5xl md:text-7xl lg:text-8xl font-bold leading-tight text-white mb-2">
+                                    <h1 className="font-display text-5xl md:text-7xl lg:text-8xl font-bold leading-tight text-text-main mb-2">
                                         COACH <br />
                                         <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-secondary" style={{ textShadow: '0 0 20px rgba(212, 175, 55, 0.3)' }}>
                                             YEIMI RAMIREZ
                                         </span>
                                     </h1>
                                 </div>
-                                <p className="text-gray-300 text-lg max-w-xl mx-auto lg:mx-0 font-light leading-relaxed">
+                                <p className="text-text-muted text-lg max-w-xl mx-auto lg:mx-0 font-light leading-relaxed">
                                     Eleva tu físico y mentalidad a través de un enfoque basado en la ciencia, diseñado para el individuo moderno y disciplinado. Tu transformación comienza hoy.
                                 </p>
                                 <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start pt-4">
@@ -200,17 +200,17 @@ const LandingPage = () => {
                             </div>
 
                             <div className="flex-1 w-full max-w-lg lg:max-w-xl relative">
-                                <div className="relative rounded-t-full rounded-b-3xl overflow-hidden border-2 border-white/10 shadow-2xl shadow-primary/10 aspect-[3/4] group">
+                                <div className="relative rounded-t-full rounded-b-3xl overflow-hidden border-2 border-border/10 shadow-2xl shadow-primary/10 aspect-[3/4] group">
                                     <div className="absolute inset-0 bg-gradient-to-t from-background-dark via-transparent to-transparent z-10 opacity-60" />
                                     <div
                                         className="w-full h-full bg-cover bg-center transition-transform duration-700 group-hover:scale-105"
                                         style={{ backgroundImage: 'url("https://lh3.googleusercontent.com/aida-public/AB6AXuCF6j-0e-HEIHeYPZU-VkGRZI1dVuwsTzJnz0ao7uUZ_lg5Xz1e8IUDeoTBnT5DznZ6kM3WaKqDNiqTg8zDAqIz1X95B0qlviKCv2ylecmkpOKL4Xg1d4cInpC_iFLvSRvobGj_cPt7p98dFYWn2mywKoomM8bZt0LztRrmKEuVv5x9XzUXNwaR5iA48KGdws5CKM-dZ6wY_TFD9z-EetT3hmL7FP0LDHjeUe7PsB4l73M3ZTgWcR8VWRJ_eavwEAdHdKHur_RBFZqG")' }}
                                     />
-                                    <div className="absolute bottom-6 left-6 right-6 z-20 p-4 bg-white/10 backdrop-blur-md border border-white/20 rounded-xl flex items-center gap-4">
+                                    <div className="absolute bottom-6 left-6 right-6 z-20 p-4 bg-text-main/10 backdrop-blur-md border border-border/20 rounded-xl flex items-center gap-4">
                                         <div className="bg-primary/20 p-2 rounded-full text-primary text-2xl">💪</div>
                                         <div>
                                             <p className="text-xs text-secondary uppercase tracking-wider">Enfoque Actual</p>
-                                            <p className="font-display text-white font-semibold">Fuerza y Movilidad</p>
+                                            <p className="font-display text-text-main font-semibold">Fuerza y Movilidad</p>
                                         </div>
                                     </div>
                                 </div>
@@ -221,7 +221,7 @@ const LandingPage = () => {
             </header>
 
             {/* ========== PROGRESS SECTION ========== */}
-            <section id="servicios" className="py-20 px-6 bg-surface-dark/30 border-y border-white/5">
+            <section id="servicios" className="py-20 px-6 bg-surface-dark/30 border-y border-border/10">
                 <div className="max-w-7xl mx-auto flex flex-col lg:flex-row gap-12 items-center">
                     <div className="flex-1 space-y-6">
                         <div className="flex items-center gap-2 text-primary">
@@ -229,21 +229,21 @@ const LandingPage = () => {
                             <span className="text-sm font-bold uppercase tracking-wider">Resultados Basados en Datos</span>
                         </div>
                         <h3 className="font-display text-4xl md:text-5xl font-bold">Progreso Que Puedes Ver</h3>
-                        <p className="text-gray-400 leading-relaxed">
+                        <p className="text-text-muted leading-relaxed">
                             Rastreamos más que solo el peso. Monitoreamos la composición corporal, ganancias de fuerza y salud metabólica para asegurar que estás construyendo el tejido correcto.
                         </p>
                         <div className="flex gap-8 pt-4">
                             <div>
-                                <p className="text-3xl font-display font-bold text-white">+12%</p>
-                                <p className="text-sm text-gray-400">Masa Muscular</p>
+                                <p className="text-3xl font-display font-bold text-text-main">+12%</p>
+                                <p className="text-sm text-text-muted">Masa Muscular</p>
                             </div>
                             <div>
-                                <p className="text-3xl font-display font-bold text-white">-8%</p>
-                                <p className="text-sm text-gray-400">Grasa Corporal</p>
+                                <p className="text-3xl font-display font-bold text-text-main">-8%</p>
+                                <p className="text-sm text-text-muted">Grasa Corporal</p>
                             </div>
                         </div>
                     </div>
-                    <div ref={graphRef} className="flex-1 w-full bg-card-glass border border-white/10 rounded-2xl p-6 md:p-8 shadow-2xl relative overflow-hidden">
+                    <div ref={graphRef} className="flex-1 w-full bg-card-glass border border-border/10 rounded-2xl p-6 md:p-8 shadow-2xl relative overflow-hidden">
                         <div className="flex justify-between items-end mb-8">
                             <div>
                                 <p className="text-secondary text-sm mb-1">Análisis de 6 Meses</p>
@@ -252,11 +252,11 @@ const LandingPage = () => {
                             <div className="flex gap-4 text-xs">
                                 <div className="flex items-center gap-2">
                                     <span className="w-3 h-3 rounded-full bg-primary" />
-                                    <span className="text-gray-300">Músculo</span>
+                                    <span className="text-text-muted">Músculo</span>
                                 </div>
                                 <div className="flex items-center gap-2">
                                     <span className="w-3 h-3 rounded-full bg-gray-600" />
-                                    <span className="text-gray-300">Peso</span>
+                                    <span className="text-text-muted">Peso</span>
                                 </div>
                             </div>
                         </div>
@@ -292,53 +292,53 @@ const LandingPage = () => {
                 <div className="max-w-7xl mx-auto">
                     <div className="text-center mb-16 space-y-4">
                         <span className="text-primary text-sm font-bold tracking-[0.2em] uppercase">Invierte en Ti</span>
-                        <h2 className="font-display text-4xl md:text-5xl font-bold text-white">Elige Tu Programa</h2>
+                        <h2 className="font-display text-4xl md:text-5xl font-bold text-text-main">Elige Tu Programa</h2>
                     </div>
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
                         {/* Basic */}
-                        <div className="group relative p-8 rounded-2xl bg-card-glass backdrop-blur-md border border-white/10 transition-all duration-300 hover:border-primary hover:-translate-y-2 hover:shadow-[0_0_30px_rgba(212,175,55,0.15)] flex flex-col">
+                        <div className="group relative p-8 rounded-2xl bg-card-glass backdrop-blur-md border border-border/10 transition-all duration-300 hover:border-primary hover:-translate-y-2 hover:shadow-[0_0_30px_rgba(212,175,55,0.15)] flex flex-col">
                             <div className="mb-6">
-                                <h3 className="text-white font-bold text-xl tracking-wider mb-2">BÁSICO</h3>
+                                <h3 className="text-text-main font-bold text-xl tracking-wider mb-2">BÁSICO</h3>
                                 <div className="flex items-baseline gap-1 text-primary">
                                     <span className="text-sm font-light">RD$</span>
                                     <span className="text-4xl font-display font-bold">1,200</span>
-                                    <span className="text-sm text-gray-400">/mes</span>
+                                    <span className="text-sm text-text-muted">/mes</span>
                                 </div>
                             </div>
                             <div className="space-y-4 mb-8 flex-grow">
                                 {['Plan de Entrenamiento Estándar', 'Acceso a la Comunidad', 'Guía de Video Mensual'].map((feature, i) => (
                                     <div key={i} className="flex items-start gap-3">
                                         <span className="text-primary text-lg">✓</span>
-                                        <span className="text-sm text-gray-300">{feature}</span>
+                                        <span className="text-sm text-text-muted">{feature}</span>
                                     </div>
                                 ))}
                             </div>
                             <button
                                 onClick={() => { setFormData(prev => ({ ...prev, plan: 'BÁSICO' })); setShowForm(true); document.getElementById('inscripcion')?.scrollIntoView({ behavior: 'smooth' }); }}
-                                className="w-full py-3 rounded-lg border border-white/20 hover:bg-white/5 text-white font-medium transition-colors"
+                                className="w-full py-3 rounded-lg border border-border/20 hover:bg-text-main/5 text-text-main font-medium transition-colors"
                             >
                                 Seleccionar Básico
                             </button>
                         </div>
 
                         {/* Intermediate */}
-                        <div className="group relative p-8 rounded-2xl bg-card-glass backdrop-blur-md border border-white/10 transition-all duration-300 hover:border-primary hover:-translate-y-2 hover:shadow-[0_0_30px_rgba(212,175,55,0.15)] flex flex-col">
+                        <div className="group relative p-8 rounded-2xl bg-card-glass backdrop-blur-md border border-border/10 transition-all duration-300 hover:border-primary hover:-translate-y-2 hover:shadow-[0_0_30px_rgba(212,175,55,0.15)] flex flex-col">
                             <div className="absolute top-0 right-0 p-3">
                                 <span className="text-primary opacity-50 group-hover:opacity-100 transition-opacity text-xl">⭐</span>
                             </div>
                             <div className="mb-6">
-                                <h3 className="text-white font-bold text-xl tracking-wider mb-2">INTERMEDIO</h3>
+                                <h3 className="text-text-main font-bold text-xl tracking-wider mb-2">INTERMEDIO</h3>
                                 <div className="flex items-baseline gap-1 text-primary">
                                     <span className="text-sm font-light">RD$</span>
                                     <span className="text-4xl font-display font-bold">2,000</span>
-                                    <span className="text-sm text-gray-400">/mes</span>
+                                    <span className="text-sm text-text-muted">/mes</span>
                                 </div>
                             </div>
                             <div className="space-y-4 mb-8 flex-grow">
                                 {['Plan de Entrenamiento Personalizado', 'Guía de Macros y Nutrición', 'Chequeos Quincenales', 'Video de Corrección de Técnica'].map((feature, i) => (
                                     <div key={i} className="flex items-start gap-3">
                                         <span className="text-primary text-lg">✓</span>
-                                        <span className="text-sm text-gray-300">{feature}</span>
+                                        <span className="text-sm text-text-muted">{feature}</span>
                                     </div>
                                 ))}
                             </div>
@@ -359,7 +359,7 @@ const LandingPage = () => {
                                 <h3 className="text-white font-bold text-xl tracking-wider mb-2">PREMIUM 1-1</h3>
                                 <div className="flex items-baseline gap-1 text-primary">
                                     <span className="text-4xl font-display font-bold">A Medida</span>
-                                    <span className="text-sm text-gray-400">/precio</span>
+                                    <span className="text-sm text-gray-300">/precio</span>
                                 </div>
                             </div>
                             <div className="space-y-4 mb-8 flex-grow">
@@ -382,11 +382,11 @@ const LandingPage = () => {
             </section>
 
             {/* ========== TESTIMONIAL ========== */}
-            <section id="testimonios" className="py-24 px-6 bg-surface-dark border-t border-white/5 relative overflow-hidden">
+            <section id="testimonios" className="py-24 px-6 bg-surface-dark border-t border-border/10 relative overflow-hidden">
                 <div className="absolute top-0 right-0 w-64 h-64 bg-primary/5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2 pointer-events-none" />
                 <div className="max-w-4xl mx-auto text-center relative z-10">
                     <span className="text-6xl text-primary mb-6 block">❝</span>
-                    <h3 className="font-display text-2xl md:text-4xl font-medium leading-relaxed italic text-white mb-10">
+                    <h3 className="font-display text-2xl md:text-4xl font-medium leading-relaxed italic text-text-main mb-10">
                         "Redescubrí mi fuerza a través del enfoque científico de Yeimi. No es solo entrenamiento; es una elevación completa del estilo de vida que respeta mi tiempo y ambiciones."
                     </h3>
                     <div className="flex flex-col items-center gap-4">
@@ -397,7 +397,7 @@ const LandingPage = () => {
                             />
                         </div>
                         <div>
-                            <p className="text-white font-bold text-lg">Sarah Jenkins</p>
+                            <p className="text-text-main font-bold text-lg">Sarah Jenkins</p>
                             <p className="text-secondary text-sm">Programa de Transformación • 6 Meses</p>
                         </div>
                     </div>
@@ -417,13 +417,13 @@ const LandingPage = () => {
                             <div className="absolute bottom-0 right-0 w-16 h-16 border-b-2 border-r-2 border-primary/50 rounded-br-3xl" />
                             <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full bg-primary/5 blur-3xl rounded-full pointer-events-none" />
                             <div className="relative z-10 space-y-8">
-                                <h2 className="font-display text-4xl md:text-5xl lg:text-6xl font-bold text-white leading-tight">
+                                <h2 className="font-display text-4xl md:text-5xl lg:text-6xl font-bold text-text-main leading-tight">
                                     ¿Lista para comenzar <br />
                                     <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-secondary" style={{ textShadow: '0 0 20px rgba(212, 175, 55, 0.3)' }}>
                                         tu transformación?
                                     </span>
                                 </h2>
-                                <p className="text-gray-300 text-lg md:text-xl max-w-2xl mx-auto font-light leading-relaxed">
+                                <p className="text-text-muted text-lg md:text-xl max-w-2xl mx-auto font-light leading-relaxed">
                                     No esperes al "momento perfecto". El momento es ahora. Únete a un grupo exclusivo de mujeres que están redefiniendo sus límites.
                                 </p>
                                 <div className="pt-4">
@@ -434,16 +434,16 @@ const LandingPage = () => {
                                         <span>Inscribirme Ahora</span>
                                         <span>→</span>
                                     </button>
-                                    <p className="mt-4 text-sm text-gray-500 uppercase tracking-widest">Plazas limitadas para este mes</p>
+                                    <p className="mt-4 text-sm text-text-muted uppercase tracking-widest">Plazas limitadas para este mes</p>
                                 </div>
                             </div>
                         </div>
                     ) : submitted ? (
                         /* Success state */
-                        <div className="bg-white/5 backdrop-blur-md border border-white/10 rounded-2xl p-10 md:p-16 text-center shadow-2xl animate-fade-in">
+                        <div className="bg-text-main/5 backdrop-blur-md border border-border/10 rounded-2xl p-10 md:p-16 text-center shadow-2xl animate-fade-in">
                             <div className="text-6xl mb-6">🎉</div>
-                            <h2 className="font-display text-3xl md:text-4xl font-bold text-white mb-4">¡Inscripción Enviada!</h2>
-                            <p className="text-gray-300 text-lg max-w-md mx-auto mb-8">
+                            <h2 className="font-display text-3xl md:text-4xl font-bold text-text-main mb-4">¡Inscripción Enviada!</h2>
+                            <p className="text-text-muted text-lg max-w-md mx-auto mb-8">
                                 Gracias por tu interés. Nos pondremos en contacto contigo pronto para iniciar tu transformación.
                             </p>
                             <button
@@ -455,22 +455,22 @@ const LandingPage = () => {
                         </div>
                     ) : (
                         /* Registration Form */
-                        <div className="bg-white/5 backdrop-blur-md border border-white/10 rounded-2xl p-6 md:p-10 shadow-2xl animate-fade-in">
+                        <div className="bg-text-main/5 backdrop-blur-md border border-border/10 rounded-2xl p-6 md:p-10 shadow-2xl animate-fade-in">
                             {/* Progress */}
                             <div className="flex flex-col gap-2 mb-8">
                                 <div className="flex justify-between items-center text-xs uppercase tracking-widest text-primary font-bold">
                                     <span>Inscripción</span>
                                     <span>Coach Yeimi</span>
                                 </div>
-                                <div className="h-1.5 w-full bg-white/10 rounded-full overflow-hidden">
+                                <div className="h-1.5 w-full bg-text-main/10 rounded-full overflow-hidden">
                                     <div className="h-full bg-gradient-to-r from-primary to-secondary w-full shadow-[0_0_10px_rgba(212,175,55,0.5)]" />
                                 </div>
                             </div>
 
                             {/* Form Header */}
                             <div className="text-center mb-10">
-                                <h2 className="text-3xl md:text-4xl font-display font-bold text-white mb-3">Formulario de Inscripción</h2>
-                                <p className="text-gray-400 text-sm md:text-base max-w-lg mx-auto">
+                                <h2 className="text-3xl md:text-4xl font-display font-bold text-text-main mb-3">Formulario de Inscripción</h2>
+                                <p className="text-text-muted text-sm md:text-base max-w-lg mx-auto">
                                     Completa tu perfil para diseñar un plan personalizado que se adapte a tus necesidades y estilo de vida.
                                 </p>
                             </div>
@@ -483,27 +483,27 @@ const LandingPage = () => {
                                     </h3>
                                     <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                                         <label className="flex flex-col gap-2">
-                                            <span className="text-sm font-medium text-white/90">Nombre completo *</span>
+                                            <span className="text-sm font-medium text-text-main/90">Nombre completo *</span>
                                             <input name="fullName" value={formData.fullName} onChange={handleChange} required
-                                                className="bg-black/30 border border-white/10 focus:border-primary focus:ring-1 focus:ring-primary/20 rounded-lg px-4 py-3 text-sm text-white placeholder-white/20 outline-none transition-all w-full"
+                                                className="bg-text-main/5 border border-border/10 focus:border-primary focus:ring-1 focus:ring-primary/20 rounded-lg px-4 py-3 text-sm text-text-main placeholder-text-muted/50 outline-none transition-all w-full"
                                                 placeholder="Ej. Maria Gonzalez" type="text" />
                                         </label>
                                         <label className="flex flex-col gap-2">
-                                            <span className="text-sm font-medium text-white/90">Email *</span>
+                                            <span className="text-sm font-medium text-text-main/90">Email *</span>
                                             <input name="email" value={formData.email} onChange={handleChange} required
-                                                className="bg-black/30 border border-white/10 focus:border-primary focus:ring-1 focus:ring-primary/20 rounded-lg px-4 py-3 text-sm text-white placeholder-white/20 outline-none transition-all w-full"
+                                                className="bg-text-main/5 border border-border/10 focus:border-primary focus:ring-1 focus:ring-primary/20 rounded-lg px-4 py-3 text-sm text-text-main placeholder-text-muted/50 outline-none transition-all w-full"
                                                 placeholder="ejemplo@correo.com" type="email" />
                                         </label>
                                         <label className="flex flex-col gap-2">
-                                            <span className="text-sm font-medium text-white/90">Teléfono (WhatsApp) *</span>
+                                            <span className="text-sm font-medium text-text-main/90">Teléfono (WhatsApp) *</span>
                                             <input name="phone" value={formData.phone} onChange={handleChange} required
-                                                className="bg-black/30 border border-white/10 focus:border-primary focus:ring-1 focus:ring-primary/20 rounded-lg px-4 py-3 text-sm text-white placeholder-white/20 outline-none transition-all w-full"
+                                                className="bg-text-main/5 border border-border/10 focus:border-primary focus:ring-1 focus:ring-primary/20 rounded-lg px-4 py-3 text-sm text-text-main placeholder-text-muted/50 outline-none transition-all w-full"
                                                 placeholder="+1 (809) 000-0000" type="tel" />
                                         </label>
                                         <label className="flex flex-col gap-2">
-                                            <span className="text-sm font-medium text-white/90">Género</span>
+                                            <span className="text-sm font-medium text-text-main/90">Género</span>
                                             <select name="gender" value={formData.gender} onChange={handleChange}
-                                                className="bg-black/30 border border-white/10 focus:border-primary focus:ring-1 focus:ring-primary/20 rounded-lg px-4 py-3 text-sm text-white outline-none transition-all w-full appearance-none cursor-pointer">
+                                                className="bg-text-main/5 border border-border/10 focus:border-primary focus:ring-1 focus:ring-primary/20 rounded-lg px-4 py-3 text-sm text-text-main outline-none transition-all w-full appearance-none cursor-pointer">
                                                 <option value="" className="bg-surface-dark">Seleccionar</option>
                                                 <option value="femenino" className="bg-surface-dark">Femenino</option>
                                                 <option value="masculino" className="bg-surface-dark">Masculino</option>
@@ -513,7 +513,7 @@ const LandingPage = () => {
                                     </div>
                                 </div>
 
-                                <div className="h-px bg-white/10 w-full" />
+                                <div className="h-px bg-text-main/10 w-full" />
 
                                 {/* ---- Fitness Profile ---- */}
                                 <div className="space-y-4">
@@ -522,27 +522,27 @@ const LandingPage = () => {
                                     </h3>
                                     <div className="grid grid-cols-3 gap-4">
                                         <label className="flex flex-col gap-2">
-                                            <span className="text-sm font-medium text-white/90">Edad</span>
+                                            <span className="text-sm font-medium text-text-main/90">Edad</span>
                                             <input name="age" value={formData.age} onChange={handleChange}
-                                                className="bg-black/30 border border-white/10 focus:border-primary focus:ring-1 focus:ring-primary/20 rounded-lg px-4 py-3 text-sm text-white placeholder-white/20 outline-none transition-all w-full"
+                                                className="bg-text-main/5 border border-border/10 focus:border-primary focus:ring-1 focus:ring-primary/20 rounded-lg px-4 py-3 text-sm text-text-main placeholder-text-muted/50 outline-none transition-all w-full"
                                                 placeholder="25" type="number" />
                                         </label>
                                         <label className="flex flex-col gap-2">
-                                            <span className="text-sm font-medium text-white/90">Peso (kg)</span>
+                                            <span className="text-sm font-medium text-text-main/90">Peso (kg)</span>
                                             <input name="weight" value={formData.weight} onChange={handleChange}
-                                                className="bg-black/30 border border-white/10 focus:border-primary focus:ring-1 focus:ring-primary/20 rounded-lg px-4 py-3 text-sm text-white placeholder-white/20 outline-none transition-all w-full"
+                                                className="bg-text-main/5 border border-border/10 focus:border-primary focus:ring-1 focus:ring-primary/20 rounded-lg px-4 py-3 text-sm text-text-main placeholder-text-muted/50 outline-none transition-all w-full"
                                                 placeholder="60" type="number" />
                                         </label>
                                         <label className="flex flex-col gap-2">
-                                            <span className="text-sm font-medium text-white/90">Altura (cm)</span>
+                                            <span className="text-sm font-medium text-text-main/90">Altura (cm)</span>
                                             <input name="height" value={formData.height} onChange={handleChange}
-                                                className="bg-black/30 border border-white/10 focus:border-primary focus:ring-1 focus:ring-primary/20 rounded-lg px-4 py-3 text-sm text-white placeholder-white/20 outline-none transition-all w-full"
+                                                className="bg-text-main/5 border border-border/10 focus:border-primary focus:ring-1 focus:ring-primary/20 rounded-lg px-4 py-3 text-sm text-text-main placeholder-text-muted/50 outline-none transition-all w-full"
                                                 placeholder="165" type="number" />
                                         </label>
                                     </div>
                                 </div>
 
-                                <div className="h-px bg-white/10 w-full" />
+                                <div className="h-px bg-text-main/10 w-full" />
 
                                 {/* ---- Goals & Plan ---- */}
                                 <div className="space-y-4">
@@ -551,9 +551,9 @@ const LandingPage = () => {
                                     </h3>
                                     <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                                         <label className="flex flex-col gap-2">
-                                            <span className="text-sm font-medium text-white/90">Objetivo Principal</span>
+                                            <span className="text-sm font-medium text-text-main/90">Objetivo Principal</span>
                                             <select name="goal" value={formData.goal} onChange={handleChange}
-                                                className="bg-black/30 border border-white/10 focus:border-primary focus:ring-1 focus:ring-primary/20 rounded-lg px-4 py-3 text-sm text-white outline-none transition-all w-full appearance-none cursor-pointer">
+                                                className="bg-text-main/5 border border-border/10 focus:border-primary focus:ring-1 focus:ring-primary/20 rounded-lg px-4 py-3 text-sm text-text-main outline-none transition-all w-full appearance-none cursor-pointer">
                                                 <option value="" className="bg-surface-dark">Selecciona una opción</option>
                                                 <option value="perder_grasa" className="bg-surface-dark">Perder grasa</option>
                                                 <option value="ganar_musculo" className="bg-surface-dark">Ganar músculo</option>
@@ -563,9 +563,9 @@ const LandingPage = () => {
                                             </select>
                                         </label>
                                         <label className="flex flex-col gap-2">
-                                            <span className="text-sm font-medium text-white/90">Selecciona tu Plan</span>
+                                            <span className="text-sm font-medium text-text-main/90">Selecciona tu Plan</span>
                                             <select name="plan" value={formData.plan} onChange={handleChange}
-                                                className="bg-black/30 border border-white/10 focus:border-primary focus:ring-1 focus:ring-primary/20 rounded-lg px-4 py-3 text-sm text-white outline-none transition-all w-full appearance-none cursor-pointer">
+                                                className="bg-text-main/5 border border-border/10 focus:border-primary focus:ring-1 focus:ring-primary/20 rounded-lg px-4 py-3 text-sm text-text-main outline-none transition-all w-full appearance-none cursor-pointer">
                                                 <option value="" className="bg-surface-dark">Elige un nivel</option>
                                                 <option value="BÁSICO" className="bg-surface-dark">BÁSICO — RD$1,200/mes</option>
                                                 <option value="INTERMEDIO" className="bg-surface-dark">INTERMEDIO — RD$2,000/mes</option>
@@ -575,7 +575,7 @@ const LandingPage = () => {
                                     </div>
                                 </div>
 
-                                <div className="h-px bg-white/10 w-full" />
+                                <div className="h-px bg-text-main/10 w-full" />
 
                                 {/* ---- Experience & Availability ---- */}
                                 <div className="space-y-4">
@@ -584,9 +584,9 @@ const LandingPage = () => {
                                     </h3>
                                     <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                                         <label className="flex flex-col gap-2">
-                                            <span className="text-sm font-medium text-white/90">Nivel de Experiencia</span>
+                                            <span className="text-sm font-medium text-text-main/90">Nivel de Experiencia</span>
                                             <select name="experienceLevel" value={formData.experienceLevel} onChange={handleChange}
-                                                className="bg-black/30 border border-white/10 focus:border-primary focus:ring-1 focus:ring-primary/20 rounded-lg px-4 py-3 text-sm text-white outline-none transition-all w-full appearance-none cursor-pointer">
+                                                className="bg-text-main/5 border border-border/10 focus:border-primary focus:ring-1 focus:ring-primary/20 rounded-lg px-4 py-3 text-sm text-text-main outline-none transition-all w-full appearance-none cursor-pointer">
                                                 <option value="" className="bg-surface-dark">Seleccionar</option>
                                                 <option value="principiante" className="bg-surface-dark">Principiante (0-6 meses)</option>
                                                 <option value="intermedio" className="bg-surface-dark">Intermedio (6 meses - 2 años)</option>
@@ -594,9 +594,9 @@ const LandingPage = () => {
                                             </select>
                                         </label>
                                         <label className="flex flex-col gap-2">
-                                            <span className="text-sm font-medium text-white/90">Disponibilidad Semanal</span>
+                                            <span className="text-sm font-medium text-text-main/90">Disponibilidad Semanal</span>
                                             <select name="availability" value={formData.availability} onChange={handleChange}
-                                                className="bg-black/30 border border-white/10 focus:border-primary focus:ring-1 focus:ring-primary/20 rounded-lg px-4 py-3 text-sm text-white outline-none transition-all w-full appearance-none cursor-pointer">
+                                                className="bg-text-main/5 border border-border/10 focus:border-primary focus:ring-1 focus:ring-primary/20 rounded-lg px-4 py-3 text-sm text-text-main outline-none transition-all w-full appearance-none cursor-pointer">
                                                 <option value="" className="bg-surface-dark">Seleccionar</option>
                                                 <option value="2-3" className="bg-surface-dark">2-3 días por semana</option>
                                                 <option value="4-5" className="bg-surface-dark">4-5 días por semana</option>
@@ -604,9 +604,9 @@ const LandingPage = () => {
                                             </select>
                                         </label>
                                         <label className="flex flex-col gap-2">
-                                            <span className="text-sm font-medium text-white/90">Preferencia de Contacto</span>
+                                            <span className="text-sm font-medium text-text-main/90">Preferencia de Contacto</span>
                                             <select name="contactPreference" value={formData.contactPreference} onChange={handleChange}
-                                                className="bg-black/30 border border-white/10 focus:border-primary focus:ring-1 focus:ring-primary/20 rounded-lg px-4 py-3 text-sm text-white outline-none transition-all w-full appearance-none cursor-pointer">
+                                                className="bg-text-main/5 border border-border/10 focus:border-primary focus:ring-1 focus:ring-primary/20 rounded-lg px-4 py-3 text-sm text-text-main outline-none transition-all w-full appearance-none cursor-pointer">
                                                 <option value="" className="bg-surface-dark">Seleccionar</option>
                                                 <option value="whatsapp" className="bg-surface-dark">WhatsApp</option>
                                                 <option value="email" className="bg-surface-dark">Email</option>
@@ -616,14 +616,14 @@ const LandingPage = () => {
                                     </div>
                                 </div>
 
-                                <div className="h-px bg-white/10 w-full" />
+                                <div className="h-px bg-text-main/10 w-full" />
 
                                 {/* ---- Medical ---- */}
                                 <div className="space-y-4">
                                     <label className="flex flex-col gap-2">
-                                        <span className="text-sm font-medium text-white/90">Lesiones o condiciones médicas</span>
+                                        <span className="text-sm font-medium text-text-main/90">Lesiones o condiciones médicas</span>
                                         <textarea name="medicalConditions" value={formData.medicalConditions} onChange={handleChange}
-                                            className="bg-black/30 border border-white/10 focus:border-primary focus:ring-1 focus:ring-primary/20 rounded-lg px-4 py-3 text-sm text-white placeholder-white/20 outline-none transition-all w-full resize-none"
+                                            className="bg-text-main/5 border border-border/10 focus:border-primary focus:ring-1 focus:ring-primary/20 rounded-lg px-4 py-3 text-sm text-text-main placeholder-text-muted/50 outline-none transition-all w-full resize-none"
                                             placeholder="Describe brevemente si tienes alguna lesión, alergia alimentaria o condición médica relevante..."
                                             rows={3} />
                                     </label>
@@ -634,14 +634,14 @@ const LandingPage = () => {
                                     <button
                                         type="submit"
                                         disabled={isSubmitting}
-                                        className="group relative w-full h-14 flex items-center justify-center rounded-xl overflow-hidden font-bold text-white shadow-[0_0_20px_-5px_rgba(212,175,55,0.5)] transition-transform hover:scale-[1.01] active:scale-[0.99] disabled:opacity-70 disabled:cursor-not-allowed"
+                                        className="group relative w-full h-14 flex items-center justify-center rounded-xl overflow-hidden font-bold text-text-main shadow-[0_0_20px_-5px_rgba(212,175,55,0.5)] transition-transform hover:scale-[1.01] active:scale-[0.99] disabled:opacity-70 disabled:cursor-not-allowed"
                                     >
                                         <div className="absolute inset-0 bg-gradient-to-r from-primary to-secondary transition-all duration-500 group-hover:brightness-110" />
                                         <span className="relative flex items-center gap-2 z-10 tracking-wide uppercase text-sm text-background-dark font-bold">
                                             {isSubmitting ? 'Enviando...' : 'Enviar Inscripción →'}
                                         </span>
                                     </button>
-                                    <p className="text-center text-xs text-gray-500 mt-4">Al enviar este formulario aceptas nuestros términos y condiciones.</p>
+                                    <p className="text-center text-xs text-text-muted mt-4">Al enviar este formulario aceptas nuestros términos y condiciones.</p>
                                 </div>
                             </form>
                         </div>
@@ -650,28 +650,28 @@ const LandingPage = () => {
             </section>
 
             {/* ========== FOOTER ========== */}
-            <footer className="bg-background-dark pt-16 pb-8 px-6 border-t border-white/10">
+            <footer className="bg-background-dark pt-16 pb-8 px-6 border-t border-border/10">
                 <div className="max-w-7xl mx-auto flex flex-col items-center text-center">
                     <div className="mb-8">
                         <div className="flex items-center gap-2 justify-center text-primary mb-4">
                             <span className="text-2xl">◆</span>
-                            <span className="font-display font-bold text-2xl tracking-wide text-white">YEIMI RAMIREZ</span>
+                            <span className="font-display font-bold text-2xl tracking-wide text-text-main">YEIMI RAMIREZ</span>
                         </div>
-                        <p className="text-gray-400 font-light text-sm tracking-wide">IMPULSADO POR CIENCIA Y DISCIPLINA</p>
+                        <p className="text-text-muted font-light text-sm tracking-wide">IMPULSADO POR CIENCIA Y DISCIPLINA</p>
                     </div>
                     <div className="flex gap-6 mb-12">
-                        <a href="#" className="w-10 h-10 rounded-full bg-white/5 hover:bg-primary hover:text-background-dark text-white flex items-center justify-center transition-all duration-300">
+                        <a href="#" className="w-10 h-10 rounded-full bg-text-main/5 hover:bg-primary hover:text-background-dark text-text-main flex items-center justify-center transition-all duration-300">
                             <span className="text-sm font-bold">IG</span>
                         </a>
-                        <a href="#" className="w-10 h-10 rounded-full bg-white/5 hover:bg-primary hover:text-background-dark text-white flex items-center justify-center transition-all duration-300">
+                        <a href="#" className="w-10 h-10 rounded-full bg-text-main/5 hover:bg-primary hover:text-background-dark text-text-main flex items-center justify-center transition-all duration-300">
                             <span className="text-sm font-bold">TK</span>
                         </a>
-                        <a href="#" className="w-10 h-10 rounded-full bg-white/5 hover:bg-primary hover:text-background-dark text-white flex items-center justify-center transition-all duration-300">
+                        <a href="#" className="w-10 h-10 rounded-full bg-text-main/5 hover:bg-primary hover:text-background-dark text-text-main flex items-center justify-center transition-all duration-300">
                             <span className="text-sm font-bold">✉</span>
                         </a>
                     </div>
-                    <div className="w-full h-px bg-white/5 mb-8" />
-                    <div className="flex flex-col md:flex-row gap-6 justify-between w-full text-xs text-gray-500">
+                    <div className="w-full h-px bg-text-main/5 mb-8" />
+                    <div className="flex flex-col md:flex-row gap-6 justify-between w-full text-xs text-text-muted">
                         <p>© 2026 Coach Yeimi Ramirez. Todos los derechos reservados.</p>
                         <div className="flex gap-6 justify-center">
                             <a href="#" className="hover:text-primary transition-colors">Política de Privacidad</a>
@@ -687,7 +687,7 @@ const LandingPage = () => {
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="Chat on WhatsApp"
-                className="fixed bottom-8 right-8 z-[100] group flex items-center justify-center w-16 h-16 rounded-full bg-gradient-to-br from-primary to-[#b89628] shadow-[0_0_20px_rgba(212,175,55,0.4)] hover:shadow-[0_0_30px_rgba(212,175,55,0.6)] hover:scale-110 transition-all duration-300 border-2 border-white/10"
+                className="fixed bottom-8 right-8 z-[100] group flex items-center justify-center w-16 h-16 rounded-full bg-gradient-to-br from-primary to-[#b89628] shadow-[0_0_20px_rgba(212,175,55,0.4)] hover:shadow-[0_0_30px_rgba(212,175,55,0.6)] hover:scale-110 transition-all duration-300 border-2 border-border/10"
             >
                 <svg className="w-8 h-8 text-background-dark fill-current" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                     <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.008-.57-.008-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z" />

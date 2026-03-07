@@ -105,12 +105,12 @@ const LeadsPage = () => {
                     <h2 className="text-3xl font-display font-bold text-text-main mb-2">{t('leads.title')}</h2>
                     <p className="text-text-muted">{t('leads.subtitle')}</p>
                 </div>
-                <div className="flex items-center gap-2 bg-surface-dark rounded-xl p-1 border border-border/10">
+                <div className="flex items-center gap-2 bg-surface-dark rounded-xl p-1 border border-border/10 overflow-x-auto w-full md:w-auto shrink-0 hide-scrollbar">
                     {['all', 'new', 'contacted', 'converted', 'lost'].map(f => (
                         <button
                             key={f}
                             onClick={() => setFilter(f)}
-                            className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${filter === f ? 'bg-primary/20 text-primary' : 'text-text-muted hover:text-text-main'}`}
+                            className={`px-4 py-2 rounded-lg text-sm font-medium transition-all whitespace-nowrap ${filter === f ? 'bg-primary/20 text-primary' : 'text-text-muted hover:text-text-main'}`}
                         >
                             {f === 'all' ? t('leads.filterAll') : getStatusLabel(f)}
                         </button>

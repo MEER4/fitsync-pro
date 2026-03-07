@@ -47,64 +47,64 @@ const DashboardHome = () => {
             {/* Stats Grid */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                 {/* Active Athletes Card */}
-                <div className="relative group overflow-hidden rounded-2xl bg-surface-dark border border-border/10 min-h-[160px] p-6 flex flex-col justify-between transition-all hover:border-primary/50 shadow-xl">
-                    <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1534438327276-14e5300c3a48?q=80&w=1470&auto=format&fit=crop')] bg-cover bg-center opacity-30 group-hover:opacity-40 transition-all duration-700 transform group-hover:scale-105" />
-                    <div className="absolute inset-0 bg-gradient-to-br from-background-dark/90 via-background-dark/60 to-transparent" />
+                <div className="relative group overflow-hidden rounded-2xl bg-[#1a0b2e] border border-border/10 min-h-[160px] p-6 flex flex-col justify-between transition-all hover:border-primary/50 shadow-xl">
+                    <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1534438327276-14e5300c3a48?q=80&w=1470&auto=format&fit=crop')] bg-cover bg-center opacity-40 group-hover:opacity-50 transition-all duration-700 transform group-hover:scale-105" />
+                    <div className="absolute inset-0 bg-gradient-to-br from-black/90 via-black/60 to-black/10" />
 
                     <div className="relative z-10">
                         <div className="flex items-center gap-3 mb-2 text-primary">
                             <Users className="animate-pulse" size={24} />
-                            <span className="text-xs font-bold tracking-wider uppercase">{t('dashboard.activeMembers')}</span>
+                            <span className="text-xs font-bold tracking-wider uppercase text-primary">{t('dashboard.activeMembers')}</span>
                         </div>
                         <div className="flex items-baseline gap-2">
-                            <h3 className="text-4xl font-display font-bold text-text-main">
+                            <h3 className="text-4xl font-display font-bold text-white">
                                 {isLoading ? "..." : stats.activeAthletes}
                             </h3>
-                            <span className="text-text-muted text-sm">{t('dashboard.totalMembers')}</span>
+                            <span className="text-gray-300 text-sm">{t('dashboard.totalMembers')}</span>
                         </div>
                     </div>
                 </div>
 
                 {/* Monthly Revenue Card */}
-                <div className="relative group overflow-hidden rounded-2xl bg-surface-dark border border-border/10 min-h-[160px] p-6 flex flex-col justify-between transition-all hover:border-green-500/50 shadow-xl">
-                    <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?q=80&w=1470&auto=format&fit=crop')] bg-cover bg-center opacity-30 group-hover:opacity-40 transition-all duration-700 transform group-hover:scale-105" />
-                    <div className="absolute inset-0 bg-gradient-to-br from-background-dark/90 via-background-dark/60 to-transparent" />
+                <div className="relative group overflow-hidden rounded-2xl bg-[#1a0b2e] border border-border/10 min-h-[160px] p-6 flex flex-col justify-between transition-all hover:border-green-500/50 shadow-xl">
+                    <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?q=80&w=1470&auto=format&fit=crop')] bg-cover bg-center opacity-40 group-hover:opacity-50 transition-all duration-700 transform group-hover:scale-105" />
+                    <div className="absolute inset-0 bg-gradient-to-br from-black/90 via-black/60 to-black/10" />
 
                     <div className="relative z-10">
-                        <div className="flex items-center gap-3 mb-2 text-green-500">
+                        <div className="flex items-center gap-3 mb-2 text-green-400">
                             <TrendingUp className="animate-pulse" size={24} />
-                            <span className="text-xs font-bold tracking-wider uppercase">{t('dashboard.monthlyRevenue')}</span>
+                            <span className="text-xs font-bold tracking-wider uppercase text-green-400">{t('dashboard.monthlyRevenue')}</span>
                         </div>
                         <div className="flex items-baseline gap-2">
-                            <h3 className="text-4xl font-display font-bold text-text-main">
+                            <h3 className="text-4xl font-display font-bold text-white">
                                 {isLoading ? "..." : `$${stats.monthlyRevenue}`}
                             </h3>
-                            <span className="text-text-muted text-sm">{t('dashboard.estimated')}</span>
+                            <span className="text-gray-300 text-sm">{t('dashboard.estimated')}</span>
                         </div>
-                        <p className="text-green-500/80 text-xs mt-1 font-mono">{t('dashboard.basedOn')}</p>
+                        <p className="text-green-400/80 text-xs mt-1 font-mono">{t('dashboard.basedOn')}</p>
                     </div>
                 </div>
 
                 {/* Completion Rate Card */}
-                <div className="relative group overflow-hidden rounded-2xl bg-surface-dark border border-border/10 min-h-[160px] p-6 flex flex-col justify-between transition-all hover:border-purple-500/50 shadow-xl">
-                    <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1576678927484-cc907957088c?q=80&w=1470&auto=format&fit=crop')] bg-cover bg-center opacity-30 group-hover:opacity-40 transition-all duration-700 transform group-hover:scale-105" />
-                    <div className="absolute inset-0 bg-gradient-to-br from-background-dark/90 via-background-dark/60 to-transparent" />
+                <div className="relative group overflow-hidden rounded-2xl bg-[#1a0b2e] border border-border/10 min-h-[160px] p-6 flex flex-col justify-between transition-all hover:border-purple-500/50 shadow-xl">
+                    <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1576678927484-cc907957088c?q=80&w=1470&auto=format&fit=crop')] bg-cover bg-center opacity-40 group-hover:opacity-50 transition-all duration-700 transform group-hover:scale-105" />
+                    <div className="absolute inset-0 bg-gradient-to-br from-black/90 via-black/60 to-black/10" />
 
                     <div className="relative z-10">
-                        <div className="flex items-center gap-3 mb-2 text-purple-500">
+                        <div className="flex items-center gap-3 mb-2 text-purple-400">
                             <Activity className="animate-pulse" size={24} />
-                            <span className="text-xs font-bold tracking-wider uppercase">{t('dashboard.completionRate')}</span>
+                            <span className="text-xs font-bold tracking-wider uppercase text-purple-400">{t('dashboard.completionRate')}</span>
                         </div>
                         <div className="flex items-baseline gap-2">
-                            <h3 className="text-4xl font-display font-bold text-text-main">
+                            <h3 className="text-4xl font-display font-bold text-white">
                                 {isLoading ? "..." : `${stats.completionRate}%`}
                             </h3>
-                            <span className="text-text-muted text-sm">{t('dashboard.allTime')}</span>
+                            <span className="text-gray-300 text-sm">{t('dashboard.allTime')}</span>
                         </div>
                         {/* Simple progress bar */}
-                        <div className="w-full bg-text-main/10 h-1 rounded-full mt-3 overflow-hidden">
+                        <div className="w-full bg-white/20 h-1 rounded-full mt-3 overflow-hidden">
                             <div
-                                className="bg-purple-500 h-full transition-all duration-1000"
+                                className="bg-purple-500 h-full transition-all duration-1000 shadow-[0_0_10px_#a855f7]"
                                 style={{ width: `${stats.completionRate}%` }}
                             />
                         </div>
@@ -117,20 +117,20 @@ const DashboardHome = () => {
                 {/* Active Routines Card */}
                 <div
                     onClick={() => navigate('/dashboard/routines/new')}
-                    className="relative group overflow-hidden rounded-2xl bg-surface-dark border border-border/10 min-h-[160px] p-6 flex flex-col justify-between transition-all hover:border-blue-500/50 shadow-xl cursor-pointer"
+                    className="relative group overflow-hidden rounded-2xl bg-[#1a0b2e] border border-border/10 min-h-[160px] p-6 flex flex-col justify-between transition-all hover:border-blue-500/50 shadow-xl cursor-pointer"
                 >
-                    <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1517963879433-6ad2b056d712?q=80&w=1470&auto=format&fit=crop')] bg-cover bg-center opacity-30 group-hover:opacity-40 transition-all duration-700 transform group-hover:scale-105" />
-                    <div className="absolute inset-0 bg-gradient-to-br from-background-dark/90 via-background-dark/60 to-transparent" />
+                    <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1517963879433-6ad2b056d712?q=80&w=1470&auto=format&fit=crop')] bg-cover bg-center opacity-40 group-hover:opacity-50 transition-all duration-700 transform group-hover:scale-105" />
+                    <div className="absolute inset-0 bg-gradient-to-br from-black/90 via-black/60 to-black/10" />
                     <div className="relative z-10">
-                        <div className="flex items-center gap-3 mb-2 text-blue-500">
+                        <div className="flex items-center gap-3 mb-2 text-blue-400">
                             <Dumbbell className="animate-pulse" size={24} />
-                            <span className="text-xs font-bold tracking-wider uppercase">{t('dashboard.activeRoutines')}</span>
+                            <span className="text-xs font-bold tracking-wider uppercase text-blue-400">{t('dashboard.activeRoutines')}</span>
                         </div>
                         <div className="flex items-baseline gap-2">
-                            <h3 className="text-4xl font-display font-bold text-text-main">
+                            <h3 className="text-4xl font-display font-bold text-white">
                                 {isLoading ? "..." : stats.activeRoutines}
                             </h3>
-                            <span className="text-text-muted text-sm">{t('dashboard.created')}</span>
+                            <span className="text-gray-300 text-sm">{t('dashboard.created')}</span>
                         </div>
                     </div>
                 </div>
@@ -138,20 +138,20 @@ const DashboardHome = () => {
                 {/* Pending Assignments Card */}
                 <div
                     onClick={() => navigate('/dashboard/members')}
-                    className="relative group overflow-hidden rounded-2xl bg-surface-dark border border-border/10 min-h-[160px] p-6 flex flex-col justify-between transition-all hover:border-orange-500/50 shadow-xl cursor-pointer"
+                    className="relative group overflow-hidden rounded-2xl bg-[#1a0b2e] border border-border/10 min-h-[160px] p-6 flex flex-col justify-between transition-all hover:border-orange-500/50 shadow-xl cursor-pointer"
                 >
-                    <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1599058917212-d750089bc07e?q=80&w=1469&auto=format&fit=crop')] bg-cover bg-center opacity-30 group-hover:opacity-40 transition-all duration-700 transform group-hover:scale-105" />
-                    <div className="absolute inset-0 bg-gradient-to-br from-background-dark/90 via-background-dark/60 to-transparent" />
+                    <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1599058917212-d750089bc07e?q=80&w=1469&auto=format&fit=crop')] bg-cover bg-center opacity-40 group-hover:opacity-50 transition-all duration-700 transform group-hover:scale-105" />
+                    <div className="absolute inset-0 bg-gradient-to-br from-black/90 via-black/60 to-black/10" />
                     <div className="relative z-10">
-                        <div className="flex items-center gap-3 mb-2 text-orange-500">
+                        <div className="flex items-center gap-3 mb-2 text-orange-400">
                             <ClipboardList className="animate-pulse" size={24} />
-                            <span className="text-xs font-bold tracking-wider uppercase">{t('dashboard.pendingAssignments')}</span>
+                            <span className="text-xs font-bold tracking-wider uppercase text-orange-400">{t('dashboard.pendingAssignments')}</span>
                         </div>
                         <div className="flex items-baseline gap-2">
-                            <h3 className="text-4xl font-display font-bold text-text-main">
+                            <h3 className="text-4xl font-display font-bold text-white">
                                 {isLoading ? "..." : stats.pendingAssignments}
                             </h3>
-                            <span className="text-text-muted text-sm">{t('dashboard.awaiting')}</span>
+                            <span className="text-gray-300 text-sm">{t('dashboard.awaiting')}</span>
                         </div>
                     </div>
                 </div>
