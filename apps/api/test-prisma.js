@@ -1,0 +1,1 @@
+const { PrismaClient } = require('@prisma/client'); const prisma = new PrismaClient(); async function main() { try { const res = await prisma.diet_templates.findMany(); console.log('Prisma success:', res); } catch(e) { console.error('Prisma error:', e); } finally { await prisma.$disconnect(); } } main();

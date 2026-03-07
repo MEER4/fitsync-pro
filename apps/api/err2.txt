@@ -1,0 +1,8 @@
+
+Invalid `prisma.diet_templates.findMany()` invocation in
+C:\Users\MarioG\Desktop\gymversion_mejorada\apps\api\test-direct.js:1:289
+
+→ 1 const fs = require('fs'); const { PrismaClient } = require('@prisma/client'); const prisma = new PrismaClient({datasourceUrl: 'postgresql://postgres:LQaXHDWdfJ0fP4fY@db.btuygwvelnioyavwrbxg.supabase.co:5432/postgres'}); async function main() { try { const r = await prisma.diet_templates.findMany(
+Can't reach database server at `db.btuygwvelnioyavwrbxg.supabase.co:5432`
+
+Please make sure your database server is running at `db.btuygwvelnioyavwrbxg.supabase.co:5432`.

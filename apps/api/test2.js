@@ -1,0 +1,1 @@
+const fs = require('fs'); const { PrismaClient } = require('@prisma/client'); const prisma = new PrismaClient(); async function main() { try { await prisma.diet_templates.findMany(); } catch(e) { fs.writeFileSync('err.txt', e.message + '\n\n' + e.stack); } finally { await prisma.$disconnect(); } } main();

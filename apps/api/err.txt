@@ -1,0 +1,18 @@
+
+Invalid `prisma.diet_templates.findMany()` invocation in
+C:\Users\MarioG\Desktop\gymversion_mejorada\apps\api\test2.js:1:172
+
+→ 1 const fs = require('fs'); const { PrismaClient } = require('@prisma/client'); const prisma = new PrismaClient(); async function main() { try { await prisma.diet_templates.findMany(
+Error querying the database: FATAL: Tenant or user not found
+
+PrismaClientInitializationError: 
+Invalid `prisma.diet_templates.findMany()` invocation in
+C:\Users\MarioG\Desktop\gymversion_mejorada\apps\api\test2.js:1:172
+
+→ 1 const fs = require('fs'); const { PrismaClient } = require('@prisma/client'); const prisma = new PrismaClient(); async function main() { try { await prisma.diet_templates.findMany(
+Error querying the database: FATAL: Tenant or user not found
+    at $n.handleRequestError (C:\Users\MarioG\Desktop\gymversion_mejorada\node_modules\@prisma\client\runtime\library.js:121:7615)
+    at $n.handleAndLogRequestError (C:\Users\MarioG\Desktop\gymversion_mejorada\node_modules\@prisma\client\runtime\library.js:121:6623)
+    at $n.request (C:\Users\MarioG\Desktop\gymversion_mejorada\node_modules\@prisma\client\runtime\library.js:121:6307)
+    at async l (C:\Users\MarioG\Desktop\gymversion_mejorada\node_modules\@prisma\client\runtime\library.js:130:9633)
+    at async main (C:\Users\MarioG\Desktop\gymversion_mejorada\apps\api\test2.js:1:144)

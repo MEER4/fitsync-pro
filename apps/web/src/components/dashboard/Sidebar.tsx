@@ -19,6 +19,7 @@ export const Sidebar = ({ isOpen, onClose }: SidebarProps) => {
         { to: "/dashboard/members", icon: Users, label: t('nav.members') },
         { to: "/dashboard/leads", icon: UserPlus, label: t('nav.leads') },
         { to: "/dashboard/routines", icon: Activity, label: t('nav.workouts') },
+        { to: "/dashboard/diet-templates", icon: Utensils, label: 'Plantillas Dieta' },
         { to: "/dashboard/exercises", icon: Dumbbell, label: t('nav.exercises') },
         { to: "/dashboard/settings", icon: Settings, label: t('nav.settings') },
     ];

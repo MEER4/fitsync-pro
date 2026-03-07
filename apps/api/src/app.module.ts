@@ -13,6 +13,7 @@ import { DashboardModule } from './dashboard/dashboard.module';
 import { DietsModule } from './diets/diets.module';
 import { LeadsModule } from './leads/leads.module';
 import { MailModule } from './mail/mail.module';
+import { DietTemplatesModule } from './diet-templates/diet-templates.module';
 
 @Module({
     imports: [
@@ -28,6 +29,7 @@ import { MailModule } from './mail/mail.module';
         NotificationsModule,
         LeadsModule,
         MailModule,
+        DietTemplatesModule,
     ],
     controllers: [AppController],
     providers: [AppService],

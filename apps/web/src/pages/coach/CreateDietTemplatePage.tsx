@@ -7,63 +7,66 @@ import api from '../../lib/api';
 import { useToast } from '../../context/ToastContext';
 import { useTranslation } from 'react-i18next';
 
-import { SelectDietTemplateModal } from '../../components/dashboard/SelectDietTemplateModal';
-
 const DAYS = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'];
 const MEALS = ['breakfast', 'lunch', 'dinner', 'snack'];
 
-const CoachDietPage = () => {
-    const { memberId } = useParams();
+const CreateDietTemplatePage = () => {
+    const { templateId } = useParams();
     const navigate = useNavigate();
     const { t } = useTranslation();
     const { showToast } = useToast();
-    const [isLoading, setIsLoading] = useState(true);
+    const [isLoading, setIsLoading] = useState(templateId ? true : false);
     const [isSaving, setIsSaving] = useState(false);
-    const [isModalOpen, setIsModalOpen] = useState(false);
     const [activeDay, setActiveDay] = useState('monday');
-    const [diet, setDiet] = useState<any>({
-        name: 'Weekly Plan',
+    const [template, setTemplate] = useState<any>({
+        name: '',
+        description: '',
         content: {
             targets: { calories: '', protein: '', carbs: '', fats: '' }
         }
     });
 
     useEffect(() => {
-        fetchDiet();
-    }, [memberId]);
+        if (templateId) {
+            fetchTemplate();
+        } else {
+            // Initialize empty diet structure
+            const emptyContent: any = { targets: { calories: '', protein: '', carbs: '', fats: '' } };
+            DAYS.forEach(day => {
+                emptyContent[day] = {};
+                MEALS.forEach(meal => {
+                    emptyContent[day][meal] = '';
+                });
+            });
+            setTemplate({ name: '', description: '', content: emptyContent });
+        }
+    }, [templateId]);
 
-    const fetchDiet = async () => {
+    const fetchTemplate = async () => {
         try {
-            const res = await api.get(`/diets/member/${memberId}`);
+            const res = await api.get(`/diet-templates/${templateId}`);
             if (res.data) {
                 const content = res.data.content || {};
-                setDiet({
-                    name: res.data.name || t('diet.weeklyPlan'),
+                setTemplate({
+                    name: res.data.name || '',
+                    description: res.data.description || '',
                     content: {
                         ...content,
                         targets: content.targets || { calories: '', protein: '', carbs: '', fats: '' }
                     }
                 });
-            } else {
-                // Initialize empty diet structure
-                const emptyContent: any = { targets: { calories: '', protein: '', carbs: '', fats: '' } };
-                DAYS.forEach(day => {
-                    emptyContent[day] = {};
-                    MEALS.forEach(meal => {
-                        emptyContent[day][meal] = '';
-                    });
-                });
-                setDiet({ name: t('diet.weeklyPlan'), content: emptyContent });
             }
         } catch (error) {
-            console.error("Failed to fetch diet", error);
+            console.error("Failed to fetch template", error);
+            showToast(t('common.error'), 'error');
+            navigate('/dashboard/diet-templates');
         } finally {
             setIsLoading(false);
         }
     };
 
     const handleTargetChange = (field: string, value: string) => {
-        setDiet((prev: any) => ({
+        setTemplate((prev: any) => ({
             ...prev,
             content: {
                 ...prev.content,
@@ -76,7 +79,7 @@ const CoachDietPage = () => {
     };
 
     const handleMealChange = (day: string, meal: string, value: string) => {
-        setDiet((prev: any) => ({
+        setTemplate((prev: any) => ({
             ...prev,
             content: {
                 ...prev.content,
@@ -89,33 +92,34 @@ const CoachDietPage = () => {
     };
 
     const handleSave = async () => {
+        if (!template.name) {
+            showToast('El nombre es obligatorio', 'error');
+            return;
+        }
+
         setIsSaving(true);
         try {
-            await api.post('/diets', {
-                memberId,
-                content: diet.content,
-                name: diet.name
-            });
-            showToast(t('diet.savedSuccess'), 'success');
+            if (templateId) {
+                await api.put(`/diet-templates/${templateId}`, {
+                    name: template.name,
+                    description: template.description,
+                    content: template.content,
+                });
+                showToast(t('common.success'), 'success');
+            } else {
+                await api.post('/diet-templates', {
+                    name: template.name,
+                    description: template.description,
+                    content: template.content,
+                });
+                showToast(t('common.success'), 'success');
+                navigate('/dashboard/diet-templates');
+            }
         } catch (error) {
-            console.error("Failed to save diet", error);
-            showToast(t('diet.saveError'), 'error');
+            console.error("Failed to save template", error);
+            showToast(t('common.error'), 'error');
         } finally {
             setIsSaving(false);
-        }
-    };
-
-    const handleTemplateSelect = (template: any) => {
-        // Confirm before overwriting
-        if (window.confirm('¿Estás seguro de que deseas sobrescribir la dieta actual con esta plantilla?')) {
-            setDiet((prev: any) => ({
-                ...prev,
-                content: {
-                    ...template.content,
-                    targets: template.content.targets || { calories: '', protein: '', carbs: '', fats: '' }
-                }
-            }));
-            showToast('Plantilla cargada correctamente', 'success');
         }
     };
 
@@ -124,24 +128,47 @@ const CoachDietPage = () => {
     return (
         <div className="space-y-6 animate-fade-in pb-20 px-4 sm:px-0">
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-                <div className="flex items-center gap-2 sm:gap-4 overflow-hidden">
-                    <Button variant="ghost" size="sm" onClick={() => navigate('/dashboard/members')}>
-                        <ArrowLeft size={20} className="sm:mr-2" /> <span className="hidden sm:inline">{t('diet.back')}</span>
+                <div className="flex items-center gap-2 sm:gap-4">
+                    <Button variant="ghost" size="sm" onClick={() => navigate('/dashboard/diet-templates')}>
+                        <ArrowLeft size={20} className="sm:mr-2" /> <span className="hidden sm:inline">Volver</span>
                     </Button>
-                    <h1 className="text-2xl sm:text-3xl font-display font-bold text-text-main truncate">{t('diet.title')}</h1>
+                    <h1 className="text-2xl sm:text-3xl font-display font-bold text-text-main truncate">
+                        {templateId ? 'Editar Plantilla' : 'Nueva Plantilla'}
+                    </h1>
                 </div>
-                <div className="flex gap-2 w-full sm:w-auto">
-                    <Button variant="outline" size="sm" onClick={() => setIsModalOpen(true)} className="flex-1 sm:flex-none whitespace-nowrap">
-                        Plantillas
-                    </Button>
-                    <Button size="sm" onClick={handleSave} disabled={isSaving} className="flex-1 sm:flex-none">
-                        <Save size={20} className="mr-2" />
-                        {isSaving ? t('diet.saving') : t('diet.save')}
-                    </Button>
-                </div>
+                <Button onClick={handleSave} disabled={isSaving} className="w-full sm:w-auto flex items-center justify-center">
+                    <Save size={20} className="mr-2" />
+                    {isSaving ? t('common.loading') : t('common.save')}
+                </Button>
             </div>
 
             <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
+                {/* Template Info */}
+                <Card className="p-6 bg-surface-dark lg:col-span-4 border-border/10">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                            <label className="block text-sm font-medium text-text-muted mb-2">Nombre de la Plantilla *</label>
+                            <input
+                                type="text"
+                                value={template.name}
+                                onChange={(e) => setTemplate({ ...template, name: e.target.value })}
+                                className="w-full px-4 py-2 rounded-lg bg-background-dark border border-border/10 text-text-main focus:border-primary transition-colors focus:outline-none placeholder:text-text-muted/50"
+                                placeholder="Ej: Dieta Volumen 3000 kcal"
+                            />
+                        </div>
+                        <div>
+                            <label className="block text-sm font-medium text-text-muted mb-2">Descripción (Opcional)</label>
+                            <input
+                                type="text"
+                                value={template.description || ''}
+                                onChange={(e) => setTemplate({ ...template, description: e.target.value })}
+                                className="w-full px-4 py-2 rounded-lg bg-background-dark border border-border/10 text-text-main focus:border-primary transition-colors focus:outline-none placeholder:text-text-muted/50"
+                                placeholder="Breve objetivo de esta dieta"
+                            />
+                        </div>
+                    </div>
+                </Card>
+
                 {/* Diet Targets */}
                 <Card className="p-6 bg-surface-dark lg:col-span-4 border-border/10">
                     <div className="flex items-center gap-3 mb-6">
@@ -156,7 +183,7 @@ const CoachDietPage = () => {
                             <label className="block text-sm font-medium text-text-muted mb-2">{t('diet.calories')}</label>
                             <input
                                 type="number"
-                                value={diet.content.targets?.calories || ''}
+                                value={template.content.targets?.calories || ''}
                                 onChange={(e) => handleTargetChange('calories', e.target.value)}
                                 className="w-full px-4 py-2 rounded-lg bg-background-dark border border-border/10 text-text-main focus:border-primary transition-colors focus:outline-none placeholder:text-text-muted/50"
                                 placeholder="e.g. 2500"
@@ -166,7 +193,7 @@ const CoachDietPage = () => {
                             <label className="block text-sm font-medium text-text-muted mb-2">{t('diet.protein')}</label>
                             <input
                                 type="number"
-                                value={diet.content.targets?.protein || ''}
+                                value={template.content.targets?.protein || ''}
                                 onChange={(e) => handleTargetChange('protein', e.target.value)}
                                 className="w-full px-4 py-2 rounded-lg bg-background-dark border border-border/10 text-text-main focus:border-primary transition-colors focus:outline-none placeholder:text-text-muted/50"
                                 placeholder="e.g. 150"
@@ -176,7 +203,7 @@ const CoachDietPage = () => {
                             <label className="block text-sm font-medium text-text-muted mb-2">{t('diet.carbohydrates')}</label>
                             <input
                                 type="number"
-                                value={diet.content.targets?.carbs || ''}
+                                value={template.content.targets?.carbs || ''}
                                 onChange={(e) => handleTargetChange('carbs', e.target.value)}
                                 className="w-full px-4 py-2 rounded-lg bg-background-dark border border-border/10 text-text-main focus:border-primary transition-colors focus:outline-none placeholder:text-text-muted/50"
                                 placeholder="e.g. 300"
@@ -186,7 +213,7 @@ const CoachDietPage = () => {
                             <label className="block text-sm font-medium text-text-muted mb-2">{t('diet.fats')}</label>
                             <input
                                 type="number"
-                                value={diet.content.targets?.fats || ''}
+                                value={template.content.targets?.fats || ''}
                                 onChange={(e) => handleTargetChange('fats', e.target.value)}
                                 className="w-full px-4 py-2 rounded-lg bg-background-dark border border-border/10 text-text-main focus:border-primary transition-colors focus:outline-none placeholder:text-text-muted/50"
                                 placeholder="e.g. 70"
@@ -216,7 +243,30 @@ const CoachDietPage = () => {
 
                 {/* Meal Editor */}
                 <Card className="p-6 bg-surface-dark lg:col-span-3 border-border/10">
-                    <h2 className="text-2xl font-bold text-text-main mb-6 capitalize">{t('diet.meals', { day: t(`days.${activeDay}`) })}</h2>
+                    <div className="flex justify-between items-center mb-6">
+                        <h2 className="text-2xl font-bold text-text-main capitalize">{t('diet.meals', { day: t(`days.${activeDay}`) })}</h2>
+
+                        {/* Copy Day Feature */}
+                        <div className="relative group">
+                            <Button variant="outline" size="sm" onClick={() => {
+                                const confirmCopy = window.confirm(`¿Copiar ${t(`days.${activeDay}`)} a toda la semana?`);
+                                if (confirmCopy) {
+                                    const sourceContent = template.content[activeDay];
+                                    setTemplate((prev: any) => {
+                                        const newContent = { ...prev.content };
+                                        DAYS.forEach(d => {
+                                            newContent[d] = { ...sourceContent };
+                                        });
+                                        return { ...prev, content: newContent };
+                                    });
+                                    showToast('Día copiado a toda la semana', 'success');
+                                }
+                            }}>
+                                Copiar a todos
+                            </Button>
+                        </div>
+                    </div>
+
                     <div className="space-y-6">
                         {MEALS.map(meal => (
                             <div key={meal}>
@@ -224,7 +274,7 @@ const CoachDietPage = () => {
                                 <textarea
                                     className="w-full bg-background-dark border border-border/10 rounded-lg p-4 text-text-main focus:outline-none focus:border-primary/50 min-h-[100px] placeholder:text-text-muted"
                                     placeholder={t('diet.enterPlan', { meal: t(`mealNames.${meal}`) })}
-                                    value={diet.content[activeDay]?.[meal] || ''}
+                                    value={template.content[activeDay]?.[meal] || ''}
                                     onChange={(e) => handleMealChange(activeDay, meal, e.target.value)}
                                 />
                             </div>
@@ -232,14 +282,8 @@ const CoachDietPage = () => {
                     </div>
                 </Card>
             </div>
-
-            <SelectDietTemplateModal
-                isOpen={isModalOpen}
-                onClose={() => setIsModalOpen(false)}
-                onSelect={handleTemplateSelect}
-            />
         </div>
     );
 };
 
-export default CoachDietPage;
+export default CreateDietTemplatePage;

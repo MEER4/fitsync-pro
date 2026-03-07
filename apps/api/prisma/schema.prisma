@@ -47,6 +47,7 @@ model profiles {
   diets_as_coach        diets[]       @relation("coach_diets")
   diets_as_member       diets[]       @relation("member_diets")
   leads                 leads[]       @relation("coach_leads")
+  diet_templates        diet_templates[]
 }
 
 model diets {
@@ -145,4 +146,16 @@ model leads {
 
   // Relaciones
   coach               profiles? @relation("coach_leads", fields: [coach_id], references: [id])
+}
+
+model diet_templates {
+  id          String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  coach_id    String    @db.Uuid
+  name        String
+  description String?
+  content     Json
+  created_at  DateTime? @default(now()) @db.Timestamptz(6)
+  updated_at  DateTime? @updatedAt @db.Timestamptz(6)
+
+  coach       profiles @relation(fields: [coach_id], references: [id], onDelete: Cascade)
 }
