@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
+import { Menu, X } from 'lucide-react';
 
 const LandingPage = () => {
     const [formData, setFormData] = useState({
@@ -20,6 +21,7 @@ const LandingPage = () => {
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [submitted, setSubmitted] = useState(false);
     const [showForm, setShowForm] = useState(false);
+    const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
     // Intersection observer for graph animation
     const [graphVisible, setGraphVisible] = useState(false);
@@ -94,27 +96,66 @@ const LandingPage = () => {
                         <span className="text-primary text-3xl group-hover:rotate-12 transition-transform">◆</span>
                         <span className="font-display font-bold text-xl tracking-wide text-white">YEIMI RAMIREZ</span>
                     </div>
+
+                    {/* Desktop Menu */}
                     <div className="hidden md:flex items-center gap-8">
                         <a href="#inicio" className="text-sm font-medium text-gray-300 hover:text-primary transition-colors">Inicio</a>
                         <a href="#servicios" className="text-sm font-medium text-gray-300 hover:text-primary transition-colors">Servicios</a>
                         <a href="#programas" className="text-sm font-medium text-gray-300 hover:text-primary transition-colors">Programas</a>
                         <a href="#testimonios" className="text-sm font-medium text-gray-300 hover:text-primary transition-colors">Sobre Mí</a>
                     </div>
-                    <div className="flex items-center gap-3">
+
+                    {/* Desktop Actions */}
+                    <div className="hidden md:flex items-center gap-3">
                         <Link
                             to="/auth/login"
-                            className="hidden md:flex items-center justify-center h-10 px-6 rounded-full border border-primary/50 text-primary hover:bg-primary hover:text-background-dark transition-all duration-300 text-sm font-bold"
+                            className="flex items-center justify-center h-10 px-6 rounded-full border border-primary/50 text-primary hover:bg-primary hover:text-background-dark transition-all duration-300 text-sm font-bold"
                         >
                             Login
                         </Link>
                         <button
                             onClick={() => { setShowForm(true); document.getElementById('inscripcion')?.scrollIntoView({ behavior: 'smooth' }); }}
-                            className="hidden md:flex items-center justify-center h-10 px-6 rounded-full bg-gradient-to-r from-primary to-secondary text-background-dark text-sm font-bold shadow-lg shadow-primary/20 hover:shadow-primary/40 hover:scale-105 transition-all duration-300"
+                            className="flex items-center justify-center h-10 px-6 rounded-full bg-gradient-to-r from-primary to-secondary text-background-dark text-sm font-bold shadow-lg shadow-primary/20 hover:shadow-primary/40 hover:scale-105 transition-all duration-300"
                         >
                             Unirse
                         </button>
                     </div>
+
+                    {/* Mobile Menu Actions */}
+                    <div className="md:hidden flex items-center gap-4">
+                        <Link
+                            to="/auth/login"
+                            className="flex items-center justify-center h-8 px-4 rounded-full border border-primary/50 text-primary text-xs font-bold"
+                        >
+                            Login
+                        </Link>
+                        <button
+                            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+                            className="text-white p-1"
+                        >
+                            {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
+                        </button>
+                    </div>
                 </div>
+
+                {/* Mobile Dropdown */}
+                {isMobileMenuOpen && (
+                    <div className="md:hidden absolute top-full left-0 w-full bg-background-dark/95 backdrop-blur-xl border-b border-white/10 p-6 flex flex-col gap-6 shadow-2xl animate-fade-in">
+                        <div className="flex flex-col gap-4">
+                            <a href="#inicio" onClick={() => setIsMobileMenuOpen(false)} className="text-lg font-medium text-gray-300 hover:text-primary">Inicio</a>
+                            <a href="#servicios" onClick={() => setIsMobileMenuOpen(false)} className="text-lg font-medium text-gray-300 hover:text-primary">Servicios</a>
+                            <a href="#programas" onClick={() => setIsMobileMenuOpen(false)} className="text-lg font-medium text-gray-300 hover:text-primary">Programas</a>
+                            <a href="#testimonios" onClick={() => setIsMobileMenuOpen(false)} className="text-lg font-medium text-gray-300 hover:text-primary">Sobre Mí</a>
+                        </div>
+                        <div className="h-px bg-white/10 w-full" />
+                        <button
+                            onClick={() => { setIsMobileMenuOpen(false); setShowForm(true); document.getElementById('inscripcion')?.scrollIntoView({ behavior: 'smooth' }); }}
+                            className="w-full flex items-center justify-center h-12 rounded-full bg-gradient-to-r from-primary to-secondary text-background-dark font-bold shadow-lg"
+                        >
+                            Unirse a la Comunidad
+                        </button>
+                    </div>
+                )}
             </nav>
 
             {/* ========== HERO ========== */}
