@@ -53,3 +53,23 @@ Este documento registra los errores técnicos recurrentes encontrados durante el
 - **Solución:**
   1. Redirigir la salida a un archivo para inspección completa: `npm run dev > backend.log 2>&1`.
   2. Usar comandos de lectura de texto plano (`Get-Content`) para evitar errores de codificación (UTF-16LE vs UTF-8).
+
+---
+
+## 5. Errores de Despliegue en Render (Render/Build)
+
+### Error: `Error: Cannot find module '/opt/render/project/src/apps/api/dist/main'` (MODULE_NOT_FOUND)
+- **Causa 1:** El comando `nest build` requiere herramientas como `@nestjs/cli` y `typescript`. Si estas se encuentran en `devDependencies`, Render (al estar en modo producción) no las instala y el build falla silenciosamente sin generar la carpeta `/dist`.
+- **Causa 2:** Si existen archivos de prueba o scripts `.ts` fuera de la carpeta `src/`, el compilador `tsc` intenta replicar la estructura de carpetas en el output, moviendo el archivo principal a `dist/src/main.js` en lugar de `dist/main.js`.
+- **Solución:**
+  1. **Mover dependencias de build:** Pasar `@nestjs/cli`, `typescript`, `@types/node`, `@types/express` y `@nestjs/schematics` de `devDependencies` a `dependencies` en `apps/api/package.json`.
+  2. **Configurar `postinstall`:** Añadir `"postinstall": "npm run build:api"` en el `package.json` de la raíz para asegurar que la API se compile automáticamente tras instalar paquetes.
+  3. **Forzar estructura de salida:** En `apps/api/tsconfig.json`, añadir explicitly:
+     ```json
+     "include": ["src/**/*"],
+     "exclude": ["node_modules", "dist", "**/*spec.ts"]
+     ```
+     Esto garantiza que `main.js` se genere siempre en la raíz de la carpeta `dist/`.
+  4. **Usar `tsc` si NestJS falla:** Si `nest build` sigue fallando localmente sin errores claros, cambiar el script de build a `tsc -p tsconfig.json` para obtener una depuración más transparente.
+  5. **El secreto final `.renderignore`**: Render, por defecto, ELIMINA entre la fase de "Build" y la de "Deploy" todos los archivos y carpetas que pertenezcan al `.gitignore` original (como `apps/api/dist/`). Se debe crear un archivo vacío llamado \`.renderignore\` en la raíz del proyecto para sobrescribir esto y que **Render no borre la carpeta `/dist` compilada** tras hacer el script de compilado.
+
