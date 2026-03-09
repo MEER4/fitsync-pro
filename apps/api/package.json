@@ -4,6 +4,7 @@
     "private": true,
     "scripts": {
         "build": "tsc -p tsconfig.json",
+        "postbuild": "node -e \"try { console.log('POSTBUILD DIST DIRECTORY CONTAINTS:', require('fs').readdirSync('./dist')); if (require('fs').existsSync('./dist/main.js')) { console.log('SUCCESS: main.js FOUND'); } else { console.log('CRITICAL ERROR: main.js MISSING!'); } } catch (e) { console.log('CRITICAL: FAILED TO READ DIST', e.message); }\"",
         "start": "node dist/main.js",
         "start:dev": "nest start --watch",
         "dev": "nest start --watch",
