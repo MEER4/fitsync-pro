@@ -5,11 +5,10 @@
     "apps/*"
   ],
   "scripts": {
-    "dev": "npm run dev --workspaces --if-present",
-    "build": "npm run build --workspaces --if-present",
+    "dev": "npm run dev --workspace=apps/web",
+    "build": "npm run build --workspace=apps/web",
     "build:api": "npm run build --workspace=apps/api",
-    "start:api": "npm run start --workspace=apps/api",
-    "postinstall": "npm run build:api"
+    "start:api": "npm run start --workspace=apps/api"
   },
   "dependencies": {
     "prisma": "^5.22.0",
