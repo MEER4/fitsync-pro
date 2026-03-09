@@ -50,9 +50,6 @@ function App() {
                 <Route index element={<DashboardIndex />} />
                 <Route path="settings" element={<SettingsPage />} />
 
-                import DietTemplatesPage from './pages/coach/DietTemplatesPage';
-                import CreateDietTemplatePage from './pages/coach/CreateDietTemplatePage';
-
                 {/* Coach Routes */}
                 <Route element={<ProtectedRoute allowedRoles={['coach']} />}>
                   <Route index element={<DashboardHome />} />
@@ -61,6 +58,7 @@ function App() {
                   <Route path="routines/:routineId/edit" element={<EditRoutinePage />} />
                   <Route path="diet-templates" element={<DietTemplatesPage />} />
                   <Route path="diet-templates/new" element={<CreateDietTemplatePage />} />
+                  <Route path="diet-templates/:templateId/edit" element={<CreateDietTemplatePage />} />
                   <Route path="exercises" element={<ExercisesPage />} />
                   <Route path="members" element={<MembersPage />} />
                   <Route path="members/:memberId" element={<MemberProfilePage />} />
