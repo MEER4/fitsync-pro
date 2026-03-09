@@ -1,0 +1,7 @@
+# This file overrides .gitignore on Render.
+# We do NOT ignore dist/ so that compiled files are deployed successfully.
+node_modules/
+.env
+.vscode/
+.idea/
+.DS_Store
