@@ -5,7 +5,11 @@ import { AppModule } from './app.module';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   app.enableCors({
-    origin: '*', // Allow all origins for dev
+    origin: [
+      'https://fitsync-pro-web.vercel.app',
+      'http://localhost:5173', // Local dev
+      'http://localhost:3000', // Alternative local dev
+    ],
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
     credentials: true,
   });
