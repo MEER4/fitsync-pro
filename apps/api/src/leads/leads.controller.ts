@@ -1,4 +1,5 @@
 import { Controller, Post, Get, Patch, Delete, Body, Param, Req, UseGuards } from '@nestjs/common';
+import { Throttle } from '@nestjs/throttler';
 import { LeadsService } from './leads.service';
 import { SupabaseAuthGuard } from '../auth/supabase-auth.guard';
 import { CreateLeadDto } from './dto/create-lead.dto';
@@ -9,6 +10,8 @@ export class LeadsController {
     constructor(private readonly leadsService: LeadsService) { }
 
     // Public endpoint - no auth required (form submission from landing page)
+    // Strict rate limit: 3 requests per minute to prevent spam
+    @Throttle({ short: { limit: 1, ttl: 1000 }, long: { limit: 3, ttl: 60000 } })
     @Post()
     async create(@Body() createLeadDto: CreateLeadDto) {
         // For now, assign to first coach or null (can be improved later)
