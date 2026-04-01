@@ -52,11 +52,10 @@ export const Sidebar = ({ isOpen, onClose }: SidebarProps) => {
         );
     }
 
-    // Default to member links if role is missing or not 'coach', to be safe.
-    // Ideally, if no role, maybe show nothing or generic links.
-    // Default to member links if role is missing or not 'coach', to be safe.
-    // Ideally, if no role, maybe show nothing or generic links.
-    const links = profile?.role === 'coach' ? coachLinks : memberLinks;
+    // Admin and coach see the same navigation (coach dashboard with all features)
+    // Members see their own limited dashboard
+    const isCoachOrAdmin = profile?.role === 'coach' || profile?.role === 'admin';
+    const links = isCoachOrAdmin ? coachLinks : memberLinks;
 
     return (
         <aside
