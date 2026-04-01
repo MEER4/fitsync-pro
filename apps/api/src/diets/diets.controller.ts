@@ -1,6 +1,7 @@
 import { Controller, Get, Post, Body, Param, Request, UseGuards } from '@nestjs/common';
 import { DietsService } from './diets.service';
 import { SupabaseAuthGuard } from '../auth/supabase-auth.guard';
+import { UpsertDietDto } from './dto/upsert-diet.dto';
 
 @Controller('diets')
 @UseGuards(SupabaseAuthGuard)
@@ -18,13 +19,13 @@ export class DietsController {
     }
 
     @Post()
-    async upsertDiet(@Request() req: any, @Body() body: { memberId: string; content: any; name?: string }) {
+    async upsertDiet(@Request() req: any, @Body() upsertDietDto: UpsertDietDto) {
         const coachId = req.user.sub;
         return this.dietsService.upsertDiet({
-            memberId: body.memberId,
+            memberId: upsertDietDto.memberId,
             coachId,
-            content: body.content,
-            name: body.name
+            content: upsertDietDto.content,
+            name: upsertDietDto.name
         });
     }
 }

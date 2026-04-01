@@ -1,6 +1,8 @@
 import { Controller, Get, Post, Body, Put, Param, Delete, UseGuards, Req, NotFoundException } from '@nestjs/common';
 import { DietTemplatesService } from './diet-templates.service';
 import { SupabaseAuthGuard } from '../auth/supabase-auth.guard';
+import { CreateDietTemplateDto } from './dto/create-diet-template.dto';
+import { UpdateDietTemplateDto } from './dto/update-diet-template.dto';
 
 @Controller('diet-templates')
 @UseGuards(SupabaseAuthGuard)
@@ -20,21 +22,21 @@ export class DietTemplatesController {
     }
 
     @Post()
-    create(@Body() createDto: { name: string; description?: string; content: any }, @Req() req) {
+    create(@Body() createDietTemplateDto: CreateDietTemplateDto, @Req() req) {
         return this.dietTemplatesService.create({
             coachId: req.user.sub,
-            name: createDto.name,
-            description: createDto.description,
-            content: createDto.content,
+            name: createDietTemplateDto.name,
+            description: createDietTemplateDto.description,
+            content: createDietTemplateDto.content,
         });
     }
 
     @Put(':id')
-    async update(@Param('id') id: string, @Body() updateDto: { name?: string; description?: string; content?: any }, @Req() req) {
+    async update(@Param('id') id: string, @Body() updateDietTemplateDto: UpdateDietTemplateDto, @Req() req) {
         const existing = await this.dietTemplatesService.findOne(id, req.user.sub);
         if (!existing) throw new NotFoundException('Template not found');
 
-        return this.dietTemplatesService.update(id, req.user.sub, updateDto);
+        return this.dietTemplatesService.update(id, req.user.sub, updateDietTemplateDto);
     }
 
     @Delete(':id')

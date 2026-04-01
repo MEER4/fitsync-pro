@@ -88,6 +88,33 @@ export class AssignmentsService {
     }
 
     async assignRoutine(coachId: string, memberId: string, routineId: string, scheduledDate: Date) {
+        // Validate that the member belongs to this coach (unless admin)
+        const coach = await this.prisma.profiles.findUnique({
+            where: { id: coachId },
+            select: { role: true }
+        });
+
+        const isAdmin = coach?.role === 'admin' as any;
+
+        if (!isAdmin) {
+            const member = await this.prisma.profiles.findUnique({
+                where: { id: memberId }
+            });
+
+            const memberCoachId = (member as any)?.coach_id;
+            if (memberCoachId && memberCoachId !== coachId) {
+                throw new ForbiddenException('This member belongs to another coach');
+            }
+
+            // If member has no coach_id, assign them to this coach
+            if (!memberCoachId) {
+                await this.prisma.$executeRawUnsafe(
+                    `UPDATE profiles SET coach_id = $1 WHERE id = $2`,
+                    coachId, memberId
+                );
+            }
+        }
+
         const assignment = await this.prisma.assignments.create({
             data: {
                 coach_id: coachId,

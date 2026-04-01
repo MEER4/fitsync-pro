@@ -9,6 +9,7 @@ datasource db {
 
 // --- ENUMS (Coinciden con tu DB) ---
 enum user_role {
+  admin
   coach
   member
 }
@@ -33,11 +34,16 @@ model profiles {
   email         String?
   full_name     String?
   role          user_role?    @default(member)
+  coach_id      String?       @db.Uuid
   avatar_url    String?
   language_pref   String?       @default("es")
   weekly_goal     Int?          @default(3)
   push_subscription Json?
   created_at      DateTime?     @default(now()) @db.Timestamptz(6)
+  
+  // Relación con coach (para members)
+  coach                 profiles?     @relation("coach_members", fields: [coach_id], references: [id])
+  members               profiles[]    @relation("coach_members")
   
   // Relaciones Inversas
   exercises             exercises[]

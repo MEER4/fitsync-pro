@@ -1,4 +1,4 @@
-import { Controller, Delete, Get, Param, UseGuards } from '@nestjs/common';
+import { Controller, Delete, Get, Param, UseGuards, Request } from '@nestjs/common';
 import { UsersService } from './users.service'; // Service import
 import { SupabaseAuthGuard } from '../auth/supabase-auth.guard';
 
@@ -8,8 +8,9 @@ export class UsersController {
     constructor(private readonly usersService: UsersService) { }
 
     @Get('members')
-    async getMembers() {
-        return this.usersService.getMembers();
+    async getMembers(@Request() req: any) {
+        const userId = req.user.sub;
+        return this.usersService.getMembers(userId);
     }
 
     @Get('members/:id')
