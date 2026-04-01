@@ -13,7 +13,8 @@ const DashboardIndex = () => {
         return <Navigate to="/dashboard/member" replace />;
     }
 
-    if (profile?.role === 'coach') {
+    // Admin sees the same dashboard as coach but with access to ALL members
+    if (profile?.role === 'coach' || profile?.role === 'admin') {
         return <DashboardHome />;
     }
 
