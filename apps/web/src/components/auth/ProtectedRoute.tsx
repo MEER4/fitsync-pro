@@ -3,7 +3,7 @@ import { useAuth } from '../../context/AuthContext';
 import { Loader2 } from 'lucide-react';
 
 interface ProtectedRouteProps {
-    allowedRoles?: ('coach' | 'member')[];
+    allowedRoles?: ('admin' | 'coach' | 'member')[];
 }
 
 export const ProtectedRoute = ({ allowedRoles }: ProtectedRouteProps) => {
