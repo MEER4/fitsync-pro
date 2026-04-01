@@ -50,8 +50,8 @@ function App() {
                 <Route index element={<DashboardIndex />} />
                 <Route path="settings" element={<SettingsPage />} />
 
-                {/* Coach Routes */}
-                <Route element={<ProtectedRoute allowedRoles={['coach']} />}>
+                {/* Coach Routes - Admin also has access */}
+                <Route element={<ProtectedRoute allowedRoles={['admin', 'coach']} />}>
                   <Route index element={<DashboardHome />} />
                   <Route path="routines" element={<RoutinesPage />} />
                   <Route path="routines/new" element={<CreateRoutinePage />} />
