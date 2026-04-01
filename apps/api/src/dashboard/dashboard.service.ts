@@ -6,12 +6,18 @@ export class DashboardService {
     constructor(private prisma: PrismaService) { }
 
     async getStats(coachId: string) {
-        // 1. Active Athletes (Members)
-        const activeAthletes = await this.prisma.profiles.count({
+        // 1. Active Athletes (Members) - Count unique members with assignments from this coach
+        const uniqueMembers = await this.prisma.assignments.findMany({
             where: {
-                role: 'member'
-            }
+                coach_id: coachId,
+                member_id: { not: null }
+            },
+            select: {
+                member_id: true
+            },
+            distinct: ['member_id']
         });
+        const activeAthletes = uniqueMembers.length;
 
         // 2. Completion Rate
         const totalAssignments = await this.prisma.assignments.count({
