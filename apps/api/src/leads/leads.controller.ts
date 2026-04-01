@@ -1,6 +1,8 @@
 import { Controller, Post, Get, Patch, Delete, Body, Param, Req, UseGuards } from '@nestjs/common';
 import { LeadsService } from './leads.service';
 import { SupabaseAuthGuard } from '../auth/supabase-auth.guard';
+import { CreateLeadDto } from './dto/create-lead.dto';
+import { UpdateLeadStatusDto } from './dto/update-lead-status.dto';
 
 @Controller('leads')
 export class LeadsController {
@@ -8,23 +10,9 @@ export class LeadsController {
 
     // Public endpoint - no auth required (form submission from landing page)
     @Post()
-    async create(@Body() body: {
-        full_name: string;
-        email: string;
-        phone?: string;
-        age?: string;
-        weight?: string;
-        height?: string;
-        gender?: string;
-        goal?: string;
-        plan?: string;
-        experience_level?: string;
-        availability?: string;
-        medical_conditions?: string;
-        contact_preference?: string;
-    }) {
+    async create(@Body() createLeadDto: CreateLeadDto) {
         // For now, assign to first coach or null (can be improved later)
-        return this.leadsService.create(body);
+        return this.leadsService.create(createLeadDto);
     }
 
     // Protected - coach only
@@ -38,10 +26,10 @@ export class LeadsController {
     @Patch(':id/status')
     async updateStatus(
         @Param('id') id: string,
-        @Body('status') status: string,
+        @Body() updateLeadStatusDto: UpdateLeadStatusDto,
         @Req() req: any,
     ) {
-        return this.leadsService.updateStatus(id, status, req.user.sub);
+        return this.leadsService.updateStatus(id, updateLeadStatusDto.status, req.user.sub);
     }
 
     @UseGuards(SupabaseAuthGuard)
