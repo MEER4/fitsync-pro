@@ -25,3 +25,6 @@ apps/api/dist/
 
 # Supabase
 supabase/config.toml
+
+# Reports (Información sensible / auditorías)
+reports/
