@@ -5,10 +5,20 @@ import { PrismaService } from '../prisma/prisma.service';
 export class UsersService {
     constructor(private prisma: PrismaService) { }
 
-    async getMembers() {
+    async getMembers(userId: string) {
+        // Get user role to determine if admin
+        const user = await this.prisma.profiles.findUnique({
+            where: { id: userId },
+            select: { role: true }
+        });
+        
+        const isAdmin = user?.role === 'admin' as any;
+
         return this.prisma.profiles.findMany({
             where: {
                 role: 'member',
+                // Admin sees all members, coach sees only their members
+                ...(isAdmin ? {} : { coach_id: userId } as any)
             },
             select: {
                 id: true,

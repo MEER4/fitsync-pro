@@ -5,28 +5,32 @@ import { PrismaService } from '../prisma/prisma.service';
 export class DashboardService {
     constructor(private prisma: PrismaService) { }
 
-    async getStats(coachId: string) {
-        // 1. Active Athletes (Members) - Count unique members with assignments from this coach
-        const uniqueMembers = await this.prisma.assignments.findMany({
-            where: {
-                coach_id: coachId,
-                member_id: { not: null }
-            },
-            select: {
-                member_id: true
-            },
-            distinct: ['member_id']
+    async getStats(userId: string) {
+        // First, get the user's role to determine if admin
+        const user = await this.prisma.profiles.findUnique({
+            where: { id: userId },
+            select: { role: true }
         });
-        const activeAthletes = uniqueMembers.length;
+        
+        const isAdmin = user?.role === 'admin' as any;
+
+        // 1. Active Athletes (Members) - Count members directly from profiles.coach_id
+        // Admin sees ALL members, coach sees only their members
+        const activeAthletes = await this.prisma.profiles.count({
+            where: {
+                role: 'member',
+                ...(isAdmin ? {} : { coach_id: userId } as any)
+            }
+        });
 
         // 2. Completion Rate
         const totalAssignments = await this.prisma.assignments.count({
-            where: { coach_id: coachId }
+            where: isAdmin ? {} : { coach_id: userId }
         });
 
         const completedAssignments = await this.prisma.assignments.count({
             where: {
-                coach_id: coachId,
+                ...(isAdmin ? {} : { coach_id: userId }),
                 status: 'completed'
             }
         });
@@ -38,15 +42,15 @@ export class DashboardService {
         // 3. Monthly Revenue (Simulated - for future membership implementation)
         const monthlyRevenue = activeAthletes * 50;
 
-        // 4. Active Routines (created by this coach)
+        // 4. Active Routines (created by this coach, or all for admin)
         const activeRoutines = await this.prisma.routines.count({
-            where: { coach_id: coachId }
+            where: isAdmin ? {} : { coach_id: userId }
         });
 
         // 5. Pending Assignments
         const pendingAssignments = await this.prisma.assignments.count({
             where: {
-                coach_id: coachId,
+                ...(isAdmin ? {} : { coach_id: userId }),
                 status: { in: ['pending', 'in_progress'] }
             }
         });
@@ -60,12 +64,20 @@ export class DashboardService {
         };
     }
 
-    async getRecentActivity(coachId: string) {
+    async getRecentActivity(userId: string) {
+        // Get user role
+        const user = await this.prisma.profiles.findUnique({
+            where: { id: userId },
+            select: { role: true }
+        });
+        
+        const isAdmin = user?.role === 'admin' as any;
+
         // Fetch last 5 assignments with updates
         const recent = await this.prisma.assignments.findMany({
-            where: { coach_id: coachId },
+            where: isAdmin ? {} : { coach_id: userId },
             take: 5,
-            orderBy: { created_at: 'desc' }, // Or completed_at if available and preferred
+            orderBy: { created_at: 'desc' },
             include: {
                 member: {
                     select: {
